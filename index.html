@@ -306,6 +306,8 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .abouttop{font-weight:800;color:var(--ink);margin-bottom:6px}
 .facts dt{font-family:'Bangers',cursive;font-weight:400;letter-spacing:.8px;font-size:17px;color:var(--purple)}
 .facts dd{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;color:var(--ink)}
+[data-l="__saved"] .acch{cursor:pointer}
+[data-l="__saved"] .acch[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--yellow)}
 </style>
 </head>
 <body>
@@ -339,7 +341,8 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 </main>
 
 <div class="modal" id="chooser"><div class="mbox"><div class="mt" id="chT"></div><button class="btn main" id="chRes" type="button"></button><button class="btn" id="chAll" type="button"></button><button class="btn" id="chX" type="button">Cancel</button></div></div>
-<div class="modal" id="shareBox"><div class="mbox"><div class="mt" id="shT"></div><button class="btn main" id="shEmail" type="button">Email</button><button class="btn" id="shText" type="button">Text message</button><button class="btn" id="shCard" type="button">Save contact card</button><button class="btn" id="shX" type="button">Cancel</button></div></div>
+<div class="modal" id="shareBox"><div class="mbox"><div class="mt" id="shT"></div><button class="btn main" id="shEmail" type="button">Email</button><button class="btn" id="shText" type="button">Text message</button><button class="btn" id="shCard" type="button">Save to phone contacts</button><button class="btn" id="shPdf" type="button">Download PDF</button><button class="btn" id="shX" type="button">Cancel</button></div></div>
+<div class="modal" id="fmtBox"><div class="mbox"><div class="mt">Download</div><button class="btn main" id="fmtCsv" type="button">Spreadsheet (CSV)</button><button class="btn main" id="fmtPdf" type="button">PDF</button><button class="btn" id="fmtX" type="button">Cancel</button></div></div>
 <div id="printArea"></div>
 <div class="toast" id="toast"></div>
 <button class="totop" id="top" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
@@ -428,7 +431,7 @@ function roleOf(h){
   if(/website|web site|web address|web page|webpage|\burl\b/.test(k)||k==='domain')return 'website';
   if(/e-?mail/.test(k))return 'email';
   if(k.indexOf('about your business')!==-1)return 'about';
-  if(/describe your|describe the business/.test(k))return 'describe';
+  if(/describe your|describe the business/.test(k))return null;
   if(k.indexOf('please share')!==-1)return 'share';
   if(k.indexOf('slogan')!==-1||k.indexOf('additional info')!==-1)return 'slogan';
   return 'other';
@@ -607,8 +610,7 @@ function buildFilters(){
     p+='<div class="acc c'+(order.indexOf(o)%3)+(open?' open':'')+'" data-l="'+esc(d.label)+'"><button type="button" class="acch" aria-expanded="'+open+'"><span>'+esc(lbl(d.label))+'</span><span class="selcnt'+(sel.length?' on':'')+'">'+sel.length+'</span>'+CHEV+'</button><div class="accb">'
       +d.values.map(function(v,vi){return '<label class="opt"><input type="checkbox" data-fi="'+fi+'" data-vi="'+vi+'"'+(sel.indexOf(v)!==-1?' checked':'')+'><span>'+esc(v)+'</span><span class="oc">'+d.counts[v]+'</span></label>'}).join('')+'</div></div>';
   });
-  var nsv=all.filter(function(b){return favs[keyOf(b)]}).length,fo=!!accOpen['__saved'];
-  p+='<div class="acc c'+(order.length%3)+(fo?' open':'')+'" data-l="__saved"><button type="button" class="acch" aria-expanded="'+fo+'"><span>Saved</span><span class="selcnt'+(pend.fav?' on':'')+'">'+(pend.fav?1:0)+'</span>'+CHEV+'</button><div class="accb"><label class="opt"><input type="checkbox" id="favOnly"'+(pend.fav?' checked':'')+'><span>Saved</span><span class="oc">'+nsv+'</span></label></div></div>';
+  p+='<div class="acc c'+(order.length%3)+'" data-l="__saved"><button type="button" class="acch" aria-pressed="'+(pend.fav?'true':'false')+'"><span>Saved</span><span class="selcnt'+(pend.fav?' on':'')+'">'+(pend.fav?1:0)+'</span></button></div>';
   p+='<div class="applybar"><button class="btn" type="button" id="reset">Reset all</button><button class="btn main" type="button" id="applyBtn">Apply filters</button></div>';
   $('panel').innerHTML=p;
   $('panel').scrollTop=sc;
@@ -721,17 +723,15 @@ function render(){
     /* 3. physical address with map icon link */
     var addrText=[b.addressLine,b.cityStateZip].filter(Boolean).join('\n');
     var showArea=b.area&&!/online only/i.test(b.mode||'');
-    if(addrText||showArea){
+    if(addrText){
       h+='<div><div class="sect">'+esc(lbl('Location'))+'</div>';
-      if(addrText){
-        if(mu)h+='<a class="ln addr" href="'+esc(mu)+'" target="_blank" rel="noopener" aria-label="Open map"><span class="ico">'+IC.pin+'</span><span>'+esc(addrText)+'</span></a>';
-        else h+='<div class="ln addr"><span class="ico">'+IC.pin+'</span><span>'+esc(addrText)+'</span></div>';
-      }
-      if(b.area&&!/online only/i.test(b.mode||''))h+=rows([[esc(lbl('Area Served')),esc(b.area)]]);
+      if(mu)h+='<a class="ln addr" href="'+esc(mu)+'" target="_blank" rel="noopener" aria-label="Open map"><span class="ico">'+IC.pin+'</span><span>'+esc(addrText)+'</span></a>';
+      else h+='<div class="ln addr"><span class="ico">'+IC.pin+'</span><span>'+esc(addrText)+'</span></div>';
       h+='</div>';
     }
+    if(showArea)h+='<div><div class="sect">'+esc(lbl('Area Served'))+'</div><div class="about">'+esc(b.area)+'</div></div>';
     /* 4. the rest */
-    var aTop=b.aboutTop[0]||'',aRest=b.aboutTop.slice(1).concat(b.about).join('\n\n');
+    var aTop=(b.category&&b.category!=='Local Business')?b.category:'',aRest=b.about.join('\n\n');
     if(aTop||aRest)h+='<div><div class="sect">'+esc(lbl('About'))+'</div>'+(aTop?'<div class="about abouttop">'+esc(aTop)+'</div>':'')+(aRest?'<div class="about">'+esc(aRest)+'</div>':'')+'</div>';
     var rest=[];
     Object.keys(b.extra).forEach(function(x){rest.push([esc(lbl(x)),fmtVal(x,b.extra[x])])});
@@ -780,6 +780,7 @@ $('filterBtn').onclick=function(){
 $('pills').addEventListener('click',function(e){if(e.target.closest('.pill'))resetAll()});
 $('panel').addEventListener('click',function(e){
   var h=e.target.closest('.acch');
+  if(h&&h.parentNode.dataset.l==='__saved'){pend.fav=!pend.fav;var sc=h.querySelector('.selcnt');sc.textContent=pend.fav?1:0;sc.classList.toggle('on',pend.fav);h.setAttribute('aria-pressed',pend.fav?'true':'false');return}
   if(h){var acc=h.parentNode,l=acc.dataset.l;accOpen[l]=!accOpen[l];acc.classList.toggle('open',!!accOpen[l]);h.setAttribute('aria-expanded',!!accOpen[l]);return}
   if(e.target.closest('#applyBtn')){commitPend();return}
   if(e.target.closest('#reset')){resetAll();return}
@@ -841,13 +842,14 @@ function bizRows(b){
   var addr=[b.addressLine,b.cityStateZip].filter(Boolean).join(', ').replace(/\n/g,', ');
   if(addr)r.push([lbl('Address'),addr]);
   if(b.area&&!/online only/i.test(b.mode||''))r.push([lbl('Area Served'),b.area]);
+  if(b.category&&b.category!=='Local Business')r.push([lbl('Category'),b.category]);
   if(b.description)r.push([lbl('About'),b.description]);
   Object.keys(b.extra).forEach(function(h){r.push([lbl(h),b.extra[h]])});
   return r;
 }
 function sortedAll(){return all.slice().sort(function(a,b){return a.name.localeCompare(b.name)})}
 function doPrint(list){
-  var h='<h1>Small Business Directory</h1><p class="pn">'+list.length+' business'+(list.length===1?'':'es')+'</p>';
+  var h='<h1>Small Business Directory</h1>';
   h+=list.map(function(b){
     return '<section class="pb"><h2>'+esc(b.name)+'</h2>'+(b.slogan?'<p class="ps">&ldquo;'+esc(b.slogan)+'&rdquo;</p>':'')
       +bizRows(b).map(function(r){return '<p class="pr"><b>'+esc(r[0])+':</b> '+esc(r[1])+'</p>'}).join('')+'</section>';
@@ -855,32 +857,253 @@ function doPrint(list){
   var pa=$('printArea');pa.innerHTML=h;
   setTimeout(function(){window.print()},100);
 }
-function doDownload(list){
-  var blob=new Blob([list.map(vcard).join('\r\n')+'\r\n'],{type:'text/vcard;charset=utf-8'});
-  var a=document.createElement('a');
-  a.href=URL.createObjectURL(blob);a.download='charlotte-county-business-contacts.vcf';
+function csvCell(x){x=(x==null?'':String(x));return '"'+x.replace(/"/g,'""')+'"'}
+function saveBlob(blob,name){
+  var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
   document.body.appendChild(a);a.click();
   setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);
-  toast('Contacts file downloaded');
+}
+function doCsv(list){
+  var xh=[];
+  list.forEach(function(b){Object.keys(b.extra).forEach(function(h){if(xh.indexOf(h)===-1)xh.push(h)})});
+  var head=['Business Name','Category','Slogan','About','Website','Phone','Email','Facebook','Nextdoor','Address','City State Zip','Area Served'].concat(xh.map(lbl));
+  var lines=[head.map(csvCell).join(',')];
+  list.forEach(function(b){
+    var row=[b.name,b.category==='Local Business'?'':b.category,b.slogan,b.description,b.websites.map(fmtUrl).join('; '),b.phones.join('; '),b.emails.join('; '),b.facebook?fmtUrl(b.facebook):'',b.nextdoor?fmtUrl(b.nextdoor):'',(b.addressLine||'').replace(/\n/g,', '),b.cityStateZip,(b.area&&!/online only/i.test(b.mode||''))?b.area:''];
+    xh.forEach(function(h){row.push(b.extra[h]||'')});
+    lines.push(row.map(csvCell).join(','));
+  });
+  saveBlob(new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),'charlotte-county-business-directory.csv');
+  toast('Downloaded');
+}
+/* small PDF writer (text only) */
+function pdfClean(t){
+  return String(t==null?'':t).replace(/[\ud800-\udbff][\udc00-\udfff]/g,'').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/[\u2013\u2014]/g,'-').replace(/\u2026/g,'...').replace(/[\u00a0\t]/g,' ').replace(/[^\x20-\x7e\xa1-\xff]/g,'');
+}
+function pdfWrap(t,max){
+  var out=[];
+  pdfClean(t).split(/\r?\n/).forEach(function(par){
+    var line='';
+    par.split(' ').forEach(function(w){
+      while(w.length>max){if(line){out.push(line);line=''}out.push(w.slice(0,max));w=w.slice(max)}
+      if((line+' '+w).trim().length>max){out.push(line);line=w}else line=(line?line+' ':'')+w;
+    });
+    out.push(line);
+  });
+  return out;
+}
+var HW=[278,278,355,556,556,889,667,191,333,333,389,584,278,333,278,278,556,556,556,556,556,556,556,556,556,556,278,278,584,584,584,556,1015,667,667,722,722,667,611,778,722,278,500,667,556,833,722,778,667,778,722,667,611,722,667,944,667,667,611,278,278,278,469,556,333,556,556,500,556,556,278,556,556,222,222,500,222,833,556,556,556,556,333,500,278,556,500,722,500,500,500,334,260,334,584];
+function pdfW(t,s,bold){var w=0;for(var i=0;i<t.length;i++){var c=t.charCodeAt(i)-32;w+=(c>=0&&c<HW.length?HW[c]:556)}return w*s/1000*(bold?1.08:1)}
+function pdfEsc(t){return t.replace(/\\/g,'\\\\').replace(/\(/g,'\\(').replace(/\)/g,'\\)')}
+function wrapW(text,size,maxW,bold){
+  var out=[];
+  pdfClean(text).split(/\r?\n/).forEach(function(par){
+    var line='';
+    par.split(' ').forEach(function(w){
+      if(!w)return;
+      while(pdfW(w,size,bold)>maxW){var k=w.length;while(k>1&&pdfW(w.slice(0,k),size,bold)>maxW)k--;if(line){out.push(line);line=''}out.push(w.slice(0,k));w=w.slice(k)}
+      var t=line?line+' '+w:w;
+      if(pdfW(t,size,bold)>maxW){out.push(line);line=w}else line=t;
+    });
+    out.push(line);
+  });
+  return out;
+}
+function inlineLines(x0,maxX,size,toks){
+  var lines=[],cur=[],x=x0,sp=pdfW(' ',size);
+  toks.forEach(function(tk){
+    pdfClean(tk.t).split(' ').forEach(function(w){
+      if(!w)return;
+      var ww=pdfW(w,size,tk.f===2);
+      if(x+ww>maxX&&cur.length){lines.push(cur);cur=[];x=x0}
+      cur.push({t:w,x:x,w:ww,f:tk.f||1,c:tk.c,u:tk.u});x+=ww+sp;
+    });
+  });
+  if(cur.length)lines.push(cur);
+  return lines;
+}
+var PC={ink:'0.102 0.063 0.2',cream:'1 0.965 0.863',purple:'0.357 0.165 0.525',magenta:'0.761 0.188 0.478',orange:'1 0.478 0.102',yellow:'1 0.824 0.247',blue:'0.071 0.251 0.478',green:'0.122 0.541 0.298',fb:'0.031 0.4 1',white:'1 1 1'};
+function rr(x,y,w,h,r){
+  var k=0.5523*r,f=function(n){return (+n).toFixed(1)};
+  return f(x+r)+' '+f(y)+' m '+f(x+w-r)+' '+f(y)+' l '+f(x+w-r+k)+' '+f(y)+' '+f(x+w)+' '+f(y+r-k)+' '+f(x+w)+' '+f(y+r)+' c '
+   +f(x+w)+' '+f(y+h-r)+' l '+f(x+w)+' '+f(y+h-r+k)+' '+f(x+w-r+k)+' '+f(y+h)+' '+f(x+w-r)+' '+f(y+h)+' c '
+   +f(x+r)+' '+f(y+h)+' l '+f(x+r-k)+' '+f(y+h)+' '+f(x)+' '+f(y+h-r+k)+' '+f(x)+' '+f(y+h-r)+' c '
+   +f(x)+' '+f(y+r)+' l '+f(x)+' '+f(y+r-k)+' '+f(x+r-k)+' '+f(y)+' '+f(x+r)+' '+f(y)+' c h ';
+}
+function pdfTxt(pg,x,y,f,s,col,t,tc){
+  pg.fg.push(col+' rg BT /F'+f+' '+s+' Tf '+(tc||0)+' Tc '+x.toFixed(1)+' '+y.toFixed(1)+' Td ('+pdfEsc(t)+') Tj ET 0 Tc');
+}
+function pdfSeg(pg,y,sg,size){
+  var col=sg.u?PC.blue:(PC[sg.c]||PC.ink);
+  pdfTxt(pg,sg.x,y,sg.f,size,col,sg.t);
+  if(sg.u){
+    pg.fg.push(PC.blue+' RG 0.5 w '+sg.x.toFixed(1)+' '+(y-1.5).toFixed(1)+' m '+(sg.x+sg.w).toFixed(1)+' '+(y-1.5).toFixed(1)+' l S');
+    pg.links.push({x:sg.x,y:y,w:sg.w,s:size,u:sg.u});
+  }
+}
+function pdfCard(b){
+  var CX=52,RX=560,L=[];
+  function add(g,h,draw){L.push({g:g,h:h,draw:draw})}
+  wrapW(b.name,16,RX-CX,true).forEach(function(t,k){add(k?0:2,20,function(pg,bt){pdfTxt(pg,CX,bt+5,2,16,PC.ink,t)})});
+  if(b.slogan)wrapW('"'+b.slogan+'"',10.5,RX-CX).forEach(function(t){add(0,14,function(pg,bt){pdfTxt(pg,CX,bt+3,3,10.5,PC.magenta,t)})});
+  function chipRow(label,col,parts){
+    if(!parts.length)return;
+    var toks=[];
+    parts.forEach(function(p,i){if(i)toks.push({t:'|'});toks.push({t:p.t,u:p.u})});
+    inlineLines(CX+68,RX,10,toks).forEach(function(segs,k){
+      add(k?0:6,16,function(pg,bt){
+        if(k===0){
+          pg.fg.push(PC[col]+' rg '+PC.ink+' RG 1 w '+rr(CX,bt+1,62,13,3)+' B');
+          pdfTxt(pg,CX+31-pdfW(label,7.5,true)/2,bt+4.3,2,7.5,PC.white,label);
+        }
+        segs.forEach(function(sg){pdfSeg(pg,bt+4,sg,10)});
+      });
+    });
+  }
+  chipRow('WEBSITE','orange',b.websites.map(function(x){return {t:linkText(x),u:fmtUrl(x)}}));
+  chipRow('PHONE','orange',b.phones.map(function(x){return {t:x,u:'tel:'+x.replace(/[^\d+]/g,'')}}));
+  chipRow('EMAIL','orange',b.emails.map(function(x){return {t:x,u:'mailto:'+x}}));
+  if(b.facebook)chipRow('FACEBOOK','fb',[{t:linkText(b.facebook),u:fmtUrl(b.facebook)}]);
+  if(b.nextdoor)chipRow('NEXTDOOR','green',[{t:linkText(b.nextdoor),u:fmtUrl(b.nextdoor)}]);
+  var addr=[b.addressLine,b.cityStateZip].filter(Boolean).join(', ').replace(/\n/g,', ');
+  if(addr)chipRow('ADDRESS','magenta',[{t:addr,u:mapUrl(b)}]);
+  function head(text){
+    var t=pdfClean(text).toUpperCase();
+    L.push({g:10,h:16,keep:true,draw:function(pg,bt){
+      pg.fg.push(PC.yellow+' rg '+CX+' '+(bt+1)+' '+(pdfW(t,11.5,true)+t.length*0.8).toFixed(1)+' 3 re f');
+      pdfTxt(pg,CX,bt+4,2,11.5,PC.purple,t,0.8);
+    }});
+  }
+  function body(text,f,col,size){
+    wrapW(text,size||10,RX-CX,f===2).forEach(function(t){add(0,13,function(pg,bt){pdfTxt(pg,CX,bt+3,f||1,size||10,col||PC.ink,t)})});
+  }
+  if(b.area&&!/online only/i.test(b.mode||'')){head(lbl('Area Served'));body(b.area)}
+  var cat=(b.category&&b.category!=='Local Business')?b.category:'';
+  if(cat||b.description){head(lbl('About'));if(cat)body(cat,2,PC.ink,10.5);if(b.description)body(b.description)}
+  var ex=Object.keys(b.extra);
+  if(ex.length){
+    head(lbl('Details'));
+    ex.forEach(function(h){
+      var v=b.extra[h].toString().trim(),u='';
+      if(!/\s/.test(v)){if(isEmail(v))u='mailto:'+v;else if(isUrl(v))u=fmtUrl(v)}
+      inlineLines(CX,RX,10,[{t:lbl(h).replace(/:\s*$/,'')+':',f:2,c:'purple'},{t:v,u:u}]).forEach(function(segs,k){
+        add(k?0:2,13,function(pg,bt){segs.forEach(function(sg){pdfSeg(pg,bt+3,sg,10)})});
+      });
+    });
+  }
+  return L;
+}
+function buildPdf(title,list,hero){
+  var PW=612,PH=792,BX=40,BW=532,BOT=44,pages=[];
+  function newPage(){var p={bg:[],fg:[],links:[]};pages.push(p);return p}
+  var pg=newPage(),y=PH-40;
+  var sticker=function(p,x,yy,t){
+    var w=pdfW(t,12,true)+22;
+    p.bg.push(PC.ink+' rg '+rr(x+3,yy-3,w,22,6)+' f');
+    p.bg.push(PC.yellow+' rg '+PC.ink+' RG 2 w '+rr(x,yy,w,22,6)+' B');
+    p.fg.push(PC.ink+' rg BT /F2 12 Tf '+(x+11).toFixed(1)+' '+(yy+7).toFixed(1)+' Td ('+pdfEsc(t)+') Tj ET');
+  };
+  if(hero){
+    var clipH=158,ih=BW*hero.h/hero.w,off=0.14*(ih-clipH),top=y;
+    pg.bg.push('q '+BX+' '+(top-clipH)+' '+BW+' '+clipH+' re W n '+BW+' 0 0 '+ih.toFixed(1)+' '+BX+' '+(top+off-ih).toFixed(1)+' cm /Im1 Do Q');
+    pg.bg.push(PC.cream+' RG 5 w '+(BX+2.5)+' '+(top-clipH+2.5)+' '+(BW-5)+' '+(clipH-5)+' re S');
+    pg.bg.push(PC.ink+' RG 3 w '+BX+' '+(top-clipH)+' '+BW+' '+clipH+' re S');
+    sticker(pg,BX+14,top-clipH-11,title);
+    y=top-clipH-34;
+  }else{
+    sticker(pg,BX,y-22,title);
+    y-=44;
+  }
+  list.forEach(function(b){
+    var L=pdfCard(b),segTop,first=true;
+    if(y<150){pg=newPage();y=PH-40}
+    segTop=y;y-=12;
+    function closeSeg(){
+      var bottom=y-6,h=segTop-bottom;
+      pg.bg.push(PC.ink+' rg '+rr(BX+4,bottom-4,BW,h,9)+' f');
+      pg.bg.push(PC.cream+' rg '+PC.ink+' RG 2.5 w '+rr(BX,bottom,BW,h,9)+' B');
+      if(first){
+        var cols=['purple','magenta','orange','yellow'],sw=(BW-6)/4;
+        cols.forEach(function(c,i){pg.bg.push(PC[c]+' rg '+(BX+3+i*sw).toFixed(1)+' '+(segTop-9)+' '+sw.toFixed(1)+' 6 re f')});
+      }
+    }
+    L.forEach(function(ln,li){
+      var g=ln.g;
+      if(y-g-ln.h-(ln.keep&&L[li+1]?L[li+1].h:0)<BOT+6){closeSeg();first=false;pg=newPage();y=PH-40;segTop=y;y-=12;g=0}
+      y-=g;
+      var bt=y-ln.h;
+      ln.draw(pg,bt);
+      y=bt;
+    });
+    closeSeg();
+    y-=6+16;
+  });
+  var objs=[null];
+  function add(o){objs.push(o);return objs.length-1}
+  add('');add('');
+  add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica /Encoding /WinAnsiEncoding >>');
+  add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Bold /Encoding /WinAnsiEncoding >>');
+  add('<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica-Oblique /Encoding /WinAnsiEncoding >>');
+  var seg=function(a,b2){return '<< /FunctionType 2 /Domain [0 1] /C0 ['+a+'] /C1 ['+b2+'] /N 1 >>'};
+  var sh=add('<< /ShadingType 2 /ColorSpace /DeviceRGB /Coords [0 792 0 0] /Extend [true true] /Function << /FunctionType 3 /Domain [0 1] /Bounds [0.25 0.5 0.75] /Encode [0 1 0 1 0 1 0 1] /Functions ['
+    +seg('0.357 0.165 0.525','0.761 0.188 0.478')+' '+seg('0.761 0.188 0.478','1 0.478 0.102')+' '+seg('1 0.478 0.102','1 0.824 0.247')+' '+seg('1 0.824 0.247','0.122 0.71 0.788')+'] >> >>');
+  var im=0;
+  if(hero)im=add('<< /Type /XObject /Subtype /Image /Width '+hero.w+' /Height '+hero.h+' /ColorSpace /DeviceRGB /BitsPerComponent 8 /Filter /DCTDecode /Length '+hero.bin.length+' >>\nstream\n'+hero.bin+'\nendstream');
+  var pn=[];
+  pages.forEach(function(p){
+    var stream='/Sh1 sh\n'+p.bg.join('\n')+'\n'+p.fg.join('\n');
+    var cn=add('<< /Length '+stream.length+' >>\nstream\n'+stream+'\nendstream');
+    var an=p.links.map(function(l){
+      var u=pdfEsc(l.u.replace(/[^\x21-\x7e]/g,''));
+      return add('<< /Type /Annot /Subtype /Link /Rect ['+l.x.toFixed(1)+' '+(l.y-2).toFixed(1)+' '+(l.x+l.w).toFixed(1)+' '+(l.y+l.s).toFixed(1)+'] /Border [0 0 0] /A << /S /URI /URI ('+u+') >> >>');
+    });
+    pn.push(add('<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 3 0 R /F2 4 0 R /F3 5 0 R >> /Shading << /Sh1 '+sh+' 0 R >>'+(im?' /XObject << /Im1 '+im+' 0 R >>':'')+' >> /Contents '+cn+' 0 R'+(an.length?' /Annots ['+an.map(function(n){return n+' 0 R'}).join(' ')+']':'')+' >>'));
+  });
+  objs[1]='<< /Type /Catalog /Pages 2 0 R >>';
+  objs[2]='<< /Type /Pages /Kids ['+pn.map(function(n){return n+' 0 R'}).join(' ')+'] /Count '+pn.length+' >>';
+  var pdf='%PDF-1.4\n',offs=[];
+  for(var n=1;n<objs.length;n++){offs[n]=pdf.length;pdf+=n+' 0 obj\n'+objs[n]+'\nendobj\n'}
+  var xr=pdf.length;
+  pdf+='xref\n0 '+objs.length+'\n0000000000 65535 f \n';
+  for(var m=1;m<objs.length;m++)pdf+=('0000000000'+offs[m]).slice(-10)+' 00000 n \n';
+  pdf+='trailer\n<< /Size '+objs.length+' /Root 1 0 R >>\nstartxref\n'+xr+'\n%%EOF';
+  var u8=new Uint8Array(pdf.length);
+  for(var q=0;q<pdf.length;q++)u8[q]=pdf.charCodeAt(q)&255;
+  return new Blob([u8],{type:'application/pdf'});
+}
+function getHero(){
+  try{
+    var im=document.querySelector('.hero-img');
+    if(im&&im.naturalWidth&&/^data:image\/jpeg/i.test(im.src))return {bin:atob(im.src.split(',')[1]),w:im.naturalWidth,h:im.naturalHeight};
+  }catch(e){}
+  return null;
+}
+function doPdf(list,fname){
+  saveBlob(buildPdf('Small business directory',list,getHero()),fname||'charlotte-county-business-directory.pdf');
+  toast('Downloaded');
 }
 var pendingAct='';
 function runAct(list){
   $('chooser').classList.remove('show');
   if(!list.length){toast('Nothing to '+(pendingAct==='print'?'print':'download'));return}
-  if(pendingAct==='print')doPrint(list);else doDownload(list);
+  if(pendingAct==='print')doPrint(list);else if(pendingAct==='csv')doCsv(list);else doPdf(list);
 }
 function askAct(kind){
   pendingAct=kind;
   if(!all.length)return;
   if(view.length===all.length){runAct(view);return}
-  $('chT').textContent=kind==='print'?'Print':'Download';
+  $('chT').textContent={print:'Print',csv:'Download CSV',pdf:'Download PDF'}[kind];
   $('chRes').textContent='Current results ('+view.length+')';
   $('chRes').disabled=!view.length;
   $('chAll').textContent='All businesses ('+all.length+')';
   $('chooser').classList.add('show');
 }
 $('printBtn').onclick=function(){askAct('print')};
-$('dlBtn').onclick=function(){askAct('dl')};
+$('dlBtn').onclick=function(){$('fmtBox').classList.add('show')};
+$('fmtCsv').onclick=function(){$('fmtBox').classList.remove('show');askAct('csv')};
+$('fmtPdf').onclick=function(){$('fmtBox').classList.remove('show');askAct('pdf')};
+$('fmtX').onclick=function(){$('fmtBox').classList.remove('show')};
+$('fmtBox').addEventListener('click',function(e){if(e.target===this)this.classList.remove('show')});
 $('chRes').onclick=function(){runAct(view)};
 $('chAll').onclick=function(){runAct(sortedAll())};
 $('chX').onclick=function(){$('chooser').classList.remove('show')};
@@ -919,6 +1142,7 @@ function vcard(b){
 function openShare(b){
   shareB=b;
   $('shT').textContent=b.name;
+  $('shText').style.display=/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)?'':'none';
   $('shareBox').classList.add('show');
 }
 function closeShare(){$('shareBox').classList.remove('show')}
@@ -943,6 +1167,7 @@ $('shCard').onclick=function(){
   document.body.appendChild(a);a.click();
   setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);
 };
+$('shPdf').onclick=function(){var b=shareB;closeShare();if(b)doPdf([b],(b.name.replace(/[^\w\- ]+/g,'').trim()||'business')+'.pdf')};
 $('shX').onclick=closeShare;
 $('shareBox').addEventListener('click',function(e){if(e.target===this)closeShare()});
 
