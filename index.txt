@@ -14,10 +14,7 @@
       --primary: #f59e0b;
       --primary-dark: #d97706;
       --primary-light: #fbbf24;
-      --primary-glow: rgba(245, 158, 11, 0.4);
-      --accent-cyan: #06b6d4;
-      --accent-blue: #2563eb;
-      --accent-green: #16a34a;
+      --primary-glow: rgba(245, 158, 11, 0.35);
       --bg-dark: #0f172a;
       --bg-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
       --card-bg: rgba(30, 41, 59, 0.75);
@@ -45,25 +42,13 @@
       border: 1px solid var(--card-border);
       backdrop-filter: blur(12px);
       color: #ffffff;
-      padding: 44px 28px;
+      padding: 40px 24px;
       border-radius: 28px;
       text-align: center;
-      margin-bottom: 32px;
+      margin-bottom: 28px;
       box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(245, 158, 11, 0.15);
       position: relative;
       overflow: hidden;
-    }
-    .hero-banner::before {
-      content: '';
-      position: absolute;
-      top: -50%; left: -50%; width: 200%; height: 200%;
-      background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 60%);
-      animation: pulseGlow 8s infinite alternate ease-in-out;
-      pointer-events: none;
-    }
-    @keyframes pulseGlow {
-      0% { transform: scale(0.9); opacity: 0.5; }
-      100% { transform: scale(1.1); opacity: 0.9; }
     }
 
     .badge-hero {
@@ -71,29 +56,29 @@
       background: rgba(245, 158, 11, 0.2); color: var(--primary-light);
       border: 1px solid var(--primary);
       font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700;
-      padding: 6px 16px; border-radius: 50px; margin-bottom: 16px;
+      padding: 6px 16px; border-radius: 50px; margin-bottom: 14px;
       text-transform: uppercase; letter-spacing: 1.5px;
       box-shadow: 0 0 12px var(--primary-glow);
     }
     .hero-banner h1 { 
       font-family: 'Outfit', sans-serif; 
-      font-size: 42px; 
+      font-size: 38px; 
       font-weight: 800; 
-      margin-bottom: 12px;
+      margin-bottom: 10px;
       background: linear-gradient(135deg, #ffffff 0%, #fde68a 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       letter-spacing: -0.5px;
     }
-    .hero-banner p { font-size: 16px; color: var(--text-muted); max-width: 640px; margin: 0 auto; }
+    .hero-banner p { font-size: 15px; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
 
     .toolbar-container {
       display: flex; gap: 14px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;
     }
-    .search-wrapper { position: relative; flex: 1; min-width: 280px; }
+    .search-wrapper { position: relative; flex: 1; min-width: 260px; }
     .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 18px; }
     .search-input {
-      width: 100%; padding: 18px 20px 18px 52px; font-size: 16px; font-weight: 500;
+      width: 100%; padding: 16px 20px 16px 52px; font-size: 15px; font-weight: 500;
       border: 2px solid var(--border-subtle); border-radius: 20px; 
       background: rgba(15, 23, 42, 0.8); color: var(--text-main);
       outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
@@ -104,9 +89,31 @@
       background: rgba(15, 23, 42, 0.95);
     }
 
+    .sort-select {
+      padding: 0 20px;
+      height: 56px;
+      border-radius: 20px;
+      border: 2px solid var(--border-subtle);
+      background: rgba(15, 23, 42, 0.8);
+      color: var(--text-main);
+      font-size: 14px;
+      font-weight: 600;
+      outline: none;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .sort-select:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+    .sort-select option {
+      background: #0f172a;
+      color: #f8fafc;
+    }
+
     .btn-refresh {
       background: rgba(30, 41, 59, 0.9); border: 2px solid var(--card-border); color: var(--primary-light);
-      padding: 0 24px; height: 60px; border-radius: 20px; font-size: 15px; font-weight: 700;
+      padding: 0 22px; height: 56px; border-radius: 20px; font-size: 14px; font-weight: 700;
       cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
       transition: all 0.3s ease; white-space: nowrap;
       box-shadow: 0 4px 15px rgba(0,0,0,0.3);
@@ -116,12 +123,12 @@
       box-shadow: 0 0 20px var(--primary-glow);
     }
 
-    .sync-status { text-align: right; font-size: 12px; color: var(--text-muted); margin-bottom: 24px; font-weight: 600; padding-right: 4px; }
+    .sync-status { text-align: right; font-size: 12px; color: var(--text-muted); margin-bottom: 20px; font-weight: 600; padding-right: 4px; }
 
-    .filter-pills { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 28px; }
+    .filter-pills { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 24px; }
     .pill-btn {
       background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-subtle); color: var(--text-muted);
-      padding: 12px 22px; border-radius: 50px; font-size: 14px; font-weight: 600;
+      padding: 10px 20px; border-radius: 50px; font-size: 13px; font-weight: 600;
       cursor: pointer; white-space: nowrap; transition: all 0.3s ease;
       display: inline-flex; align-items: center; gap: 8px;
     }
@@ -132,12 +139,12 @@
       box-shadow: 0 0 15px var(--primary-glow);
     }
 
-    .directory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .directory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 22px; }
     .biz-card {
       background: var(--card-bg); 
-      border-radius: 24px; 
+      border-radius: 22px; 
       border: 1px solid var(--card-border);
-      padding: 26px; 
+      padding: 24px; 
       display: flex; 
       flex-direction: column; 
       justify-content: space-between;
@@ -153,37 +160,37 @@
       opacity: 0.8; transition: height 0.3s ease;
     }
     .biz-card:hover {
-      transform: translateY(-6px);
+      transform: translateY(-5px);
       border-color: var(--primary);
       box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px var(--primary-glow);
     }
-    .biz-card:hover::before { height: 6px; }
 
-    .card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .card-header { display: flex; align-items: center; gap: 14px; margin-bottom: 14px; }
     .avatar-icon {
-      width: 52px; height: 52px; border-radius: 16px;
+      width: 48px; height: 48px; border-radius: 14px;
       background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.3));
       border: 1px solid var(--primary); color: var(--primary-light);
       display: flex; align-items: center; justify-content: center;
-      font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800; flex-shrink: 0;
+      font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 800; flex-shrink: 0;
       box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
     }
-    .biz-title { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-main); line-height: 1.3; }
+    .biz-title { font-family: 'Outfit', sans-serif; font-size: 19px; font-weight: 700; color: var(--text-main); line-height: 1.3; }
 
-    .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
-    .tag { font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.6px; display: inline-flex; align-items: center; gap: 6px; }
+    .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; }
+    .tag { font-size: 11px; font-weight: 700; padding: 5px 12px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.5px; display: inline-flex; align-items: center; gap: 6px; }
     .tag-cat { background: rgba(245, 158, 11, 0.15); color: var(--primary-light); border: 1px solid rgba(245, 158, 11, 0.3); }
     .tag-loc { background: rgba(51, 65, 85, 0.6); color: #cbd5e1; border: 1px solid var(--border-subtle); }
+    .tag-mode { background: rgba(6, 182, 212, 0.15); color: #22d3ee; border: 1px solid rgba(6, 182, 212, 0.3); }
 
-    .biz-slogan { font-style: italic; font-size: 13px; color: var(--primary-light); margin-bottom: 12px; font-weight: 600; }
-    .text-placeholder { color: #64748b; font-style: italic; font-weight: 400; }
-    .biz-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+    .biz-slogan { font-style: italic; font-size: 13px; color: var(--primary-light); margin-bottom: 10px; font-weight: 600; }
+    .biz-desc { font-size: 14px; color: var(--text-muted); line-height: 1.55; margin-bottom: 16px; }
 
-    .card-actions { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px dashed var(--border-subtle); }
-    .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .card-actions { display: flex; flex-direction: column; gap: 8px; padding-top: 14px; border-top: 1px dashed var(--border-subtle); margin-top: auto; }
+    .action-row { display: flex; flex-wrap: wrap; gap: 8px; }
     .btn-action {
+      flex: 1; min-width: 120px;
       display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-      padding: 11px 14px; border-radius: 14px; font-size: 13px; font-weight: 700; text-decoration: none;
+      padding: 10px 12px; border-radius: 12px; font-size: 12px; font-weight: 700; text-decoration: none;
       transition: all 0.25s ease; border: 1px solid transparent; text-align: center;
     }
     .btn-phone { background: rgba(51, 65, 85, 0.7); color: #f1f5f9; border-color: var(--border-subtle); }
@@ -197,18 +204,16 @@
     .btn-nextdoor:hover { background: #00b246; color: #ffffff; border-color: #00b246; box-shadow: 0 0 12px rgba(0, 178, 70, 0.4); }
     .btn-email:hover { background: #06b6d4; color: #0f172a; border-color: #06b6d4; box-shadow: 0 0 12px rgba(6, 182, 212, 0.4); }
 
-    .btn-disabled { background: rgba(30, 41, 59, 0.4); color: #475569; border: 1px solid rgba(51, 65, 85, 0.4); cursor: not-allowed; }
-
     #loading-spinner { text-align: center; padding: 60px 20px; font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--primary-light); }
-    .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--card-bg); border-radius: 24px; border: 2px dashed var(--border-subtle); color: var(--text-muted); }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--card-bg); border-radius: 22px; border: 2px dashed var(--border-subtle); color: var(--text-muted); }
 
     @media (max-width: 640px) {
       body { padding: 16px 12px; }
-      .hero-banner { padding: 32px 18px; }
-      .hero-banner h1 { font-size: 30px; }
+      .hero-banner { padding: 30px 16px; }
+      .hero-banner h1 { font-size: 28px; }
       .toolbar-container { flex-direction: column; align-items: stretch; }
       .btn-refresh { justify-content: center; }
-      .action-row { grid-template-columns: 1fr; }
+      .action-row { flex-direction: column; }
     }
   </style>
 </head>
@@ -223,8 +228,16 @@
     <div class="toolbar-container">
       <div class="search-wrapper">
         <i class="fa-solid fa-magnifying-glass search-icon"></i>
-        <input type="text" id="searchInput" class="search-input" placeholder="Search by business name, category, city, or keyword..." onkeyup="filterDirectory()">
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by business name, category, city, or keyword..." onkeyup="filterAndSortDirectory()">
       </div>
+
+      <select id="sortSelect" class="sort-select" onchange="filterAndSortDirectory()">
+        <option value="name-asc">Sort: Name (A to Z)</option>
+        <option value="name-desc">Sort: Name (Z to A)</option>
+        <option value="cat-asc">Sort: Category</option>
+        <option value="loc-asc">Sort: Location / City</option>
+      </select>
+
       <button class="btn-refresh" onclick="fetchDirectoryData(true)" id="refreshBtn">
         <i class="fa-solid fa-rotate" id="refreshIcon"></i> Refresh Directory
       </button>
@@ -234,10 +247,6 @@
 
     <div class="filter-pills" id="filterPills">
       <button class="pill-btn active" onclick="setCategoryFilter('ALL', this)"><i class="fa-solid fa-border-all"></i> All Listings</button>
-      <button class="pill-btn" onclick="setCategoryFilter('Restaurant', this)"><i class="fa-solid fa-utensils"></i> Dining & Food</button>
-      <button class="pill-btn" onclick="setCategoryFilter('Service', this)"><i class="fa-solid fa-wrench"></i> Professional Services</button>
-      <button class="pill-btn" onclick="setCategoryFilter('Mobile', this)"><i class="fa-solid fa-truck-fast"></i> Mobile Services</button>
-      <button class="pill-btn" onclick="setCategoryFilter('Online', this)"><i class="fa-solid fa-laptop"></i> E-Commerce</button>
     </div>
 
     <div id="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Synchronizing Directory Records...</div>
@@ -245,10 +254,27 @@
   </div>
 
   <script>
-    const CSV_URL = 'https://docs.google.com/spreadsheets/d/1bL_YWhS8NHDYbKBOfpz7yOIvS2Vuz4vKEbDNhXMfrsc/gviz/tq?tqx=out:csv&gid=1213716282';
+    // Targeted directly to the "Public Directory" tab by name
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/1bL_YWhS8NHDYbKBOfpz7yOIvS2Vuz4vKEbDNhXMfrsc/gviz/tq?tqx=out:csv&sheet=Public%20Directory';
 
     var allBusinesses = [];
     var currentCatFilter = 'ALL';
+
+    function isEmail(str) {
+      return str && str.indexOf('@') !== -1 && str.indexOf('.') !== -1;
+    }
+
+    function isUrl(str) {
+      if (!str) return false;
+      var s = str.toLowerCase().trim();
+      return (s.indexOf('http') === 0 || s.indexOf('www.') === 0 || s.indexOf('.com') !== -1 || s.indexOf('.org') !== -1 || s.indexOf('.net') !== -1) && !isEmail(s);
+    }
+
+    function isPhone(str) {
+      if (!str) return false;
+      var digits = str.replace(/\D/g, '');
+      return digits.length >= 7 && !isEmail(str);
+    }
 
     function fetchDirectoryData(isManual) {
       var icon = document.getElementById('refreshIcon');
@@ -262,18 +288,16 @@
           if (icon) icon.classList.remove('fa-spin');
           var rows = results.data || [];
 
-          function getRowValue(row, keywordsToMatch) {
+          function findRawValue(row, keywords) {
             var keys = Object.keys(row);
             for (var i = 0; i < keys.length; i++) {
-              var kRaw = keys[i].trim();
-              var kLower = kRaw.toLowerCase();
+              var kLower = keys[i].trim().toLowerCase();
+              if (kLower === 'timestamp' || kLower === 'name' || kLower === 'title' || kLower.indexOf('personal page') !== -1) continue;
 
-              if (kLower === 'name' || kLower === 'title' || kLower.indexOf('personal page') !== -1) continue;
-
-              for (var j = 0; j < keywordsToMatch.length; j++) {
-                if (kLower.indexOf(keywordsToMatch[j].toLowerCase()) !== -1) {
+              for (var j = 0; j < keywords.length; j++) {
+                if (kLower.indexOf(keywords[j].toLowerCase()) !== -1) {
                   var val = row[keys[i]];
-                  if (val && val.toString().trim() !== '') {
+                  if (val && val.toString().trim() !== '' && val.toString().trim() !== '-') {
                     return val.toString().trim();
                   }
                 }
@@ -285,64 +309,73 @@
           var businessMap = {};
 
           rows.forEach(function(row) {
-            var bName = getRowValue(row, ['business name']);
-            if (!bName || bName.trim() === '') return;
+            var bName = findRawValue(row, ['business name']);
+            
+            if (!bName || bName.length < 2 || bName === '-' || bName.toLowerCase() === 'test' || bName.toLowerCase() === 'none' || bName.toLowerCase().indexOf('business name') !== -1) return;
 
             var key = bName.toLowerCase().trim();
 
-            var bCat = getRowValue(row, ['category / specialty', 'category', 'specialty']);
-            var bDesc = getRowValue(row, ['about your business', 'please describe your business', 'please share:']);
-            var bPhone = getRowValue(row, ['business phone', 'phone']);
-            var bWeb = getRowValue(row, ['business website', 'website']);
-            var bFacebook = getRowValue(row, ['facebook business facebook page', 'facebook']);
-            var bNextdoor = getRowValue(row, ['nextdoor business page', 'nextdoor']);
-            var bEmail = getRowValue(row, ['email for customers to contact you', 'email']);
-            var bLoc = getRowValue(row, ['business city', 'area / city served', 'business street address', 'business address', 'business state', 'business zip']);
-            var bSlogan = getRowValue(row, ['additional info or slogan', 'slogan']);
+            var bCat = findRawValue(row, ['category / specialty', 'category', 'specialty']);
+            var bDescRaw = findRawValue(row, ['please describe your business', 'about your business', 'please share:']);
+            var bPhoneRaw = findRawValue(row, ['business phone', 'phone', 'telephone']);
+            var bWebRaw = findRawValue(row, ['business website', 'website', 'domain']);
+            var bFacebookRaw = findRawValue(row, ['facebook business facebook page', 'facebook']);
+            var bNextdoorRaw = findRawValue(row, ['nextdoor business page', 'nextdoor']);
+            var bEmailRaw = findRawValue(row, ['email for customers', 'customer email']);
+            var bLocRaw = findRawValue(row, ['area / city served', 'business city', 'city']);
+            var bSloganRaw = findRawValue(row, ['additional info or slogan', 'slogan', 'tagline']);
+
+            var phone = isPhone(bPhoneRaw) ? bPhoneRaw : '';
+            var email = isEmail(bEmailRaw) ? bEmailRaw : (isEmail(bPhoneRaw) ? bPhoneRaw : (isEmail(bWebRaw) ? bWebRaw : (isEmail(bSloganRaw) ? bSloganRaw : '')));
+            var website = isUrl(bWebRaw) ? bWebRaw : (isUrl(bSloganRaw) ? bSloganRaw : '');
+            var slogan = (!isEmail(bSloganRaw) && !isUrl(bSloganRaw) && !isPhone(bSloganRaw)) ? bSloganRaw : '';
+            var facebook = (bFacebookRaw && bFacebookRaw.toLowerCase().indexOf('facebook') !== -1) ? bFacebookRaw : (isUrl(bFacebookRaw) ? bFacebookRaw : '');
+            var nextdoor = (bNextdoorRaw && bNextdoorRaw.toLowerCase().indexOf('nextdoor') !== -1) ? bNextdoorRaw : (isUrl(bNextdoorRaw) ? bNextdoorRaw : '');
+
+            var location = bLocRaw;
+            if (!location || isPhone(location) || isEmail(location)) {
+              location = 'Charlotte County, FL';
+            }
+
+            var operatingMode = '';
+            if (bDescRaw === 'Physical Location' || bDescRaw === 'Online Only' || bDescRaw === 'Mobile Service' || bDescRaw.indexOf('Mobile Service') !== -1) {
+              operatingMode = bDescRaw;
+              bDescRaw = '';
+            }
 
             if (!businessMap[key]) {
               businessMap[key] = {
                 name: bName.trim(),
-                category: bCat,
-                description: bDesc,
-                phone: bPhone,
-                website: bWeb,
-                facebook: bFacebook,
-                nextdoor: bNextdoor,
-                email: bEmail,
-                location: bLoc,
-                slogan: bSlogan
+                category: bCat || 'Local Business',
+                operatingMode: operatingMode,
+                description: bDescRaw,
+                phone: phone,
+                website: website,
+                facebook: facebook,
+                nextdoor: nextdoor,
+                email: email,
+                location: location,
+                slogan: slogan
               };
             } else {
               if (!businessMap[key].category && bCat) businessMap[key].category = bCat;
-              if (!businessMap[key].description && bDesc) businessMap[key].description = bDesc;
-              if (!businessMap[key].phone && bPhone) businessMap[key].phone = bPhone;
-              if (!businessMap[key].website && bWeb) businessMap[key].website = bWeb;
-              if (!businessMap[key].facebook && bFacebook) businessMap[key].facebook = bFacebook;
-              if (!businessMap[key].nextdoor && bNextdoor) businessMap[key].nextdoor = bNextdoor;
-              if (!businessMap[key].email && bEmail) businessMap[key].email = bEmail;
-              if (!businessMap[key].location && bLoc) businessMap[key].location = bLoc;
-              if (!businessMap[key].slogan && bSlogan) businessMap[key].slogan = bSlogan;
+              if (!businessMap[key].operatingMode && operatingMode) businessMap[key].operatingMode = operatingMode;
+              if (!businessMap[key].description && bDescRaw) businessMap[key].description = bDescRaw;
+              if (!businessMap[key].phone && phone) businessMap[key].phone = phone;
+              if (!businessMap[key].website && website) businessMap[key].website = website;
+              if (!businessMap[key].facebook && facebook) businessMap[key].facebook = facebook;
+              if (!businessMap[key].nextdoor && nextdoor) businessMap[key].nextdoor = nextdoor;
+              if (!businessMap[key].email && email) businessMap[key].email = email;
+              if (!businessMap[key].location && location) businessMap[key].location = location;
+              if (!businessMap[key].slogan && slogan) businessMap[key].slogan = slogan;
             }
           });
 
-          allBusinesses = Object.values(businessMap).map(function(b) {
-            return {
-              name: b.name,
-              category: b.category || 'Local Business',
-              description: b.description || 'No detailed description provided yet.',
-              phone: b.phone || '',
-              website: b.website || '',
-              facebook: b.facebook || '',
-              nextdoor: b.nextdoor || '',
-              email: b.email || '',
-              location: b.location || 'Charlotte County, FL',
-              slogan: b.slogan || ''
-            };
-          });
+          allBusinesses = Object.values(businessMap);
 
           document.getElementById('loading-spinner').style.display = 'none';
-          filterDirectory();
+          updateCategoryPills();
+          filterAndSortDirectory();
 
           var now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
           document.getElementById('syncStatus').innerHTML = '<i class="fa-solid fa-circle-check" style="color:#16a34a;"></i> Synchronized at ' + now + ' (Auto-refreshes every 60s)';
@@ -360,6 +393,72 @@
       fetchDirectoryData(false);
     }, 60000);
 
+    function updateCategoryPills() {
+      var container = document.getElementById('filterPills');
+      var categories = {};
+      
+      allBusinesses.forEach(function(b) {
+        if (b.category && b.category.trim() !== '') {
+          categories[b.category.trim()] = true;
+        }
+      });
+
+      var catList = Object.keys(categories).sort();
+      
+      var html = '<button class="pill-btn ' + (currentCatFilter === 'ALL' ? 'active' : '') + '" onclick="setCategoryFilter(\'ALL\', this)"><i class="fa-solid fa-border-all"></i> All Listings (' + allBusinesses.length + ')</button>';
+
+      catList.forEach(function(cat) {
+        var count = allBusinesses.filter(function(b) { return b.category === cat; }).length;
+        var isActive = currentCatFilter === cat ? 'active' : '';
+        html += '<button class="pill-btn ' + isActive + '" onclick="setCategoryFilter(\'' + escapeJs(cat) + '\', this)"><i class="fa-solid fa-tag"></i> ' + escapeHtml(cat) + ' (' + count + ')</button>';
+      });
+
+      container.innerHTML = html;
+    }
+
+    function setCategoryFilter(category, btnElement) {
+      currentCatFilter = category;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      if (btnElement) btnElement.classList.add('active');
+      filterAndSortDirectory();
+    }
+
+    function filterAndSortDirectory() {
+      var query = document.getElementById('searchInput').value.toLowerCase().trim();
+      var sortBy = document.getElementById('sortSelect').value;
+
+      var filtered = allBusinesses.filter(function(b) {
+        var matchesQuery = !query || 
+                            (b.name || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.category || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.description || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.location || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.slogan || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.operatingMode || '').toLowerCase().indexOf(query) !== -1;
+
+        var matchesCategory = (currentCatFilter === 'ALL') || (b.category === currentCatFilter);
+
+        return matchesQuery && matchesCategory;
+      });
+
+      var sorted = sortList(filtered, sortBy);
+      renderDirectory(sorted);
+    }
+
+    function sortList(list, sortBy) {
+      var sorted = list.slice();
+      if (sortBy === 'name-asc') {
+        sorted.sort((a, b) => a.name.localeCompare(b.name));
+      } else if (sortBy === 'name-desc') {
+        sorted.sort((a, b) => b.name.localeCompare(a.name));
+      } else if (sortBy === 'cat-asc') {
+        sorted.sort((a, b) => a.category.localeCompare(b.category));
+      } else if (sortBy === 'loc-asc') {
+        sorted.sort((a, b) => a.location.localeCompare(b.location));
+      }
+      return sorted;
+    }
+
     function renderDirectory(list) {
       var grid = document.getElementById('directoryGrid');
       grid.innerHTML = '';
@@ -370,6 +469,7 @@
       list.forEach(function(b) {
         var name = escapeHtml(b.name);
         var category = escapeHtml(b.category);
+        var operatingMode = escapeHtml(b.operatingMode);
         var location = escapeHtml(b.location);
         var slogan = escapeHtml(b.slogan);
         var description = escapeHtml(b.description);
@@ -384,77 +484,52 @@
         html += '<div class="card-header"><div class="avatar-icon">' + initial + '</div><div class="biz-title">' + name + '</div></div>';
 
         html += '<div class="tag-container">';
-        html += '<span class="tag tag-cat"><i class="fa-solid fa-tag"></i> ' + category + '</span>';
-        html += '<span class="tag tag-loc"><i class="fa-solid fa-location-dot"></i> ' + location + '</span>';
+        if (category) html += '<span class="tag tag-cat"><i class="fa-solid fa-tag"></i> ' + category + '</span>';
+        if (location) html += '<span class="tag tag-loc"><i class="fa-solid fa-location-dot"></i> ' + location + '</span>';
+        if (operatingMode) html += '<span class="tag tag-mode"><i class="fa-solid fa-building"></i> ' + operatingMode + '</span>';
         html += '</div>';
 
         if (slogan) {
           html += '<div class="biz-slogan">"' + slogan + '"</div>';
-        } else {
-          html += '<div class="biz-slogan text-placeholder">"Serving Charlotte County Community"</div>';
         }
 
-        html += '<div class="biz-desc">' + description + '</div>';
+        if (description) {
+          html += '<div class="biz-desc">' + description + '</div>';
+        }
+
         html += '</div>';
 
-        html += '<div class="card-actions">';
-        
-        html += '<div class="action-row">';
-        if (phone) {
-          html += '<a href="tel:' + phone + '" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> Direct Line</a>';
-        } else {
-          html += '<span class="btn-action btn-disabled"><i class="fa-solid fa-phone-slash"></i> Phone Unlisted</span>';
-        }
-
-        if (website) {
-          html += '<a href="' + formatUrl(website) + '" target="_blank" class="btn-action btn-web"><i class="fa-solid fa-globe"></i> Official Web Portal</a>';
-        } else {
-          html += '<span class="btn-action btn-disabled"><i class="fa-solid fa-globe"></i> Website Unlisted</span>';
-        }
-        html += '</div>';
-
-        if (facebook || nextdoor || email) {
+        if (phone || website || facebook || nextdoor || email) {
+          html += '<div class="card-actions">';
           html += '<div class="action-row">';
+          
+          if (phone) {
+            html += '<a href="tel:' + phone + '" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> Direct Line</a>';
+          }
+          if (website) {
+            html += '<a href="' + formatUrl(website) + '" target="_blank" class="btn-action btn-web"><i class="fa-solid fa-globe"></i> Official Web Portal</a>';
+          }
           if (facebook) {
-            html += '<a href="' + formatUrl(facebook) + '" target="_blank" class="btn-action btn-social btn-facebook"><i class="fa-brands fa-facebook-f"></i> Facebook Page</a>';
+            html += '<a href="' + formatUrl(facebook) + '" target="_blank" class="btn-action btn-social btn-facebook"><i class="fa-brands fa-facebook-f"></i> Facebook</a>';
           }
           if (nextdoor) {
-            html += '<a href="' + formatUrl(nextdoor) + '" target="_blank" class="btn-action btn-social btn-nextdoor"><i class="fa-solid fa-house-user"></i> Nextdoor Profile</a>';
+            html += '<a href="' + formatUrl(nextdoor) + '" target="_blank" class="btn-action btn-social btn-nextdoor"><i class="fa-solid fa-house-user"></i> Nextdoor</a>';
           }
           if (email) {
-            html += '<a href="mailto:' + email + '" class="btn-action btn-social btn-email"><i class="fa-solid fa-envelope"></i> Email Contact</a>';
+            html += '<a href="mailto:' + email + '" class="btn-action btn-social btn-email"><i class="fa-solid fa-envelope"></i> Email</a>';
           }
+
+          html += '</div>';
           html += '</div>';
         }
 
-        html += '</div>';
         html += '</div>';
         grid.innerHTML += html;
       });
     }
 
-    function setCategoryFilter(category, btnElement) {
-      currentCatFilter = category;
-      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
-      btnElement.classList.add('active');
-      filterDirectory();
-    }
-
-    function filterDirectory() {
-      var query = document.getElementById('searchInput').value.toLowerCase();
-      var filtered = allBusinesses.filter(function(b) {
-        var matchesQuery = (b.name || '').toLowerCase().indexOf(query) !== -1 ||
-                            (b.category || '').toLowerCase().indexOf(query) !== -1 ||
-                            (b.description || '').toLowerCase().indexOf(query) !== -1 ||
-                            (b.location || '').toLowerCase().indexOf(query) !== -1;
-        var matchesCategory = (currentCatFilter === 'ALL') || 
-                              ((b.category || '') + ' ' + (b.description || '')).toLowerCase().indexOf(currentCatFilter.toLowerCase()) !== -1;
-        return matchesQuery && matchesCategory;
-      });
-      renderDirectory(filtered);
-    }
-
     function escapeHtml(str) { return (str || '').toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+    function escapeJs(str) { return (str || '').toString().replace(/'/g, "\\'"); }
     function formatUrl(url) { if (!url) return '#'; url = url.toString().trim(); return (url.indexOf('http') === 0) ? url : 'https://' + url; }
   </script>
 </body>
