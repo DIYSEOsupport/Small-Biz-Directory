@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Charlotte County Business Directory</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    :root {
+      --primary: #f59e0b;
+      --primary-dark: #d97706;
+      --primary-light: #fbbf24;
+      --primary-glow: rgba(245, 158, 11, 0.4);
+      --accent-cyan: #06b6d4;
+      --accent-blue: #2563eb;
+      --accent-green: #16a34a;
+      --bg-dark: #0f172a;
+      --bg-gradient: radial-gradient(circle at 50% 0%, #1e293b 0%, #0f172a 100%);
+      --card-bg: rgba(30, 41, 59, 0.75);
+      --card-border: rgba(245, 158, 11, 0.25);
+      --text-main: #f8fafc;
+      --text-muted: #94a3b8;
+      --border-subtle: #334155;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+      background: var(--bg-gradient);
+      color: var(--text-main);
+      min-height: 100vh;
+      padding: 32px 16px;
+      line-height: 1.5;
+    }
+
+    .app-container { max-width: 1120px; margin: 0 auto; }
+
+    .hero-banner {
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.15) 0%, rgba(217, 119, 6, 0.25) 100%);
+      border: 1px solid var(--card-border);
+      backdrop-filter: blur(12px);
+      color: #ffffff;
+      padding: 44px 28px;
+      border-radius: 28px;
+      text-align: center;
+      margin-bottom: 32px;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5), 0 0 30px rgba(245, 158, 11, 0.15);
+      position: relative;
+      overflow: hidden;
+    }
+    .hero-banner::before {
+      content: '';
+      position: absolute;
+      top: -50%; left: -50%; width: 200%; height: 200%;
+      background: radial-gradient(circle, rgba(245, 158, 11, 0.1) 0%, transparent 60%);
+      animation: pulseGlow 8s infinite alternate ease-in-out;
+      pointer-events: none;
+    }
+    @keyframes pulseGlow {
+      0% { transform: scale(0.9); opacity: 0.5; }
+      100% { transform: scale(1.1); opacity: 0.9; }
+    }
+
+    .badge-hero {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(245, 158, 11, 0.2); color: var(--primary-light);
+      border: 1px solid var(--primary);
+      font-family: 'Outfit', sans-serif; font-size: 12px; font-weight: 700;
+      padding: 6px 16px; border-radius: 50px; margin-bottom: 16px;
+      text-transform: uppercase; letter-spacing: 1.5px;
+      box-shadow: 0 0 12px var(--primary-glow);
+    }
+    .hero-banner h1 { 
+      font-family: 'Outfit', sans-serif; 
+      font-size: 42px; 
+      font-weight: 800; 
+      margin-bottom: 12px;
+      background: linear-gradient(135deg, #ffffff 0%, #fde68a 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      letter-spacing: -0.5px;
+    }
+    .hero-banner p { font-size: 16px; color: var(--text-muted); max-width: 640px; margin: 0 auto; }
+
+    .toolbar-container {
+      display: flex; gap: 14px; margin-bottom: 16px; align-items: center; flex-wrap: wrap;
+    }
+    .search-wrapper { position: relative; flex: 1; min-width: 280px; }
+    .search-icon { position: absolute; left: 20px; top: 50%; transform: translateY(-50%); color: var(--primary); font-size: 18px; }
+    .search-input {
+      width: 100%; padding: 18px 20px 18px 52px; font-size: 16px; font-weight: 500;
+      border: 2px solid var(--border-subtle); border-radius: 20px; 
+      background: rgba(15, 23, 42, 0.8); color: var(--text-main);
+      outline: none; transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .search-input:focus {
+      border-color: var(--primary);
+      box-shadow: 0 0 20px var(--primary-glow);
+      background: rgba(15, 23, 42, 0.95);
+    }
+
+    .btn-refresh {
+      background: rgba(30, 41, 59, 0.9); border: 2px solid var(--card-border); color: var(--primary-light);
+      padding: 0 24px; height: 60px; border-radius: 20px; font-size: 15px; font-weight: 700;
+      cursor: pointer; display: inline-flex; align-items: center; gap: 10px;
+      transition: all 0.3s ease; white-space: nowrap;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.3);
+    }
+    .btn-refresh:hover {
+      background: var(--primary); color: #0f172a; border-color: var(--primary-light);
+      box-shadow: 0 0 20px var(--primary-glow);
+    }
+
+    .sync-status { text-align: right; font-size: 12px; color: var(--text-muted); margin-bottom: 24px; font-weight: 600; padding-right: 4px; }
+
+    .filter-pills { display: flex; gap: 10px; overflow-x: auto; padding-bottom: 12px; margin-bottom: 28px; }
+    .pill-btn {
+      background: rgba(30, 41, 59, 0.8); border: 1px solid var(--border-subtle); color: var(--text-muted);
+      padding: 12px 22px; border-radius: 50px; font-size: 14px; font-weight: 600;
+      cursor: pointer; white-space: nowrap; transition: all 0.3s ease;
+      display: inline-flex; align-items: center; gap: 8px;
+    }
+    .pill-btn:hover { background: rgba(51, 65, 85, 0.9); color: var(--text-main); border-color: var(--primary); }
+    .pill-btn.active {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
+      color: #0f172a; border-color: var(--primary-light); font-weight: 700;
+      box-shadow: 0 0 15px var(--primary-glow);
+    }
+
+    .directory-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 24px; }
+    .biz-card {
+      background: var(--card-bg); 
+      border-radius: 24px; 
+      border: 1px solid var(--card-border);
+      padding: 26px; 
+      display: flex; 
+      flex-direction: column; 
+      justify-content: space-between;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3); 
+      position: relative; 
+      overflow: hidden;
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .biz-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 4px;
+      background: linear-gradient(90deg, var(--primary-light), var(--primary-dark));
+      opacity: 0.8; transition: height 0.3s ease;
+    }
+    .biz-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--primary);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.5), 0 0 25px var(--primary-glow);
+    }
+    .biz-card:hover::before { height: 6px; }
+
+    .card-header { display: flex; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .avatar-icon {
+      width: 52px; height: 52px; border-radius: 16px;
+      background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.3));
+      border: 1px solid var(--primary); color: var(--primary-light);
+      display: flex; align-items: center; justify-content: center;
+      font-family: 'Outfit', sans-serif; font-size: 22px; font-weight: 800; flex-shrink: 0;
+      box-shadow: 0 0 12px rgba(245, 158, 11, 0.2);
+    }
+    .biz-title { font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--text-main); line-height: 1.3; }
+
+    .tag-container { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 14px; }
+    .tag { font-size: 11px; font-weight: 700; padding: 6px 14px; border-radius: 50px; text-transform: uppercase; letter-spacing: 0.6px; display: inline-flex; align-items: center; gap: 6px; }
+    .tag-cat { background: rgba(245, 158, 11, 0.15); color: var(--primary-light); border: 1px solid rgba(245, 158, 11, 0.3); }
+    .tag-loc { background: rgba(51, 65, 85, 0.6); color: #cbd5e1; border: 1px solid var(--border-subtle); }
+
+    .biz-slogan { font-style: italic; font-size: 13px; color: var(--primary-light); margin-bottom: 12px; font-weight: 600; }
+    .text-placeholder { color: #64748b; font-style: italic; font-weight: 400; }
+    .biz-desc { font-size: 14px; color: var(--text-muted); line-height: 1.6; margin-bottom: 20px; }
+
+    .card-actions { display: flex; flex-direction: column; gap: 10px; padding-top: 16px; border-top: 1px dashed var(--border-subtle); }
+    .action-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+    .btn-action {
+      display: inline-flex; align-items: center; justify-content: center; gap: 8px;
+      padding: 11px 14px; border-radius: 14px; font-size: 13px; font-weight: 700; text-decoration: none;
+      transition: all 0.25s ease; border: 1px solid transparent; text-align: center;
+    }
+    .btn-phone { background: rgba(51, 65, 85, 0.7); color: #f1f5f9; border-color: var(--border-subtle); }
+    .btn-phone:hover { background: #334155; border-color: var(--primary); color: var(--primary-light); }
+
+    .btn-web { background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%); color: #0f172a; }
+    .btn-web:hover { box-shadow: 0 0 15px var(--primary-glow); transform: scale(1.02); }
+
+    .btn-social { background: rgba(15, 23, 42, 0.6); border: 1px solid var(--border-subtle); color: var(--text-muted); }
+    .btn-facebook:hover { background: #1877f2; color: #ffffff; border-color: #1877f2; box-shadow: 0 0 12px rgba(24, 119, 242, 0.4); }
+    .btn-nextdoor:hover { background: #00b246; color: #ffffff; border-color: #00b246; box-shadow: 0 0 12px rgba(0, 178, 70, 0.4); }
+    .btn-email:hover { background: #06b6d4; color: #0f172a; border-color: #06b6d4; box-shadow: 0 0 12px rgba(6, 182, 212, 0.4); }
+
+    .btn-disabled { background: rgba(30, 41, 59, 0.4); color: #475569; border: 1px solid rgba(51, 65, 85, 0.4); cursor: not-allowed; }
+
+    #loading-spinner { text-align: center; padding: 60px 20px; font-family: 'Outfit', sans-serif; font-size: 20px; font-weight: 700; color: var(--primary-light); }
+    .empty-state { grid-column: 1 / -1; text-align: center; padding: 60px 20px; background: var(--card-bg); border-radius: 24px; border: 2px dashed var(--border-subtle); color: var(--text-muted); }
+
+    @media (max-width: 640px) {
+      body { padding: 16px 12px; }
+      .hero-banner { padding: 32px 18px; }
+      .hero-banner h1 { font-size: 30px; }
+      .toolbar-container { flex-direction: column; align-items: stretch; }
+      .btn-refresh { justify-content: center; }
+      .action-row { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <div class="app-container">
+    <div class="hero-banner">
+      <div class="badge-hero"><i class="fa-solid fa-bolt"></i> Local Commerce Guide</div>
+      <h1>Charlotte County Directory</h1>
+      <p>Explore, search, and connect with verified local businesses across Charlotte County.</p>
+    </div>
+    
+    <div class="toolbar-container">
+      <div class="search-wrapper">
+        <i class="fa-solid fa-magnifying-glass search-icon"></i>
+        <input type="text" id="searchInput" class="search-input" placeholder="Search by business name, category, city, or keyword..." onkeyup="filterDirectory()">
+      </div>
+      <button class="btn-refresh" onclick="fetchDirectoryData(true)" id="refreshBtn">
+        <i class="fa-solid fa-rotate" id="refreshIcon"></i> Refresh Directory
+      </button>
+    </div>
+
+    <div class="sync-status" id="syncStatus"><i class="fa-solid fa-clock"></i> Live Sync Active (Auto-refreshes every 60s)</div>
+
+    <div class="filter-pills" id="filterPills">
+      <button class="pill-btn active" onclick="setCategoryFilter('ALL', this)"><i class="fa-solid fa-border-all"></i> All Listings</button>
+      <button class="pill-btn" onclick="setCategoryFilter('Restaurant', this)"><i class="fa-solid fa-utensils"></i> Dining & Food</button>
+      <button class="pill-btn" onclick="setCategoryFilter('Service', this)"><i class="fa-solid fa-wrench"></i> Professional Services</button>
+      <button class="pill-btn" onclick="setCategoryFilter('Mobile', this)"><i class="fa-solid fa-truck-fast"></i> Mobile Services</button>
+      <button class="pill-btn" onclick="setCategoryFilter('Online', this)"><i class="fa-solid fa-laptop"></i> E-Commerce</button>
+    </div>
+
+    <div id="loading-spinner"><i class="fa-solid fa-circle-notch fa-spin"></i> Synchronizing Directory Records...</div>
+    <div id="directoryGrid" class="directory-grid"></div>
+  </div>
+
+  <script>
+    const CSV_URL = 'https://docs.google.com/spreadsheets/d/1bL_YWhS8NHDYbKBOfpz7yOIvS2Vuz4vKEbDNhXMfrsc/gviz/tq?tqx=out:csv&gid=1213716282';
+
+    var allBusinesses = [];
+    var currentCatFilter = 'ALL';
+
+    function fetchDirectoryData(isManual) {
+      var icon = document.getElementById('refreshIcon');
+      if (icon) icon.classList.add('fa-spin');
+
+      Papa.parse(CSV_URL + '&t=' + new Date().getTime(), {
+        download: true,
+        header: true,
+        skipEmptyLines: true,
+        complete: function(results) {
+          if (icon) icon.classList.remove('fa-spin');
+          var rows = results.data || [];
+
+          function getRowValue(row, keywordsToMatch) {
+            var keys = Object.keys(row);
+            for (var i = 0; i < keys.length; i++) {
+              var kRaw = keys[i].trim();
+              var kLower = kRaw.toLowerCase();
+
+              if (kLower === 'name' || kLower === 'title' || kLower.indexOf('personal page') !== -1) continue;
+
+              for (var j = 0; j < keywordsToMatch.length; j++) {
+                if (kLower.indexOf(keywordsToMatch[j].toLowerCase()) !== -1) {
+                  var val = row[keys[i]];
+                  if (val && val.toString().trim() !== '') {
+                    return val.toString().trim();
+                  }
+                }
+              }
+            }
+            return '';
+          }
+
+          var businessMap = {};
+
+          rows.forEach(function(row) {
+            var bName = getRowValue(row, ['business name']);
+            if (!bName || bName.trim() === '') return;
+
+            var key = bName.toLowerCase().trim();
+
+            var bCat = getRowValue(row, ['category / specialty', 'category', 'specialty']);
+            var bDesc = getRowValue(row, ['about your business', 'please describe your business', 'please share:']);
+            var bPhone = getRowValue(row, ['business phone', 'phone']);
+            var bWeb = getRowValue(row, ['business website', 'website']);
+            var bFacebook = getRowValue(row, ['facebook business facebook page', 'facebook']);
+            var bNextdoor = getRowValue(row, ['nextdoor business page', 'nextdoor']);
+            var bEmail = getRowValue(row, ['email for customers to contact you', 'email']);
+            var bLoc = getRowValue(row, ['business city', 'area / city served', 'business street address', 'business address', 'business state', 'business zip']);
+            var bSlogan = getRowValue(row, ['additional info or slogan', 'slogan']);
+
+            if (!businessMap[key]) {
+              businessMap[key] = {
+                name: bName.trim(),
+                category: bCat,
+                description: bDesc,
+                phone: bPhone,
+                website: bWeb,
+                facebook: bFacebook,
+                nextdoor: bNextdoor,
+                email: bEmail,
+                location: bLoc,
+                slogan: bSlogan
+              };
+            } else {
+              if (!businessMap[key].category && bCat) businessMap[key].category = bCat;
+              if (!businessMap[key].description && bDesc) businessMap[key].description = bDesc;
+              if (!businessMap[key].phone && bPhone) businessMap[key].phone = bPhone;
+              if (!businessMap[key].website && bWeb) businessMap[key].website = bWeb;
+              if (!businessMap[key].facebook && bFacebook) businessMap[key].facebook = bFacebook;
+              if (!businessMap[key].nextdoor && bNextdoor) businessMap[key].nextdoor = bNextdoor;
+              if (!businessMap[key].email && bEmail) businessMap[key].email = bEmail;
+              if (!businessMap[key].location && bLoc) businessMap[key].location = bLoc;
+              if (!businessMap[key].slogan && bSlogan) businessMap[key].slogan = bSlogan;
+            }
+          });
+
+          allBusinesses = Object.values(businessMap).map(function(b) {
+            return {
+              name: b.name,
+              category: b.category || 'Local Business',
+              description: b.description || 'No detailed description provided yet.',
+              phone: b.phone || '',
+              website: b.website || '',
+              facebook: b.facebook || '',
+              nextdoor: b.nextdoor || '',
+              email: b.email || '',
+              location: b.location || 'Charlotte County, FL',
+              slogan: b.slogan || ''
+            };
+          });
+
+          document.getElementById('loading-spinner').style.display = 'none';
+          filterDirectory();
+
+          var now = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+          document.getElementById('syncStatus').innerHTML = '<i class="fa-solid fa-circle-check" style="color:#16a34a;"></i> Synchronized at ' + now + ' (Auto-refreshes every 60s)';
+        },
+        error: function(err) {
+          if (icon) icon.classList.remove('fa-spin');
+          document.getElementById('loading-spinner').innerHTML = '<div style="color:#ef4444; padding:20px;">Unable to load spreadsheet records. Verify Google Sheet sharing is set to "Anyone with the link".</div>';
+        }
+      });
+    }
+
+    fetchDirectoryData(false);
+
+    setInterval(function() {
+      fetchDirectoryData(false);
+    }, 60000);
+
+    function renderDirectory(list) {
+      var grid = document.getElementById('directoryGrid');
+      grid.innerHTML = '';
+      if (!list || list.length === 0) {
+        grid.innerHTML = '<div class="empty-state"><i class="fa-solid fa-store-slash" style="font-size:32px; margin-bottom:12px; color:var(--primary-light);"></i><h3>No matching business listings found</h3><p>Try adjusting your search query or category filter above.</p></div>';
+        return;
+      }
+      list.forEach(function(b) {
+        var name = escapeHtml(b.name);
+        var category = escapeHtml(b.category);
+        var location = escapeHtml(b.location);
+        var slogan = escapeHtml(b.slogan);
+        var description = escapeHtml(b.description);
+        var phone = escapeHtml(b.phone);
+        var website = b.website;
+        var facebook = b.facebook;
+        var nextdoor = b.nextdoor;
+        var email = escapeHtml(b.email);
+        var initial = name.charAt(0).toUpperCase();
+
+        var html = '<div class="biz-card"><div>';
+        html += '<div class="card-header"><div class="avatar-icon">' + initial + '</div><div class="biz-title">' + name + '</div></div>';
+
+        html += '<div class="tag-container">';
+        html += '<span class="tag tag-cat"><i class="fa-solid fa-tag"></i> ' + category + '</span>';
+        html += '<span class="tag tag-loc"><i class="fa-solid fa-location-dot"></i> ' + location + '</span>';
+        html += '</div>';
+
+        if (slogan) {
+          html += '<div class="biz-slogan">"' + slogan + '"</div>';
+        } else {
+          html += '<div class="biz-slogan text-placeholder">"Serving Charlotte County Community"</div>';
+        }
+
+        html += '<div class="biz-desc">' + description + '</div>';
+        html += '</div>';
+
+        html += '<div class="card-actions">';
+        
+        html += '<div class="action-row">';
+        if (phone) {
+          html += '<a href="tel:' + phone + '" class="btn-action btn-phone"><i class="fa-solid fa-phone"></i> Direct Line</a>';
+        } else {
+          html += '<span class="btn-action btn-disabled"><i class="fa-solid fa-phone-slash"></i> Phone Unlisted</span>';
+        }
+
+        if (website) {
+          html += '<a href="' + formatUrl(website) + '" target="_blank" class="btn-action btn-web"><i class="fa-solid fa-globe"></i> Official Web Portal</a>';
+        } else {
+          html += '<span class="btn-action btn-disabled"><i class="fa-solid fa-globe"></i> Website Unlisted</span>';
+        }
+        html += '</div>';
+
+        if (facebook || nextdoor || email) {
+          html += '<div class="action-row">';
+          if (facebook) {
+            html += '<a href="' + formatUrl(facebook) + '" target="_blank" class="btn-action btn-social btn-facebook"><i class="fa-brands fa-facebook-f"></i> Facebook Page</a>';
+          }
+          if (nextdoor) {
+            html += '<a href="' + formatUrl(nextdoor) + '" target="_blank" class="btn-action btn-social btn-nextdoor"><i class="fa-solid fa-house-user"></i> Nextdoor Profile</a>';
+          }
+          if (email) {
+            html += '<a href="mailto:' + email + '" class="btn-action btn-social btn-email"><i class="fa-solid fa-envelope"></i> Email Contact</a>';
+          }
+          html += '</div>';
+        }
+
+        html += '</div>';
+        html += '</div>';
+        grid.innerHTML += html;
+      });
+    }
+
+    function setCategoryFilter(category, btnElement) {
+      currentCatFilter = category;
+      document.querySelectorAll('.pill-btn').forEach(b => b.classList.remove('active'));
+      btnElement.classList.add('active');
+      filterDirectory();
+    }
+
+    function filterDirectory() {
+      var query = document.getElementById('searchInput').value.toLowerCase();
+      var filtered = allBusinesses.filter(function(b) {
+        var matchesQuery = (b.name || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.category || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.description || '').toLowerCase().indexOf(query) !== -1 ||
+                            (b.location || '').toLowerCase().indexOf(query) !== -1;
+        var matchesCategory = (currentCatFilter === 'ALL') || 
+                              ((b.category || '') + ' ' + (b.description || '')).toLowerCase().indexOf(currentCatFilter.toLowerCase()) !== -1;
+        return matchesQuery && matchesCategory;
+      });
+      renderDirectory(filtered);
+    }
+
+    function escapeHtml(str) { return (str || '').toString().replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;"); }
+    function formatUrl(url) { if (!url) return '#'; url = url.toString().trim(); return (url.indexOf('http') === 0) ? url : 'https://' + url; }
+  </script>
+</body>
+</html>
