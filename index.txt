@@ -114,7 +114,8 @@ mark{background:var(--yellow);color:inherit;border-radius:3px;padding:0 2px;box-
 .sheet .desc{display:block;-webkit-line-clamp:unset;margin:12px 0;font-size:15px;white-space:pre-line}
 .sheet .slogan{margin-top:12px;font-size:15px}
 .acts{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:14px}
-.acts .btn{min-height:50px}
+.acts{display:flex;grid-template-columns:none;gap:8px;margin-top:12px}
+.acts .btn{flex:none;min-height:32px;padding:3px 14px;font-size:13px;border-width:2px;border-radius:10px;box-shadow:2px 2px 0 var(--ink)}
 .acts .full{grid-column:1/-1}
 .close{position:absolute;right:12px;top:14px;width:40px;height:40px;border:3px solid var(--ink);border-radius:50%;background:var(--yellow);color:var(--ink);font-size:16px;cursor:pointer;box-shadow:2px 2px 0 var(--ink)}
 .sheet .head{padding-right:48px}
@@ -476,6 +477,10 @@ function route(r,v){
   return false;
 }
 
+var CATS=['Home & Garden Services','Local Trades & Repairs','Neighborhood Food & Drinks','Main Street Shops & Retail','Salons, Beauty & Fitness','Professional & Online Services'];
+function catKey(x){return x.toString().toLowerCase().replace(/^\s*\d+[\.\)\-\s]*/,'').replace(/&/g,'and').replace(/[^a-z]/g,'')}
+function canonCat(v){var k=catKey(v);for(var i=0;i<CATS.length;i++){if(catKey(CATS[i])===k)return CATS[i]}return v.toString().trim()}
+function catRank(c){var i=CATS.indexOf(c);return c==='Local Business'||!c?100:(i<0?50:i)}
 function addrKey(x){return x.toString().toLowerCase().replace(/[^a-z0-9]/g,'')}
 function addArea(rec,v){
   var cur=rec.area?rec.area.split(/\s*[,;]\s*/):[];
@@ -499,7 +504,7 @@ function parseGrid(grid){
       var h=heads[c];
       switch(role){
         case 'name':if(!rec.name)rec.name=v;break;
-        case 'category':if(!rec.category)rec.category=v;break;
+        case 'category':if(!rec.category)rec.category=canonCat(v);break;
         case 'area':addArea(rec,v);break;
         case 'city':if(!rec.city)rec.city=v;break;
         case 'state':if(!rec.state)rec.state=fmtState(v);break;
@@ -584,7 +589,13 @@ function computeFacets(){
     if(keys.length>=2&&keys.length<=30&&repeats)facetDefs.push({label:label,values:keys.sort((a,b)=>cnt[b]-cnt[a]||a.localeCompare(b)),counts:cnt});
     else all.forEach(b=>delete b.fx[label]);
   }
-  add('Category',b=>[b.category]);
+  (function(){
+    var cnt={};
+    all.forEach(function(b){var v=(b.category&&b.category!=='Local Business')?[b.category]:[];b.fx['Category']=v;v.forEach(function(x){cnt[x]=(cnt[x]||0)+1})});
+    CATS.forEach(function(c){cnt[c]=cnt[c]||0});
+    var extra=Object.keys(cnt).filter(function(k){return CATS.indexOf(k)<0}).sort();
+    facetDefs.push({label:'Category',values:CATS.concat(extra),counts:cnt});
+  })();
   add('Area Served',b=>b.location?b.location.split(/\s*[,;]\s*/):[]);
   add('Contact options',b=>{var a=[];if(b.phone)a.push('Has phone');if(b.email)a.push('Has email');if(b.website)a.push('Has website');if(b.facebook)a.push('Has Facebook');if(b.nextdoor)a.push('Has Nextdoor');return a});
   var hs={};all.forEach(b=>Object.keys(b.extra).forEach(h=>hs[h]=1));
@@ -625,9 +636,10 @@ function commitPend(){
 }
 
 function catCmp(a,b){
-  var x=a.category==='Local Business'?'':a.category.trim(),y=b.category==='Local Business'?'':b.category.trim();
-  if(!x&&y)return 1;if(x&&!y)return -1;
-  return x.localeCompare(y,undefined,{sensitivity:'base'})||a.name.localeCompare(b.name);
+  var x=catRank(a.category),y=catRank(b.category);
+  if(x!==y)return x-y;
+  if(x===50)return a.category.localeCompare(b.category,undefined,{sensitivity:'base'})||a.name.localeCompare(b.name);
+  return a.name.localeCompare(b.name);
 }
 function apply(){
   var terms=st.q.toLowerCase().trim().split(/\s+/).filter(Boolean);
