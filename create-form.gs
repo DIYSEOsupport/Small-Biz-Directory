@@ -26,7 +26,12 @@ function createDirectoryForm() {
 
   form.addSectionHeaderItem().setTitle('About your business');
   text('Business Name', '', true);
-  var cat = form.addListItem().setTitle('Category / Specialty (e.g., Plumbing, Restaurant, Landscaping)').setRequired(true);
+  text('Public Contact Name (shown in the directory)', 'Optional. The name customers should ask for.', false);
+  text('Public Contact Title (shown in the directory)', 'Optional. Example: Owner', false);
+  var cat = form.addMultipleChoiceItem()
+      .setTitle('Category / Specialty (e.g., Plumbing, Restaurant, Landscaping)')
+      .setHelpText('Choose your primary category.')
+      .setRequired(true);
   cat.setChoiceValues([
     'Home & Garden Services',
     'Local Trades & Repairs',
@@ -46,7 +51,8 @@ function createDirectoryForm() {
   text('Business Zip', '', true);
 
   var mobilePage = form.addPageBreakItem().setTitle('Mobile Services');
-  var area = form.addCheckboxItem().setTitle('For Mobile Services : Area / City Served');
+  var area = form.addMultipleChoiceItem().setTitle('For Mobile Services : Area / City Served');
+  area.setHelpText('Choose one, or pick Other and type your area.');
   area.setChoices([
     area.createChoice('Charlotte County'),
     area.createChoice('Lee County'),
