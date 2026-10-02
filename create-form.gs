@@ -26,7 +26,15 @@ function createDirectoryForm() {
 
   form.addSectionHeaderItem().setTitle('About your business');
   text('Business Name', '', true);
-  text('Category / Specialty (e.g., Plumbing, Restaurant, Landscaping)', '', true);
+  var cat = form.addListItem().setTitle('Category / Specialty (e.g., Plumbing, Restaurant, Landscaping)').setRequired(true);
+  cat.setChoiceValues([
+    'Home & Garden Services',
+    'Local Trades & Repairs',
+    'Neighborhood Food & Drinks',
+    'Main Street Shops & Retail',
+    'Salons, Beauty & Fitness',
+    'Professional & Online Services'
+  ]);
   form.addParagraphTextItem().setTitle('About your business').setRequired(true);
   form.addParagraphTextItem().setTitle('Other details:').setRequired(false);
 
