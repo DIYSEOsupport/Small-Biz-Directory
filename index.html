@@ -309,6 +309,38 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .facts dd{font-family:'Plus Jakarta Sans',sans-serif;font-weight:700;font-size:15px;color:var(--ink)}
 [data-l="__saved"] .acch{cursor:pointer}
 [data-l="__saved"] .acch[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--yellow)}
+.catpill{display:inline-block;border:2px solid var(--ink);border-radius:999px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:800;line-height:1;padding:3px 10px;letter-spacing:.3px}
+.grid .acts{display:flex!important;flex-wrap:wrap;gap:8px;margin-top:12px}
+.grid .acts .btn{flex:none!important;width:auto!important;min-width:0!important;min-height:30px!important;height:30px;padding:0 12px!important;font-size:12px!important;gap:6px;border-width:2px!important;border-radius:9px!important;box-shadow:2px 2px 0 var(--ink)!important}
+
+/* mobile + narrower layout */
+.wrap{max-width:660px;padding:0 10px}
+.hero{padding:calc(10px + env(safe-area-inset-top)) 10px 6px}
+.controls{margin-top:12px;padding:8px 0 6px;padding-top:calc(8px + env(safe-area-inset-top))}
+.grid{margin-bottom:60px}
+.grid .bar{padding:9px 12px;gap:8px}
+.grid .bt{flex:1 1 auto}
+.grid .bar .catpill{flex:none;max-width:40%;margin:0 0 0 auto;text-align:center;white-space:normal;line-height:1.15;font-size:10.5px;padding:3px 9px;border-radius:12px}
+.grid .card.saved .bar .catpill{margin-right:32px}
+.grid .pad{padding:8px 12px 14px}
+.grid .acts{justify-content:flex-end;margin:0 0 8px}
+@media(max-width:480px){
+  .grid .title{font-size:19px}
+  .grid .bt .slogan{font-size:12px}
+  .search input{height:46px}
+  .icon-btn{height:46px;min-width:46px}
+  .tagline{font-size:17px}
+}
+
+/* star on every card */
+.grid .star{pointer-events:auto;cursor:pointer;background:none;border:0;padding:0;width:34px;height:34px;display:flex;align-items:center;justify-content:center;top:10px;right:46px;filter:none}
+.star svg path{fill:none;stroke:rgba(26,16,51,.35);stroke-width:2}
+.star:hover svg path{stroke:rgba(26,16,51,.6)}
+.card.saved .star svg path{fill:#ffd23f;stroke:#1a1033;stroke-width:2}
+.card.saved .star{filter:drop-shadow(1px 1px 0 var(--ink))}
+.grid .bar .catpill{margin-right:30px!important;max-width:32%;font-size:10px;padding:3px 8px}
+.grid .bt{flex:1 1 45%}
+.grid .card.nocat .bt{padding-right:40px}
 </style>
 </head>
 <body>
@@ -420,6 +452,10 @@ function roleOf(h){
   var k=h.replace(/[\s\u00a0]+/g,' ').trim().toLowerCase();
   if(hdrSkip(k))return null;
   if(k==='business name'||k==='company name'||/^name of (your )?(business|company)/.test(k))return 'name';
+  if(/public|display|publish/.test(k)&&/name/.test(k))return 'pubname';
+  if(/public|display|publish/.test(k)&&/title|role|position/.test(k))return 'pubtitle';
+  if(/^(contact|owner|business contact) (person|name)/.test(k))return 'pubname';
+  if(/^(contact|owner|business contact) (title|role|position)/.test(k))return 'pubtitle';
   if(k.indexOf('category')===0)return 'category';
   if(/area\s*\/\s*city|city\s*served|area\s*served|service area|counties served|areas served/.test(k))return 'area';
   if(/address/.test(k)&&!/e-?mail|web|url|ip /.test(k))return 'address';
@@ -432,7 +468,7 @@ function roleOf(h){
   if(/website|web site|web address|web page|webpage|\burl\b/.test(k)||k==='domain')return 'website';
   if(/e-?mail/.test(k))return 'email';
   if(k.indexOf('about your business')!==-1)return 'about';
-  if(/describe your|describe the business/.test(k))return null;
+  if(/describe your|describe the business/.test(k))return 'describe';
   if(k.indexOf('please share')!==-1)return 'share';
   if(k.indexOf('slogan')!==-1||k.indexOf('additional info')!==-1)return 'slogan';
   return 'other';
@@ -464,7 +500,7 @@ function addPhones(rec,v){
   if(l.length){l.forEach(function(x){pushUniq(rec.phones,x,digits)});return true}
   return false;
 }
-function newRec(){return {name:'',category:'',mode:'',about:[],aboutTop:[],phones:[],websites:[],emails:[],facebook:'',nextdoor:'',area:'',city:'',state:'',zip:'',address:[],slogan:'',extra:{}}}
+function newRec(){return {name:'',pubName:'',pubTitle:'',category:'',mode:'',about:[],aboutTop:[],phones:[],websites:[],emails:[],facebook:'',nextdoor:'',area:'',city:'',state:'',zip:'',address:[],slogan:'',extra:{}}}
 function pushUniq(arr,v,keyfn){var k=keyfn?keyfn(v):v.toLowerCase();if(!arr.some(function(x){return (keyfn?keyfn(x):x.toLowerCase())===k}))arr.push(v)}
 
 /* puts a value in the right bucket by what it looks like. returns true if placed */
@@ -479,7 +515,7 @@ function route(r,v){
 
 var CATS=['Home & Garden Services','Local Trades & Repairs','Neighborhood Food & Drinks','Main Street Shops & Retail','Salons, Beauty & Fitness','Professional & Online Services'];
 function catKey(x){return x.toString().toLowerCase().replace(/^\s*\d+[\.\)\-\s]*/,'').replace(/&/g,'and').replace(/[^a-z]/g,'')}
-function canonCat(v){var k=catKey(v);for(var i=0;i<CATS.length;i++){if(catKey(CATS[i])===k)return CATS[i]}return v.toString().trim()}
+function canonCat(v){var k=catKey(v);for(var i=0;i<CATS.length;i++){if(catKey(CATS[i])===k)return CATS[i]}return ''}
 function catRank(c){var i=CATS.indexOf(c);return c==='Local Business'||!c?100:(i<0?50:i)}
 function addrKey(x){return x.toString().toLowerCase().replace(/[^a-z0-9]/g,'')}
 function addArea(rec,v){
@@ -504,8 +540,10 @@ function parseGrid(grid){
       var h=heads[c];
       switch(role){
         case 'name':if(!rec.name)rec.name=v;break;
-        case 'category':if(!rec.category)rec.category=canonCat(v);break;
+        case 'category':var cc=canonCat(v);if(!rec.category&&cc)rec.category=cc;break;
         case 'area':addArea(rec,v);break;
+        case 'pubname':if(!rec.pubName)rec.pubName=v;break;
+        case 'pubtitle':if(!rec.pubTitle)rec.pubTitle=v;break;
         case 'city':if(!rec.city)rec.city=v;break;
         case 'state':if(!rec.state)rec.state=fmtState(v);break;
         case 'zip':if(!rec.zip)rec.zip=v;break;
@@ -513,7 +551,7 @@ function parseGrid(grid){
         case 'phone':if(!addPhones(rec,v)&&!route(rec,v)&&!rec.extra[h])rec.extra[h]=v;break;
         case 'about':case 'describe':case 'share':
           if(modeLike(v)&&v.length<100){if(!rec.mode)rec.mode=v;break}
-          if(role==='describe')pushUniq(rec.aboutTop,v);else pushUniq(rec.about,v);break;
+          if(role==='describe'){var dv=v.slice(0,250).trim();if(dv)pushUniq(rec.aboutTop,dv)}else pushUniq(rec.about,v);break;
         case 'slogan':if(!route(rec,v)&&!rec.slogan)rec.slogan=v;break;
         case 'facebook':if(/facebook|fb\./i.test(v)||isUrl(v)){if(!rec.facebook)rec.facebook=v}else if(!route(rec,v))rec.extra[h]=v;break;
         case 'nextdoor':if(/nextdoor/i.test(v)||isUrl(v)){if(!rec.nextdoor)rec.nextdoor=v}else if(!route(rec,v))rec.extra[h]=v;break;
@@ -530,22 +568,15 @@ function parseGrid(grid){
     var key=n.toLowerCase();
     if(!map[key]){map[key]=rec;log.push('Row '+(r+1)+': kept - '+n)}
     else{
-      log.push('Row '+(r+1)+': MERGED into an earlier row with the same name - '+n);
-      var m=map[key];
-      ['category','mode','facebook','nextdoor','city','state','zip','slogan'].forEach(function(f){if(!m[f]&&rec[f])m[f]=rec[f]});
-      if(rec.area)addArea(m,rec.area);
-      rec.aboutTop.slice().reverse().forEach(function(x){if(!m.aboutTop.some(function(y){return y.toLowerCase()===x.toLowerCase()}))m.aboutTop.unshift(x)});
-      rec.about.forEach(function(x){pushUniq(m.about,x)});
-      rec.address.forEach(function(x){pushUniq(m.address,x,addrKey)});
-      rec.phones.forEach(function(x){pushUniq(m.phones,x,digits)});
-      rec.websites.forEach(function(x){pushUniq(m.websites,x,normUrl)});
-      rec.emails.forEach(function(x){pushUniq(m.emails,x)});
-      Object.keys(rec.extra).forEach(function(h){if(!m.extra[h])m.extra[h]=rec.extra[h]});
+      log.push('Row '+(r+1)+': NEWER row replaces an earlier row with the same name - '+n);
+      map[key]=rec;
     }
   }
   var out=Object.keys(map).map(function(k){
     var r=map[k];
     r.category=r.category||'Local Business';
+    r.contact=[r.pubName,r.pubTitle].filter(Boolean).join(', ');
+    if(r.about.length){var ex2={'About your business':r.about.join('\n\n')};Object.keys(r.extra).forEach(function(h){ex2[h]=r.extra[h]});r.extra=ex2;r.about=[]}
     r.description=r.aboutTop.concat(r.about).join('\n\n');
     r.phone=r.phones[0]||'';r.website=r.websites[0]||'';r.email=r.emails[0]||'';
     r.location=r.area||r.city||'';
@@ -715,12 +746,13 @@ function render(){
   }
   g.innerHTML=view.map(function(b,i){
     var key=keyOf(b),k=esc(key),open=!!openSet[key],id='d'+i;
-    var h='<article class="card'+(open?' open':'')+(favs[key]?' saved':'')+'" data-k="'+k+'">'
-      +(favs[key]?'<span class="star" title="Saved" aria-label="Saved"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" fill="#ffd23f" stroke="#1a1033" stroke-width="2" stroke-linejoin="round"/></svg></span>':'')
+    var h='<article class="card'+(open?' open':'')+(favs[key]?' saved':'')+((b.category&&b.category!=='Local Business')?'':' nocat')+'" data-k="'+k+'">'
+      +'<button class="star" type="button" data-act="save" aria-pressed="'+(favs[key]?'true':'false')+'" aria-label="'+(favs[key]?'Remove from saved':'Save')+'" title="'+(favs[key]?'Saved':'Save')+'"><svg width="26" height="26" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 2.5l2.9 6 6.6.9-4.8 4.6 1.2 6.5L12 17.4l-5.9 3.1 1.2-6.5L2.5 9.4l6.6-.9z" stroke-linejoin="round"/></svg></button>'
       +'<button class="bar" type="button" aria-expanded="'+open+'" aria-controls="'+id+'">'
       +'<span class="bt"><span class="title">'+hl(b.name)+'</span>'+(b.slogan?'<span class="slogan">&ldquo;'+hl(b.slogan)+'&rdquo;</span>':'')+'</span>'
-      +'<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></span></button>'
+      +((b.category&&b.category!=='Local Business')?'<span class="catpill">'+esc(b.category)+'</span>':'')+'<span class="chev" aria-hidden="true"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 9l7 7 7-7"/></svg></span></button>'
       +'<div class="xp" id="'+id+'"><div class="inner"><div class="pad">';
+    h+='<div class="acts"><button class="btn" type="button" data-act="share"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.5l6.8-4M8.6 13.5l6.8 4"/></svg><span>Share</span></button></div>';
     function rows(list){return '<dl class="facts">'+list.map(function(f){return '<dt>'+f[0]+'</dt><dd>'+f[1]+'</dd>'}).join('')+'</dl>'}
     function ext(x){return '<a href="'+esc(fmtUrl(x))+'" target="_blank" rel="noopener">'+esc(linkText(x))+'</a>'}
     /* 1. website, phone, email as icon links */
@@ -735,6 +767,7 @@ function render(){
     /* 3. physical address with map icon link */
     var addrText=[b.addressLine,b.cityStateZip].filter(Boolean).join('\n');
     var showArea=b.area&&!/online only/i.test(b.mode||'');
+    if(b.contact)h+='<div><div class="sect">'+esc(lbl('Contact'))+'</div><div class="about">'+esc(b.contact)+'</div></div>';
     if(addrText){
       h+='<div><div class="sect">'+esc(lbl('Location'))+'</div>';
       if(mu)h+='<a class="ln addr" href="'+esc(mu)+'" target="_blank" rel="noopener" aria-label="Open map"><span class="ico">'+IC.pin+'</span><span>'+esc(addrText)+'</span></a>';
@@ -743,12 +776,11 @@ function render(){
     }
     if(showArea)h+='<div><div class="sect">'+esc(lbl('Area Served'))+'</div><div class="about">'+esc(b.area)+'</div></div>';
     /* 4. the rest */
-    var aTop=(b.category&&b.category!=='Local Business')?b.category:'',aRest=b.about.join('\n\n');
+    var aTop=b.aboutTop[0]||'',aRest=b.aboutTop.slice(1).concat(b.about).join('\n\n');
     if(aTop||aRest)h+='<div><div class="sect">'+esc(lbl('About'))+'</div>'+(aTop?'<div class="about abouttop">'+esc(aTop)+'</div>':'')+(aRest?'<div class="about">'+esc(aRest)+'</div>':'')+'</div>';
     var rest=[];
     Object.keys(b.extra).forEach(function(x){rest.push([esc(lbl(x)),fmtVal(x,b.extra[x])])});
     if(rest.length)h+='<div><div class="sect">'+esc(lbl('Details'))+'</div>'+rows(rest)+'</div>';
-    h+='<div class="acts"><button class="btn" type="button" data-act="save">'+(favs[key]?'Saved':'Save')+'</button><button class="btn" type="button" data-act="share">Share</button></div>';
     /* 5. slogan last */
     h+='</div></div></div></div></article>';
     return h;
@@ -846,6 +878,7 @@ $('top').onclick=()=>window.scrollTo({top:0});
 function plain(arr){return (arr||[]).filter(Boolean)}
 function bizRows(b){
   var r=[];
+  if(b.contact)r.push([lbl('Contact'),b.contact]);
   if(b.phones.length)r.push([lbl('Phone'),b.phones.join(' | ')]);
   if(b.websites.length)r.push([lbl('Website'),b.websites.map(linkText).join(' | ')]);
   if(b.emails.length)r.push([lbl('Email'),b.emails.join(' | ')]);
@@ -878,10 +911,10 @@ function saveBlob(blob,name){
 function doCsv(list){
   var xh=[];
   list.forEach(function(b){Object.keys(b.extra).forEach(function(h){if(xh.indexOf(h)===-1)xh.push(h)})});
-  var head=['Business Name','Category','Slogan','About','Website','Phone','Email','Facebook','Nextdoor','Address','City State Zip','Area Served'].concat(xh.map(lbl));
+  var head=['Business Name','Contact','Category','Slogan','About','Website','Phone','Email','Facebook','Nextdoor','Address','City State Zip','Area Served'].concat(xh.map(lbl));
   var lines=[head.map(csvCell).join(',')];
   list.forEach(function(b){
-    var row=[b.name,b.category==='Local Business'?'':b.category,b.slogan,b.description,b.websites.map(fmtUrl).join('; '),b.phones.join('; '),b.emails.join('; '),b.facebook?fmtUrl(b.facebook):'',b.nextdoor?fmtUrl(b.nextdoor):'',(b.addressLine||'').replace(/\n/g,', '),b.cityStateZip,(b.area&&!/online only/i.test(b.mode||''))?b.area:''];
+    var row=[b.name,b.contact,b.category==='Local Business'?'':b.category,b.slogan,b.description,b.websites.map(fmtUrl).join('; '),b.phones.join('; '),b.emails.join('; '),b.facebook?fmtUrl(b.facebook):'',b.nextdoor?fmtUrl(b.nextdoor):'',(b.addressLine||'').replace(/\n/g,', '),b.cityStateZip,(b.area&&!/online only/i.test(b.mode||''))?b.area:''];
     xh.forEach(function(h){row.push(b.extra[h]||'')});
     lines.push(row.map(csvCell).join(','));
   });
@@ -957,6 +990,8 @@ function pdfCard(b){
   var CX=52,RX=560,L=[];
   function add(g,h,draw){L.push({g:g,h:h,draw:draw})}
   wrapW(b.name,16,RX-CX,true).forEach(function(t,k){add(k?0:2,20,function(pg,bt){pdfTxt(pg,CX,bt+5,2,16,PC.ink,t)})});
+  var cat=(b.category&&b.category!=='Local Business')?b.category:'';
+  if(cat){var cw=pdfW(pdfClean(cat),8,true)+16;add(2,17,function(pg,bt){pg.fg.push(PC.yellow+' rg '+PC.ink+' RG 1.2 w '+rr(CX,bt+1,cw,14,7)+' B');pdfTxt(pg,CX+8,bt+5,2,8,PC.ink,pdfClean(cat))})}
   if(b.slogan)wrapW('"'+b.slogan+'"',10.5,RX-CX).forEach(function(t){add(0,14,function(pg,bt){pdfTxt(pg,CX,bt+3,3,10.5,PC.magenta,t)})});
   function chipRow(label,col,parts){
     if(!parts.length)return;
@@ -972,6 +1007,7 @@ function pdfCard(b){
       });
     });
   }
+  if(b.contact)chipRow('CONTACT','purple',[{t:b.contact}]);
   chipRow('WEBSITE','orange',b.websites.map(function(x){return {t:linkText(x),u:fmtUrl(x)}}));
   chipRow('PHONE','orange',b.phones.map(function(x){return {t:x,u:'tel:'+x.replace(/[^\d+]/g,'')}}));
   chipRow('EMAIL','orange',b.emails.map(function(x){return {t:x,u:'mailto:'+x}}));
@@ -990,8 +1026,12 @@ function pdfCard(b){
     wrapW(text,size||10,RX-CX,f===2).forEach(function(t){add(0,13,function(pg,bt){pdfTxt(pg,CX,bt+3,f||1,size||10,col||PC.ink,t)})});
   }
   if(b.area&&!/online only/i.test(b.mode||'')){head(lbl('Area Served'));body(b.area)}
-  var cat=(b.category&&b.category!=='Local Business')?b.category:'';
-  if(cat||b.description){head(lbl('About'));if(cat)body(cat,2,PC.ink,10.5);if(b.description)body(b.description)}
+  if(b.aboutTop[0]||b.description){
+    head(lbl('About'));
+    if(b.aboutTop[0])body(b.aboutTop[0],2,PC.ink,10.5);
+    var rest=b.aboutTop.slice(1).concat(b.about).join('\n\n');
+    if(rest)body(rest);
+  }
   var ex=Object.keys(b.extra);
   if(ex.length){
     head(lbl('Details'));
@@ -1126,6 +1166,7 @@ window.addEventListener('afterprint',function(){$('printArea').innerHTML=''});
 var shareB=null;
 function contactText(b){
   var L=[b.name];
+  if(b.contact)L.push('Contact: '+b.contact);
   if(b.slogan)L.push('"'+b.slogan+'"');
   b.phones.forEach(function(x){L.push('Phone: '+x)});
   b.websites.forEach(function(x){L.push('Website: '+fmtUrl(x))});
@@ -1146,7 +1187,7 @@ function vcard(b){
   if(b.facebook)v.push('URL:'+fmtUrl(b.facebook));
   if(b.nextdoor)v.push('URL:'+fmtUrl(b.nextdoor));
   if(b.addressLine||b.city||b.state||b.zip)v.push('ADR;TYPE=WORK:;;'+vEsc((b.addressLine||'').replace(/\n/g,', '))+';'+vEsc(b.city)+';'+vEsc(b.state)+';'+vEsc(b.zip)+';');
-  var note=[b.slogan,b.area&&!/online only/i.test(b.mode||'')?'Area Served: '+b.area:''].filter(Boolean).join(' - ');
+  var note=[b.contact?'Contact: '+b.contact:'',b.slogan,b.area&&!/online only/i.test(b.mode||'')?'Area Served: '+b.area:''].filter(Boolean).join(' - ');
   if(note)v.push('NOTE:'+vEsc(note));
   v.push('END:VCARD');
   return v.join('\r\n');
