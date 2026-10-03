@@ -6,12 +6,12 @@
 <title>Small Business Owners of Charlotte County - Directory Intake Form</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Plus+Jakarta+Sans:wght@500;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Comic+Neue:wght@400;700&display=swap" rel="stylesheet">
 <style>
 :root{--ink:#1a1033;--purple:#5b2a86;--magenta:#c2307a;--orange:#ff7a1a;--yellow:#ffd23f;--teal:#1fb5c9;--cream:#fff6dc;--err:#d6285a}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;min-height:100vh;font-family:'Plus Jakarta Sans',Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#5b2a86 0%,#c2307a 25%,#ff7a1a 50%,#ffd23f 75%,#1fb5c9 100%) fixed;padding:calc(24px + env(safe-area-inset-top)) 12px calc(40px + env(safe-area-inset-bottom))}
+body{margin:0;min-height:100vh;font-family:'Comic Neue','Comic Sans MS',cursive;color:var(--ink);background:linear-gradient(180deg,#5b2a86 0%,#c2307a 25%,#ff7a1a 50%,#ffd23f 75%,#1fb5c9 100%) fixed;padding:calc(24px + env(safe-area-inset-top)) 12px calc(40px + env(safe-area-inset-bottom))}
 .wrap{max-width:760px;margin:0 auto}
 .hero{position:relative;margin-bottom:34px}
 .hero img{display:block;width:100%;height:auto;border:5px solid var(--cream);border-radius:14px;box-shadow:0 0 0 4px var(--ink),7px 8px 0 4px var(--ink)}
@@ -21,10 +21,12 @@ body{margin:0;min-height:100vh;font-family:'Plus Jakarta Sans',Arial,sans-serif;
 h1{font-family:'Bangers',cursive;font-weight:400;letter-spacing:1px;font-size:clamp(24px,6vw,34px);line-height:1.1;margin:0 0 8px;color:var(--purple)}
 h2{font-family:'Bangers',cursive;font-weight:400;letter-spacing:1px;font-size:26px;margin:0 0 4px;color:var(--purple)}
 .boom{font-family:'Bangers',cursive;font-size:clamp(20px,5vw,28px);letter-spacing:1px;color:var(--magenta);margin:0 0 6px}
-p{margin:0 0 10px;line-height:1.55;font-size:15px;font-weight:500;color:#3b2d52}
-.note{font-size:13px;color:#6a5a85}
+p{margin:0 0 10px;line-height:1.45;font-size:17px;font-weight:700;color:#3b2d52}
+.note{font-size:15px;color:#6a5a85}
 .steps{display:flex;gap:6px;justify-content:center;margin:0 0 16px;flex-wrap:wrap}
 .dot{font-family:'Bangers',cursive;letter-spacing:.8px;font-size:15px;padding:4px 12px;border:3px solid var(--ink);border-radius:50px;background:#fff;box-shadow:2px 2px 0 var(--ink)}
+button.dot{cursor:pointer;-webkit-appearance:none;appearance:none;color:var(--ink)}
+button.dot:hover{background:#fff3b0}
 .dot.on{background:var(--orange);color:#fff;text-shadow:1px 1px 0 var(--ink)}
 .dot.done{background:var(--yellow)}
 .step{display:none}
@@ -32,13 +34,13 @@ p{margin:0 0 10px;line-height:1.55;font-size:15px;font-weight:500;color:#3b2d52}
 .fld{margin:0 0 16px}
 label.l,.l{display:block;font-family:'Bangers',cursive;letter-spacing:.8px;font-size:19px;color:var(--purple);margin:0 0 5px}
 .l .req{color:var(--magenta)}
-.help{font-size:12.5px;color:#6a5a85;margin:-2px 0 6px;font-weight:500}
-input[type=text],input[type=email],input[type=tel],textarea{width:100%;font:700 16px 'Plus Jakarta Sans',Arial,sans-serif;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:12px;padding:11px 13px;box-shadow:3px 3px 0 var(--ink);outline:none}
+.help{font-size:14.5px;color:#6a5a85;margin:-2px 0 6px;font-weight:700}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;font:700 18px 'Comic Neue','Comic Sans MS',cursive;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:12px;padding:11px 13px;box-shadow:3px 3px 0 var(--ink);outline:none}
 textarea{min-height:104px;resize:vertical}
 input:focus,textarea:focus{border-color:var(--magenta);box-shadow:3px 3px 0 var(--magenta)}
 .bad input,.bad textarea{border-color:var(--err)}
 .bad .tiles,.bad .opts{outline:3px dashed var(--err);outline-offset:4px;border-radius:12px}
-.err{display:none;color:var(--err);font-weight:800;font-size:13px;margin-top:6px}
+.err{display:none;color:var(--err);font-weight:700;font-size:15px;margin-top:6px}
 .bad .err{display:block}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
 .tile,.opt{position:relative;display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 12px;background:#fff;border:3px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;font-family:'Bangers',cursive;letter-spacing:.7px;font-size:18px;line-height:1.1;user-select:none}
@@ -51,7 +53,7 @@ input:focus,textarea:focus{border-color:var(--magenta);box-shadow:3px 3px 0 var(
 .opts{display:grid;gap:10px}
 .sub{margin:12px 0 0;padding:12px;border:3px dashed var(--ink);border-radius:12px;background:rgba(255,255,255,.55);display:none}
 .sub.show{display:block}
-.cnt{font-size:12px;font-weight:800;text-align:right;color:#6a5a85;margin-top:4px}
+.cnt{font-size:14px;font-weight:700;text-align:right;color:#6a5a85;margin-top:4px}
 .row2{display:grid;grid-template-columns:2fr 1fr 1fr;gap:10px}
 @media(max-width:560px){.row2{grid-template-columns:1fr 1fr}.row2 .fld:first-child{grid-column:1/-1}}
 .row2b{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -63,7 +65,7 @@ button.b.alt{background:#fff;color:var(--ink);text-shadow:none}
 button.b:disabled{opacity:.6;cursor:wait}
 .logo-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .logo-row img{width:64px;height:64px;object-fit:contain;background:#fff;border:3px solid var(--ink);border-radius:12px;display:none}
-input[type=file]{font:700 14px 'Plus Jakarta Sans',Arial,sans-serif;max-width:100%}
+input[type=file]{font:700 14px 'Comic Neue','Comic Sans MS',cursive;max-width:100%}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .done-card{text-align:center;display:none}
 .done-card h1{font-size:clamp(34px,9vw,52px);color:var(--magenta);transform:rotate(-2deg)}
@@ -79,7 +81,7 @@ a.lnk{color:#124080;font-weight:800}
     <h1>Small Business Owners of Charlotte County - Directory Intake Form</h1>
     <div class="boom">💥 BOOMING BUSINESSES! 💥</div>
     <p>Welcome, local trailblazers! Help us build the ultimate community directory for Small Businesses in Charlotte County. Drop your details below so we can put your business front and center when we launch!</p>
-    <p class="note">Need to change something later? Fill this form out again with the same business name. The newest entry replaces the old one. <span style="color:var(--magenta)">*</span> means required.</p>
+    <p class="note">Need to change something later? Fill this form out again with the same business name and your edit code. The newest entry replaces the old one. <span style="color:var(--magenta)">*</span> means required.</p>
   </div>
 
   <div class="steps" id="steps"></div>
@@ -92,7 +94,8 @@ a.lnk{color:#124080;font-weight:800}
       <p class="note">Not published. We only use this if we have questions about your submission.</p>
       <div class="fld" data-req><label class="l" for="name">Name <span class="req">*</span></label><input type="text" id="name" autocomplete="name"><div class="err">Enter your name.</div></div>
       <div class="fld" data-req><label class="l" for="title">Title <span class="req">*</span></label><input type="text" id="title" autocomplete="organization-title"><div class="err">Enter your title.</div></div>
-      <div class="fld" data-req><label class="l" for="how">How to contact you with questions about your submission? <span class="req">*</span></label><input type="text" id="how" placeholder="Phone or email"><div class="err">Tell us how to reach you.</div></div>
+      <div class="fld" data-req><label class="l" for="how">How to contact you with questions about your submission? <span class="req">*</span></label><input type="text" id="how" placeholder="Phone or email"><div class="err" id="howerr">Enter a phone number or a valid email.</div></div>
+      <div class="fld" data-req><label class="l" for="code">Edit code <span class="req">*</span></label><div class="help">Make up a code with 4 or more letters or numbers. You need it to change your listing later. Not published. Write it down.</div><input type="text" id="code" maxlength="40" autocomplete="off" autocapitalize="off"><div class="err">Use 4 or more characters.</div></div>
       <div class="nav"><span></span><button type="button" class="b" data-next>Next</button></div>
     </div>
 
@@ -118,7 +121,7 @@ a.lnk{color:#124080;font-weight:800}
       <h2>Contact &amp; location</h2>
       <div class="fld" data-req><label class="l" for="phone">Business Phone <span class="req">*</span></label><input type="tel" id="phone" autocomplete="tel"><div class="err">Enter a 10 digit phone number.</div></div>
       <div class="fld"><label class="l" for="web">Business Website</label><input type="text" id="web" inputmode="url" autocomplete="url"></div>
-      <div class="fld" id="emfld"><label class="l" for="email">Email for Customers to Contact You</label><input type="email" id="email" autocomplete="email"><div class="err">Enter a valid email address.</div></div>
+      <div class="fld" id="emfld"><label class="l" for="email">Email for Customers to Contact You</label><input type="email" id="email" autocomplete="email"><div class="err">Enter a valid email like name@example.com.</div></div>
       <div class="sub" id="physical"><h2 style="font-size:22px">Physical address</h2>
         <div class="fld" data-req data-phys><label class="l" for="street">Business Street Address <span class="req">*</span></label><input type="text" id="street" autocomplete="address-line1"><div class="err">Enter your street address.</div></div>
         <div class="row2">
@@ -153,7 +156,7 @@ a.lnk{color:#124080;font-weight:800}
   <div class="card done-card" id="done">
     <h1>You're in!</h1>
     <p>Thank you! Your business will appear in the directory.</p>
-    <p class="note">Need to fix something? Fill this form out again with the same business name. The newest entry replaces the old one.</p>
+    <p class="note" id="doneExtra">Need to fix something? Fill this form out again with the same business name and your edit code. The newest entry replaces the old one.</p>
     <div class="nav" style="justify-content:center;flex-wrap:wrap"><a class="lnk" href="index.html"><button type="button" class="b alt">See the directory</button></a><button type="button" class="b" id="again">Add another business</button></div>
   </div>
 </div>
@@ -178,8 +181,15 @@ function pick(group,name,list,onchange){
 }
 function val(name){var r=document.querySelector('input[name="'+name+'"]:checked');return r?r.value:''}
 function renderSteps(){
-  $('steps').innerHTML=NAMES.map(function(n,i){return '<span class="dot '+(i===step?'on':(i<step?'done':''))+'">'+(i+1)+'. '+n+'</span>'}).join('');
+  $('steps').innerHTML=NAMES.map(function(n,i){return '<button type="button" class="dot '+(i===step?'on':(i<step?'done':''))+'" data-go="'+i+'"'+(i===step?' aria-current="step"':'')+'>'+(i+1)+'. '+n+'</button>'}).join('');
 }
+$('steps').addEventListener('click',function(e){
+  var b=e.target.closest('[data-go]');if(!b)return;
+  var to=+b.dataset.go;
+  if(to<=step){show(to);return}
+  for(var k=step;k<to;k++){if(!checkStep(k)){show(k);checkStep(k);return}}
+  show(to);
+});
 function show(n){
   step=n;qa('.step').forEach(function(s){s.classList.toggle('show',+s.dataset.step===n)});
   renderSteps();window.scrollTo({top:$('steps').offsetTop-20,behavior:'smooth'});
@@ -194,11 +204,15 @@ pick('cats','cat',CATS);
 pick('types','btype',TYPES,syncType);
 pick('areas','area',AREAS,function(v){$('areaother').classList.toggle('show',v==='Other')});
 $('typetext').addEventListener('input',function(){$('tcnt').textContent=this.value.length});
-$('phone').addEventListener('blur',function(){var d=this.value.replace(/\D/g,'');if(d.length===11&&d[0]==='1')d=d.slice(1);if(d.length===10)this.value=d.slice(0,3)+'-'+d.slice(3,6)+'-'+d.slice(6)});
+$('phone').addEventListener('input',function(){this.value=maskPhone(this.value)});
+$('how').addEventListener('blur',function(){if(this.value.indexOf('@')===-1&&this.value.replace(/\D/g,'').length>=10)this.value=maskPhone(this.value)});
+$('email').addEventListener('blur',function(){this.value=this.value.trim().toLowerCase()});
 $('state').addEventListener('input',function(){this.value=this.value.toUpperCase().replace(/[^A-Z]/g,'')});
 $('zip').addEventListener('input',function(){this.value=this.value.replace(/\D/g,'')});
 qa('input,textarea').forEach(function(el){el.addEventListener('input',function(){var f=el.closest('.fld');if(f)f.classList.remove('bad')})});
 
+var EMAIL_RE=/^[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)*\.[A-Za-z]{2,}$/;
+function maskPhone(v){var d=v.replace(/\D/g,'');if(d.length>10&&d[0]==='1')d=d.slice(1);d=d.slice(0,10);var o=d.slice(0,3);if(d.length>3)o+='-'+d.slice(3,6);if(d.length>6)o+='-'+d.slice(6);return o}
 function checkStep(n){
   var ok=true;
   function bad(f){f.classList.add('bad');ok=false}
@@ -212,10 +226,15 @@ function checkStep(n){
     var v=el.value.trim();
     if(!v){bad(f);return}
     if(el.id==='phone'&&v.replace(/\D/g,'').length<10)bad(f);
+    if(el.id==='code'&&v.length<4)bad(f);
+    if(el.id==='how'){
+      if(v.indexOf('@')!==-1){if(!EMAIL_RE.test(v))bad(f)}
+      else if(v.replace(/\D/g,'').length<10)bad(f);
+    }
     if(el.id==='state'&&v.length!==2)bad(f);
     if(el.id==='zip'&&v.length!==5)bad(f);
   });
-  if(n===2){var em=$('email').value.trim();if(em&&!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em))bad($('emfld'))}
+  if(n===2){var em=$('email').value.trim();if(em&&!EMAIL_RE.test(em))bad($('emfld'))}
   if(!ok){var first=qa('.bad',panel)[0];if(first)first.scrollIntoView({behavior:'smooth',block:'center'})}
   return ok;
 }
@@ -249,12 +268,12 @@ $('f').addEventListener('submit',function(e){
   if($('hp').value){showDone();return}
   var t=val('btype'),a=val('area');
   var d={
-    name:$('name').value.trim(),title:$('title').value.trim(),how:$('how').value.trim(),
+    name:$('name').value.trim(),title:$('title').value.trim(),how:$('how').value.trim(),editCode:$('code').value.trim(),
     businessName:$('biz').value.trim(),pubName:$('pubname').value.trim(),pubTitle:$('pubtitle').value.trim(),
     category:val('cat'),about:$('about').value.trim(),other:$('other').value.trim(),
     describe:t==='Other'?$('typetext').value.trim().slice(0,400):t,
     street:'',city:'',state:'',zip:'',area:'',
-    phone:$('phone').value.trim(),website:$('web').value.trim(),email:$('email').value.trim(),
+    phone:maskPhone($('phone').value),website:$('web').value.trim(),email:$('email').value.trim().toLowerCase(),
     facebook:$('fb').value.trim(),ndBiz:$('ndb').value.trim(),ndPersonal:$('ndp').value.trim(),slogan:$('slogan').value.trim(),
     logoData:logoData,logoName:logoName
   };
@@ -262,11 +281,23 @@ $('f').addEventListener('submit',function(e){
   if(/^Mobile/.test(t)){d.area=a==='Other'?$('areatext').value.trim():a}
   var go=$('go');go.disabled=true;go.textContent='Sending...';$('fail').style.display='none';
   if(!/^https:\/\//.test(ENDPOINT)){go.disabled=false;go.textContent='Submit my business';$('fail').textContent='This form is not connected to the directory yet. Tell the site owner.';$('fail').style.display='block';return}
-  fetch(ENDPOINT,{method:'POST',mode:'no-cors',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)})
-    .then(function(){showDone()})
-    .catch(function(){go.disabled=false;go.textContent='Submit my business';$('fail').textContent='Could not send. Check your connection and try again.';$('fail').style.display='block'});
+  function fail(code){
+    go.disabled=false;go.textContent='Submit my business';
+    var msg={
+      WRONG_CODE:'That business name is already in the directory and the edit code does not match. Use the edit code you picked the first time.',
+      BAD_CODE:'Your edit code needs 4 or more characters.',
+      BAD_EMAIL:'The customer email does not look right.',
+      BAD_PHONE:'The phone number needs 10 digits.'
+    }[code]||'Something went wrong. Please try again.';
+    $('fail').textContent=msg;$('fail').style.display='block';
+  }
+  fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)})
+    .then(function(r){return r.json()})
+    .then(function(j){if(j&&j.ok)showDone();else fail(j&&j.error)})
+    .catch(function(){showDone('unconfirmed')});
 });
-function showDone(){
+function showDone(flag){
+  if(flag==='unconfirmed')$('doneExtra').textContent='We sent your entry but could not confirm it. If this business name was already listed, make sure your edit code matches the original.';
   qa('.step').forEach(function(s){s.classList.remove('show')});
   $('steps').style.display='none';$('intro').style.display='none';
   $('done').style.display='block';window.scrollTo({top:0,behavior:'smooth'});
