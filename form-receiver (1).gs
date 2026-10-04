@@ -4,41 +4,60 @@
  * Receives what people type into form.html and adds it as a new row in
  * the same Google Sheet the directory app (index.html) reads.
  *
+ *  - People sign in with Google on form.html. This script checks the
+ *    sign-in with Google, so nobody can pretend to be someone else.
+ *  - The first Google account to add a business name "owns" it. Only that
+ *    account can replace the listing later. We store a scrambled key, never
+ *    the email, in a column called "Owner Key (private)". The directory app
+ *    never shows that column.
  *  - Logos are saved in your Google Drive and made viewable by link.
- *  - Each business picks an "edit code". To replace a listing, the same
- *    business name must be sent with the same code. The code is stored
- *    scrambled (never as plain text) in a column called "Edit Code (private)".
- *    The directory app never shows that column.
  *
  * HOW TO USE
  *   1. Go to script.google.com and click "New project".
  *   2. Delete the code that is there and paste in this whole file.
- *   3. Check SHEET_ID and SHEET_GID below.
- *   4. Click Deploy > New deployment > the gear > Web app.
+ *   3. Paste your Google Client ID into CLIENT_ID below.
+ *   4. In the dropdown at the top (it may say "myFunction"), choose
+ *      authorizeOnce, click Run, and click Allow.
+ *   5. Click Deploy > New deployment > the gear > Web app.
  *        Execute as: Me
  *        Who has access: Anyone
- *   5. Click Deploy, click Allow, and copy the Web app URL.
- *   6. In form.html, replace PASTE_WEB_APP_URL_HERE with that URL.
- *   7. If you change this code later, use Deploy > Manage deployments >
- *      pencil > Version: New version > Deploy.
+ *   6. Click Deploy and copy the Web app URL.
+ *   7. In form.html, replace PASTE_WEB_APP_URL_HERE with that URL.
+ *   If you change this code later: Deploy > Manage deployments > pencil >
+ *   Version: New version > Deploy.
  */
 
 // ---------------------------------------------------------------
 // Settings
 // ---------------------------------------------------------------
+var CLIENT_ID = '429873674496-c3ld7ru88i8b0acssaeh26adtvfok12e.apps.googleusercontent.com';
 var SHEET_ID = '17vDXZS_tXVWAerdp0azT896Sg8cQYxCBN8zNl2d6Rec';
 var SHEET_GID = 1342044865;
 var LOGO_FOLDER_NAME = 'Directory Logos';
-var EDIT_HEADER = 'Edit Code (private)';
+var OWNER_HEADER = 'Owner Key (private)';
 
-// Rows added before edit codes existed have no code.
-// true  = the first person to submit that business name with a code claims it.
+// Google accounts that may change any listing (put your own email here)
+var ADMIN_EMAILS = ['diyseo.support@gmail.com'];
+
+// Rows added before sign-in existed have no owner.
+// true  = the first person to submit that business name claims it.
 // false = those listings can only be changed by you in the sheet.
 var ALLOW_CLAIM_OLD_ROWS = true;
 
 var EMAIL_RE = /^[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)*\.[A-Za-z]{2,}$/;
-
 var URL_RE = /^(https?:\/\/)?([A-Za-z0-9\-]+\.)+[A-Za-z]{2,}(:\d+)?([\/?#]\S*)?$/;
+
+// ---------------------------------------------------------------
+// Run this once so Google asks for permission
+// ---------------------------------------------------------------
+function authorizeOnce() {
+  SpreadsheetApp.openById(SHEET_ID).getName();
+  getLogoFolder_();
+  PropertiesService.getScriptProperties().getKeys();
+  UrlFetchApp.fetch('https://oauth2.googleapis.com/tokeninfo?id_token=test',
+      { muteHttpExceptions: true });
+  Logger.log('All set. Now click Deploy > New deployment.');
+}
 
 // ---------------------------------------------------------------
 // Web app entry points
@@ -53,21 +72,29 @@ function doPost(e) {
     lock.waitLock(20000);
     var data = JSON.parse(e.postData.contents);
 
+    var email = verifyToken_(data.idToken);
+    if (!email) {
+      return json_({ ok: false, error: 'LOGIN_EXPIRED' });
+    }
+
     var problem = validate_(data);
     if (problem) {
       return json_({ ok: false, error: problem });
     }
 
     var sheet = findSheet_();
-    var editCol = ensureEditColumn_(sheet);
-    var hash = hashCode_(data.businessName, data.editCode);
+    var ownerCol = ensureOwnerColumn_(sheet);
+    var ownerKey = ownerKey_(email);
+    var isAdmin = ADMIN_EMAILS.map(function (a) {
+      return String(a).toLowerCase();
+    }).indexOf(email) !== -1;
 
-    if (!codeAllowed_(sheet, editCol, data.businessName, hash)) {
-      return json_({ ok: false, error: 'WRONG_CODE' });
+    if (!isAdmin && !ownerAllowed_(sheet, ownerCol, data.businessName, ownerKey)) {
+      return json_({ ok: false, error: 'WRONG_OWNER' });
     }
 
     var logoUrl = saveLogo_(data);
-    addRow_(sheet, data, logoUrl, hash);
+    addRow_(sheet, data, logoUrl, ownerKey);
     return json_({ ok: true });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -87,25 +114,43 @@ function json_(obj) {
 }
 
 // ---------------------------------------------------------------
+// Google sign-in check
+// ---------------------------------------------------------------
+function verifyToken_(token) {
+  if (!token) return '';
+  var resp = UrlFetchApp.fetch(
+      'https://oauth2.googleapis.com/tokeninfo?id_token=' + encodeURIComponent(token),
+      { muteHttpExceptions: true });
+  if (resp.getResponseCode() !== 200) return '';
+  var info = JSON.parse(resp.getContentText());
+  if (info.aud !== CLIENT_ID) return '';
+  if (String(info.email_verified) !== 'true') return '';
+  if (Number(info.exp) * 1000 < Date.now()) return '';
+  return String(info.email || '').toLowerCase();
+}
+
+// ---------------------------------------------------------------
 // Checks
 // ---------------------------------------------------------------
 function validate_(d) {
   if (!d.businessName || !String(d.businessName).trim()) return 'BAD_NAME';
-  if (!d.editCode || String(d.editCode).trim().length < 4) return 'BAD_CODE';
+
   d.phone = formatPhone_(d.phone);
   if (d.phone && d.phone.replace(/\D/g, '').length !== 10) return 'BAD_PHONE';
-  if (d.email && !EMAIL_RE.test(String(d.email).trim())) return 'BAD_EMAIL';
+
+  d.email = String(d.email || '').trim().toLowerCase();
+  if (d.email && !EMAIL_RE.test(d.email)) return 'BAD_EMAIL';
   if (d.how && String(d.how).indexOf('@') !== -1 && !EMAIL_RE.test(String(d.how).trim())) {
     return 'BAD_EMAIL';
   }
-  d.email = String(d.email || '').trim().toLowerCase();
 
+  // Web addresses are saved without https:// (just mybusiness.com)
   var urlFields = ['website', 'facebook', 'ndBiz', 'ndPersonal'];
   for (var i = 0; i < urlFields.length; i++) {
     var key = urlFields[i];
     var v = String(d[key] || '').trim();
     if (v && !URL_RE.test(v)) return 'BAD_URL';
-    d[key] = v && !/^https?:\/\//i.test(v) ? 'https://' + v : v;
+    d[key] = v.replace(/^https?:\/\//i, '').replace(/\/+$/, '');
   }
   return '';
 }
@@ -122,7 +167,7 @@ function formatPhone_(value) {
 }
 
 // ---------------------------------------------------------------
-// Edit code
+// Owner key
 // ---------------------------------------------------------------
 function nameKey_(name) {
   return String(name || '').toLowerCase().replace(/[^a-z0-9]/g, '');
@@ -130,37 +175,37 @@ function nameKey_(name) {
 
 function getSecret_() {
   var props = PropertiesService.getScriptProperties();
-  var secret = props.getProperty('CODE_SECRET');
+  var secret = props.getProperty('OWNER_SECRET');
   if (!secret) {
     secret = Utilities.getUuid() + Utilities.getUuid();
-    props.setProperty('CODE_SECRET', secret);
+    props.setProperty('OWNER_SECRET', secret);
   }
   return secret;
 }
 
-function hashCode_(businessName, code) {
+function ownerKey_(email) {
   var bytes = Utilities.computeHmacSha256Signature(
-      nameKey_(businessName) + '|' + String(code).trim(), getSecret_());
+      'owner|' + String(email).toLowerCase(), getSecret_());
   return bytes.map(function (b) {
     return ('0' + (b & 255).toString(16)).slice(-2);
   }).join('');
 }
 
-// Adds the "Edit Code (private)" column if it is not there yet
-function ensureEditColumn_(sheet) {
+// Adds the "Owner Key (private)" column if it is not there yet
+function ensureOwnerColumn_(sheet) {
   var lastCol = sheet.getLastColumn();
   var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   for (var i = 0; i < headers.length; i++) {
-    if (String(headers[i]).trim() === EDIT_HEADER) {
+    if (String(headers[i]).trim() === OWNER_HEADER) {
       return i + 1;
     }
   }
-  sheet.getRange(1, lastCol + 1).setValue(EDIT_HEADER);
+  sheet.getRange(1, lastCol + 1).setValue(OWNER_HEADER);
   return lastCol + 1;
 }
 
-// True when this business name is new, or the code matches
-function codeAllowed_(sheet, editCol, businessName, hash) {
+// True when this business name is new, or this account owns it
+function ownerAllowed_(sheet, ownerCol, businessName, ownerKey) {
   var lastRow = sheet.getLastRow();
   if (lastRow < 2) return true;
 
@@ -175,23 +220,23 @@ function codeAllowed_(sheet, editCol, businessName, hash) {
   if (nameCol < 0) return true;
 
   var names = sheet.getRange(2, nameCol, lastRow - 1, 1).getValues();
-  var codes = sheet.getRange(2, editCol, lastRow - 1, 1).getValues();
-  var key = nameKey_(businessName);
+  var keys = sheet.getRange(2, ownerCol, lastRow - 1, 1).getValues();
+  var wanted = nameKey_(businessName);
   var found = false;
-  var anyCode = false;
+  var anyOwner = false;
 
   for (var r = 0; r < names.length; r++) {
-    if (nameKey_(names[r][0]) !== key) continue;
+    if (nameKey_(names[r][0]) !== wanted) continue;
     found = true;
-    var stored = String(codes[r][0] || '');
+    var stored = String(keys[r][0] || '');
     if (stored) {
-      anyCode = true;
-      if (stored === hash) return true;
+      anyOwner = true;
+      if (stored === ownerKey) return true;
     }
   }
 
   if (!found) return true;
-  if (!anyCode) return ALLOW_CLAIM_OLD_ROWS;
+  if (!anyOwner) return ALLOW_CLAIM_OLD_ROWS;
   return false;
 }
 
@@ -226,11 +271,11 @@ function getLogoFolder_() {
 // ---------------------------------------------------------------
 // Sheet: add one row that matches the column headings already there
 // ---------------------------------------------------------------
-function addRow_(sheet, data, logoUrl, hash) {
+function addRow_(sheet, data, logoUrl, ownerKey) {
   var lastCol = sheet.getLastColumn();
   var headers = sheet.getRange(1, 1, 1, lastCol).getValues()[0];
   var row = headers.map(function (header) {
-    if (String(header).trim() === EDIT_HEADER) return hash;
+    if (String(header).trim() === OWNER_HEADER) return ownerKey;
     return valueFor_(header, data, logoUrl);
   });
   sheet.appendRow(row);
