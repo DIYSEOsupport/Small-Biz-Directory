@@ -6,10 +6,9 @@
 <title>Small Business Owners of Charlotte County - Directory Intake Form</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Walter+Turncoat&family=Bangers&display=swap" rel="stylesheet">
 <style>
-@font-face{font-family:'Whizbang Roman';src:url('Whizbang-Roman.ttf') format('truetype'),url('whizbang-roman.ttf') format('truetype'),url('WhizbangRoman.ttf') format('truetype'),url('Whizbang%20Roman.ttf') format('truetype'),url('Whizbang.ttf') format('truetype'),url('whizbang.ttf') format('truetype');font-display:swap}
-:root{--fh:'Bangers',cursive;--fb:'Whizbang Roman',Arial,sans-serif}
+:root{--fh:'Bangers',cursive;--fb:'Walter Turncoat',Arial,sans-serif}
 
 :root{--ink:#1a1033;--purple:#5b2a86;--magenta:#c2307a;--orange:#ff7a1a;--yellow:#ffd23f;--teal:#1fb5c9;--cream:#fff6dc;--err:#d6285a}
 *{box-sizing:border-box}
@@ -75,6 +74,10 @@ input[type=file]{font:700 14px var(--fb);max-width:100%}
 .fail{display:none;margin-top:12px;padding:10px 12px;background:#fff;border:3px solid var(--err);border-radius:12px;color:var(--err);font-weight:800;font-size:14px}
 a.lnk{color:#124080;font-weight:800}
 h1,h2,.l,.dot,.tile,.opt,button.b,.sticker,.boom{font-weight:500}
+body{text-transform:uppercase}
+input,textarea,select,option,#printArea{text-transform:none}
+#intro{text-align:center}
+.upd{font-size:24px;margin:16px 0 4px}
 </style>
 </head>
 <body>
@@ -84,8 +87,10 @@ h1,h2,.l,.dot,.tile,.opt,button.b,.sticker,.boom{font-weight:500}
   <div class="card" id="intro">
     <h1>Small Business Owners of Charlotte County - Directory Intake Form</h1>
     <div class="boom">💥 BOOMING BUSINESSES! 💥</div>
-    <p>Welcome, local trailblazers! Help us build the ultimate community directory for Small Businesses in Charlotte County. Drop your details below so we can put your business front and center when we launch!</p>
-    <p class="note">Need to change something later? Sign in with the same Google account and fill this form out again with the same business name. The newest entry replaces the old one. <span style="color:var(--magenta)">*</span> means required.</p>
+    <p>Complete this form to get listed in the Charlotte County Small Business Directory. The directory goes completely live as soon as we hit our first 25 members—submit your details now to help us launch and put your business front and center!</p>
+    <h2 class="upd">Need to update your info later?</h2>
+    <p>Sign in with the same Google account and submit this form again using the exact same business name. Your newest entry will replace the old one.</p>
+    <p class="note"><span style="color:var(--magenta)">*</span> Indicates a required field.</p>
   </div>
 
   <div class="steps" id="steps"></div>
@@ -164,7 +169,7 @@ h1,h2,.l,.dot,.tile,.opt,button.b,.sticker,.boom{font-weight:500}
   <div class="card done-card" id="done">
     <h1>You're in!</h1>
     <p>Thank you! Your business will appear in the directory.</p>
-    <p class="note" id="doneExtra">Need to fix something? Sign in with the same Google account and fill this form out again with the same business name. The newest entry replaces the old one.</p>
+    <p class="note" id="doneExtra">Need to update your info later? Sign in with the same Google account and submit this form again using the exact same business name. Your newest entry will replace the old one.</p>
     <div class="nav" style="justify-content:center;flex-wrap:wrap"><a class="lnk" href="index.html"><button type="button" class="b alt">See the directory</button></a><button type="button" class="b" id="again">Add another business</button></div>
   </div>
 </div>
