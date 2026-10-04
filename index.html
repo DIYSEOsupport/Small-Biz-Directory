@@ -7,7 +7,7 @@
 <title>Charlotte County Business Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Oswald:wght@400;500;600&family=Open+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
 :root{
@@ -296,11 +296,11 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
   body>*:not(#printArea){display:none!important}
   body::before{display:none!important}
   html,body{background:#fff!important}
-  #printArea{display:block!important;color:#000;font-family:'Plus Jakarta Sans',Arial,sans-serif;font-size:12px;line-height:1.35}
-  #printArea h1{font-family:'Bangers',cursive;font-size:28px;margin:0}
+  #printArea{display:block!important;color:#222;font-family:'Open Sans',Arial,sans-serif;font-size:11px;line-height:1.4}
+  #printArea h1{font-family:'Oswald',Arial,sans-serif;font-weight:600;font-size:26px;color:#5b2a86;margin:0 0 10px;padding-bottom:6px;border-bottom:3px solid #e8650a}
   #printArea .pn{margin:0 0 10px;color:#444}
   #printArea .pb{break-inside:avoid;border-top:1px solid #888;padding:8px 0}
-  #printArea h2{font-size:15px;margin:0 0 2px}
+  #printArea h2{font-family:'Oswald',Arial,sans-serif;font-weight:600;font-size:15px;margin:0 0 2px;color:#1a1033}
   #printArea .ps{margin:0 0 3px;font-style:italic}
   #printArea .pr{margin:0 0 2px;white-space:pre-line}
 }
@@ -388,6 +388,7 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .icon-btn .lbl{font-size:18px!important}
 .grid .bt .slogan{font-family:'Bangers',cursive!important;font-weight:400!important;font-style:normal!important;font-size:15px!important;letter-spacing:.6px}
 span.n{font-family:'Bangers',cursive!important;font-weight:400!important;letter-spacing:.8px}
+.addbiz{display:inline-flex;align-items:center;font-family:'Bangers',cursive;letter-spacing:.8px;font-size:16px;color:#fff;text-shadow:1px 1px 0 var(--ink);text-decoration:none;background:linear-gradient(135deg,#ffb43a,#f2500f);border:3px solid var(--ink);border-radius:50px;padding:5px 14px;box-shadow:2px 2px 0 var(--ink)}
 </style>
 </head>
 <body>
@@ -416,13 +417,13 @@ span.n{font-family:'Bangers',cursive!important;font-weight:400!important;letter-
 
 <main class="wrap">
   <div id="dbg" style="display:none;background:#fff;border:3px solid var(--ink);border-radius:12px;padding:12px;margin-top:12px;font-size:12px;word-break:break-word"></div>
-  <div class="status"><span id="count">Loading...</span><span class="stbtns"><button id="printBtn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb43a"/><stop offset="1" stop-color="#f2500f"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#gp)"/><rect x="8" y="3.5" width="8" height="6" fill="#fff"/><rect x="4.5" y="9.5" width="15" height="7" rx="1.5" fill="#fff"/><rect x="8" y="14.5" width="8" height="6" fill="#fff" stroke="#f2500f" stroke-width="1"/><circle cx="17" cy="12" r="0.9" fill="#f2500f"/></svg>Print</button><button id="dlBtn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb43a"/><stop offset="1" stop-color="#f2500f"/></linearGradient></defs><circle cx="12" cy="12" r="11" fill="url(#gd)"/><path d="M7.5 5.5h5.5l3.5 3.5v2.5M7.5 5.5v13h5" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M16.2 12.5v6M13.4 16l2.8 3 2.8-3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Download</button><button id="toggleAll" type="button">Expand all</button></span></div>
+  <div class="status"><span id="count">Loading...</span><span class="stbtns"><a class="addbiz" href="form.html">+ Add your business</a><button id="printBtn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gp" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb43a"/><stop offset="1" stop-color="#f2500f"/></linearGradient></defs><rect x="1" y="1" width="22" height="22" rx="6" fill="url(#gp)"/><rect x="8" y="3.5" width="8" height="6" fill="#fff"/><rect x="4.5" y="9.5" width="15" height="7" rx="1.5" fill="#fff"/><rect x="8" y="14.5" width="8" height="6" fill="#fff" stroke="#f2500f" stroke-width="1"/><circle cx="17" cy="12" r="0.9" fill="#f2500f"/></svg>Print</button><button id="dlBtn" type="button"><svg width="18" height="18" viewBox="0 0 24 24" aria-hidden="true"><defs><linearGradient id="gd" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#ffb43a"/><stop offset="1" stop-color="#f2500f"/></linearGradient></defs><circle cx="12" cy="12" r="11" fill="url(#gd)"/><path d="M7.5 5.5h5.5l3.5 3.5v2.5M7.5 5.5v13h5" fill="none" stroke="#fff" stroke-width="1.6" stroke-linejoin="round" stroke-linecap="round"/><path d="M16.2 12.5v6M13.4 16l2.8 3 2.8-3" fill="none" stroke="#fff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg>Download</button><button id="toggleAll" type="button">Expand all</button></span></div>
   <div class="grid" id="grid"><div class="skel"></div><div class="skel"></div><div class="skel"></div></div>
 </main>
 
 <div class="modal" id="chooser"><div class="mbox"><div class="mt" id="chT"></div><button class="btn main" id="chRes" type="button"></button><button class="btn" id="chAll" type="button"></button><button class="btn" id="chX" type="button">Cancel</button></div></div>
 <div class="modal" id="shareBox"><div class="mbox"><div class="mt" id="shT"></div><button class="btn main" id="shEmail" type="button">Email</button><button class="btn" id="shText" type="button">Text message</button><button class="btn" id="shCard" type="button">Save to phone contacts</button><button class="btn" id="shPdf" type="button">Download PDF</button><button class="btn" id="shX" type="button">Cancel</button></div></div>
-<div class="modal" id="fmtBox"><div class="mbox"><div class="mt">Download</div><button class="btn main" id="fmtCsv" type="button">Spreadsheet (CSV)</button><button class="btn main" id="fmtPdf" type="button">PDF</button><button class="btn" id="fmtX" type="button">Cancel</button></div></div>
+<div class="modal" id="fmtBox"><div class="mbox"><div class="mt">Download</div><button class="btn main" id="fmtCsv" type="button">Spreadsheet (Excel / Sheets)</button><button class="btn main" id="fmtPdf" type="button">PDF</button><button class="btn" id="fmtX" type="button">Cancel</button></div></div>
 <div id="printArea"></div>
 <div class="toast" id="toast"></div>
 <button class="totop" id="top" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
@@ -474,7 +475,7 @@ function fmtUrl(u){u=(u||'').toString().trim();return u.indexOf('http')===0?u:'h
 function telHref(p){var d=p.replace(/[^\d+]/g,'');return 'tel:'+(d.length===10?'+1'+d:d)}
 document.addEventListener('click',function(e){
   var a=e.target.closest&&e.target.closest('a[href^="tel:"]');
-  if(!a||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent))return;
+  if(!a||/Android|iPhone|iPad|iPod/i.test(navigator.userAgent)||(/Macintosh/.test(navigator.userAgent)&&navigator.maxTouchPoints>1))return;
   e.preventDefault();
   var num=a.textContent.trim();
   if(navigator.clipboard)navigator.clipboard.writeText(num).then(function(){toast('Number copied: '+num)},function(){toast(num)});else toast(num);
@@ -485,7 +486,7 @@ function toast(m){var t=$('toast');t.textContent=m;t.classList.add('show');clear
 
 /* ---------- data ---------- */
 function isEmail(s){return !!s&&/^[A-Za-z0-9._%+\-]+@[A-Za-z0-9\-]+(\.[A-Za-z0-9\-]+)*\.[A-Za-z]{2,}$/.test(s.toString().trim())}
-function isUrl(s){if(!s)return false;s=s.toLowerCase().trim();return(s.indexOf('http')===0||s.indexOf('www.')===0||s.indexOf('.com')!==-1||s.indexOf('.org')!==-1||s.indexOf('.net')!==-1)&&!isEmail(s)}
+function isUrl(s){if(!s)return false;s=s.toLowerCase().trim();if(isEmail(s)||/\s/.test(s))return false;return s.indexOf('http')===0||s.indexOf('www.')===0||/^([a-z0-9\-]+\.)+[a-z]{2,}(\/\S*)?$/.test(s)}
 function isPhone(s){if(!s)return false;return s.replace(/\D/g,'').length>=7&&!isEmail(s)}
 
 /* private-looking columns are never shown, searched, or filtered */
@@ -965,26 +966,111 @@ function doPrint(list){
   var pa=$('printArea');pa.innerHTML=h;
   setTimeout(function(){window.print()},100);
 }
-function csvCell(x){x=(x==null?'':String(x));return '"'+x.replace(/"/g,'""')+'"'}
 function saveBlob(blob,name){
   var a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download=name;
   document.body.appendChild(a);a.click();
   setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);
 }
-function doCsv(list){
-  var xh=[];
-  list.forEach(function(b){Object.keys(b.extra).forEach(function(h){if(xh.indexOf(h)===-1)xh.push(h)})});
-  var head=['Business Name','Logo','Contact','Category','Slogan','About','Website','Phone','Email','Facebook','Nextdoor','Address','City State Zip','Area Served'].concat(xh.map(lbl));
-  var lines=[head.map(csvCell).join(',')];
-  list.forEach(function(b){
-    var row=[b.name,b.logo,b.contact,b.category==='Local Business'?'':b.category,b.slogan,b.description,b.websites.map(fmtUrl).join('; '),b.phones.join('; '),b.emails.join('; '),b.facebook?fmtUrl(b.facebook):'',b.nextdoor?fmtUrl(b.nextdoor):'',(b.addressLine||'').replace(/\n/g,', '),b.cityStateZip,(b.area&&!/online only/i.test(b.mode||''))?b.area:''];
-    xh.forEach(function(h){row.push(b.extra[h]||'')});
-    lines.push(row.map(csvCell).join(','));
+/* ---------- spreadsheet (.xlsx) with Oswald + Open Sans ---------- */
+var CRC_T=null;
+function crc32(u8){
+  if(!CRC_T){CRC_T=[];for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);CRC_T[n]=c>>>0}}
+  var crc=0xFFFFFFFF;for(var i=0;i<u8.length;i++)crc=CRC_T[(crc^u8[i])&255]^(crc>>>8);
+  return (crc^0xFFFFFFFF)>>>0;
+}
+function zipStore(files){
+  var enc=new TextEncoder(),parts=[],central=[],offset=0;
+  files.forEach(function(f){
+    var nm=enc.encode(f.name),data=enc.encode(f.text),crc=crc32(data);
+    var lh=new DataView(new ArrayBuffer(30));
+    lh.setUint32(0,0x04034b50,true);lh.setUint16(4,20,true);lh.setUint16(6,0x0800,true);lh.setUint16(8,0,true);
+    lh.setUint16(10,0,true);lh.setUint16(12,0x0021,true);lh.setUint32(14,crc,true);lh.setUint32(18,data.length,true);
+    lh.setUint32(22,data.length,true);lh.setUint16(26,nm.length,true);lh.setUint16(28,0,true);
+    parts.push(new Uint8Array(lh.buffer),nm,data);
+    var ch=new DataView(new ArrayBuffer(46));
+    ch.setUint32(0,0x02014b50,true);ch.setUint16(4,20,true);ch.setUint16(6,20,true);ch.setUint16(8,0x0800,true);
+    ch.setUint16(10,0,true);ch.setUint16(12,0,true);ch.setUint16(14,0x0021,true);ch.setUint32(16,crc,true);
+    ch.setUint32(20,data.length,true);ch.setUint32(24,data.length,true);ch.setUint16(28,nm.length,true);
+    ch.setUint32(42,offset,true);
+    central.push(new Uint8Array(ch.buffer),nm);
+    offset+=30+nm.length+data.length;
   });
-  saveBlob(new Blob(['\ufeff'+lines.join('\r\n')],{type:'text/csv;charset=utf-8'}),'charlotte-county-business-directory.csv');
+  var csize=central.reduce(function(s,p){return s+p.length},0);
+  var end=new DataView(new ArrayBuffer(22));
+  end.setUint32(0,0x06054b50,true);end.setUint16(8,files.length,true);end.setUint16(10,files.length,true);
+  end.setUint32(12,csize,true);end.setUint32(16,offset,true);
+  return new Blob(parts.concat(central,[new Uint8Array(end.buffer)]),{type:'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'});
+}
+function xmlEsc(t){return String(t==null?'':t).replace(/[\u0000-\u0008\u000b\u000c\u000e-\u001f]/g,'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
+function colName(i){var s='';i++;while(i>0){var m=(i-1)%26;s=String.fromCharCode(65+m)+s;i=Math.floor((i-1)/26)}return s}
+function doXlsx(list){
+  var head=['Business Name','Category','Slogan','Contact','Phone','Website','Email','Facebook','NextDoor','Address','Area Served','About','Details','Logo'];
+  var widths=[30,26,28,22,16,28,30,30,30,34,22,60,44,34];
+  function details(b){return Object.keys(b.extra).map(function(h){return lbl(h).replace(/:\s*$/,'')+': '+b.extra[h]}).join('\n')}
+  var rows=list.map(function(b){
+    var cat=(b.category&&b.category!=='Local Business')?b.category:'';
+    return [
+      {t:b.name,st:'name'},{t:cat},{t:b.slogan},{t:b.contact},
+      {t:b.phones.join('\n')},
+      b.websites.length===1?{t:linkText(b.websites[0]),u:fmtUrl(b.websites[0])}:{t:b.websites.map(linkText).join('\n')},
+      b.emails.length===1?{t:b.emails[0],u:'mailto:'+b.emails[0]}:{t:b.emails.join('\n')},
+      b.facebook?{t:linkText(b.facebook),u:fmtUrl(b.facebook)}:{t:''},
+      b.nextdoor?{t:linkText(b.nextdoor),u:fmtUrl(b.nextdoor)}:{t:''},
+      {t:[b.addressLine,b.cityStateZip].filter(Boolean).join(', ').replace(/\n/g,', ')},
+      {t:(b.area&&!/online only/i.test(b.mode||''))?b.area:''},
+      {t:b.description},{t:details(b)},
+      b.logo?{t:'Logo',u:b.logo}:{t:''}
+    ];
+  });
+  /* styles: 0 default, 1 header, 2 body, 3 body alt, 4 name, 5 name alt, 6 link, 7 link alt */
+  var styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+   +'<fonts count="5">'
+   +'<font><sz val="10"/><name val="Open Sans"/></font>'
+   +'<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Oswald"/></font>'
+   +'<font><sz val="10"/><color rgb="FF2B2B36"/><name val="Open Sans"/></font>'
+   +'<font><b/><sz val="11"/><color rgb="FF1A1033"/><name val="Oswald"/></font>'
+   +'<font><u/><sz val="10"/><color rgb="FF124080"/><name val="Open Sans"/></font>'
+   +'</fonts>'
+   +'<fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>'
+   +'<fill><patternFill patternType="solid"><fgColor rgb="FF5B2A86"/></patternFill></fill>'
+   +'<fill><patternFill patternType="solid"><fgColor rgb="FFF6F3FB"/></patternFill></fill></fills>'
+   +'<borders count="2"><border><left/><right/><top/><bottom/><diagonal/></border>'
+   +'<border><left/><right/><top/><bottom style="thin"><color rgb="FFDCD9E3"/></bottom><diagonal/></border></borders>'
+   +'<cellStyleXfs count="1"><xf numFmtId="0" fontId="0" fillId="0" borderId="0"/></cellStyleXfs>'
+   +'<cellXfs count="8">'
+   +'<xf numFmtId="0" fontId="0" fillId="0" borderId="0" xfId="0"/>'
+   +'<xf numFmtId="0" fontId="1" fillId="2" borderId="0" xfId="0" applyFont="1" applyFill="1" applyAlignment="1"><alignment vertical="center" wrapText="1"/></xf>'
+   +'<xf numFmtId="49" fontId="2" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'
+   +'<xf numFmtId="49" fontId="2" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'
+   +'<xf numFmtId="49" fontId="3" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'
+   +'<xf numFmtId="49" fontId="3" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'
+   +'<xf numFmtId="0" fontId="4" fillId="0" borderId="1" xfId="0" applyFont="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'
+   +'<xf numFmtId="0" fontId="4" fillId="3" borderId="1" xfId="0" applyFont="1" applyFill="1" applyBorder="1" applyAlignment="1"><alignment vertical="top" wrapText="1"/></xf>'
+   +'</cellXfs></styleSheet>';
+  var sheet='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
+   +'<sheetViews><sheetView workbookViewId="0" showGridLines="0"><pane ySplit="1" topLeftCell="A2" activePane="bottomLeft" state="frozen"/></sheetView></sheetViews>'
+   +'<cols>'+widths.map(function(w,i){return '<col min="'+(i+1)+'" max="'+(i+1)+'" width="'+w+'" customWidth="1"/>'}).join('')+'</cols><sheetData>';
+  sheet+='<row r="1" ht="26" customHeight="1">'+head.map(function(h,i){return '<c r="'+colName(i)+'1" s="1" t="inlineStr"><is><t>'+xmlEsc(h)+'</t></is></c>'}).join('')+'</row>';
+  rows.forEach(function(r,ri){
+    var rn=ri+2,alt=ri%2===1;
+    sheet+='<row r="'+rn+'">'+r.map(function(cell,ci){
+      var ref=colName(ci)+rn,txt=xmlEsc(cell.t),st=cell.u?(alt?7:6):(cell.st==='name'?(alt?5:4):(alt?3:2));
+      if(cell.u&&cell.t)return '<c r="'+ref+'" s="'+st+'" t="str"><f>HYPERLINK("'+xmlEsc(cell.u).replace(/"/g,'""')+'","'+txt.replace(/"/g,'""')+'")</f><v>'+txt+'</v></c>';
+      return '<c r="'+ref+'" s="'+st+'" t="inlineStr"><is><t xml:space="preserve">'+txt+'</t></is></c>';
+    }).join('')+'</row>';
+  });
+  sheet+='</sheetData><autoFilter ref="A1:'+colName(head.length-1)+(rows.length+1)+'"/></worksheet>';
+  var files=[
+    {name:'[Content_Types].xml',text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Types xmlns="http://schemas.openxmlformats.org/package/2006/content-types"><Default Extension="rels" ContentType="application/vnd.openxmlformats-package.relationships+xml"/><Default Extension="xml" ContentType="application/xml"/><Override PartName="/xl/workbook.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet.main+xml"/><Override PartName="/xl/worksheets/sheet1.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.worksheet+xml"/><Override PartName="/xl/styles.xml" ContentType="application/vnd.openxmlformats-officedocument.spreadsheetml.styles+xml"/></Types>'},
+    {name:'_rels/.rels',text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="xl/workbook.xml"/></Relationships>'},
+    {name:'xl/workbook.xml',text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><workbook xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships"><sheets><sheet name="Directory" sheetId="1" r:id="rId1"/></sheets><definedNames><definedName name="_xlnm._FilterDatabase" localSheetId="0" hidden="1">Directory!$A$1:$'+colName(head.length-1)+'$'+(rows.length+1)+'</definedName></definedNames></workbook>'},
+    {name:'xl/_rels/workbook.xml.rels',text:'<?xml version="1.0" encoding="UTF-8" standalone="yes"?><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/worksheet" Target="worksheets/sheet1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/></Relationships>'},
+    {name:'xl/styles.xml',text:styles},
+    {name:'xl/worksheets/sheet1.xml',text:sheet}
+  ];
+  saveBlob(zipStore(files),'charlotte-county-business-directory.xlsx');
   toast('Downloaded');
 }
-/* small PDF writer (text only) */
 function pdfClean(t){
   return String(t==null?'':t).replace(/[\ud800-\udbff][\udc00-\udfff]/g,'').replace(/[\u2018\u2019]/g,"'").replace(/[\u201c\u201d]/g,'"').replace(/[\u2013\u2014]/g,'-').replace(/\u2026/g,'...').replace(/[\u00a0\t]/g,' ').replace(/[^\x20-\x7e\xa1-\xff]/g,'');
 }
@@ -1000,15 +1086,9 @@ function pdfWrap(t,max){
   });
   return out;
 }
-/* ---------- brand PDF (drawn like the app, then packed into a PDF) ---------- */
-var PDFC={ink:'#1a1033',cream:'#fff6dc',alt:'#ffe3a8',purple:'#5b2a86',magenta:'#c2307a',orange:'#ff7a1a',yellow:'#ffd23f',teal:'#1fb5c9',blue:'#124080',body:'#3b2d52'};
-var PF_B='Bangers, "Comic Sans MS", cursive',PF_P='"Plus Jakarta Sans", Arial, sans-serif';
-function icoSrc(h){
-  var m=/src="([^"]+)"/.exec(h||'');if(m)return m[1];
-  var sv=(h||'');if(!/xmlns=/.test(sv))sv=sv.replace('<svg','<svg xmlns="http://www.w3.org/2000/svg"');
-  return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(sv);
-}
-function loadImg(src){return new Promise(function(res){var i=new Image();i.onload=function(){res(i)};i.onerror=function(){res(null)};i.src=src})}
+/* ---------- business PDF: Oswald + Open Sans, minimal color ---------- */
+var BC={ink:'#1a1033',text:'#2b2b36',gray:'#6b6b7a',rule:'#dcd9e3',purple:'#5b2a86',orange:'#e8650a',link:'#124080',band:'#f6f3fb'};
+var BF_H='Oswald, "Arial Narrow", Arial, sans-serif',BF_B='"Open Sans", Arial, sans-serif';
 function cvWrap(ctx,text,maxW){
   var out=[];
   String(text==null?'':text).split(/\r?\n/).forEach(function(par){
@@ -1023,163 +1103,143 @@ function cvWrap(ctx,text,maxW){
   });
   return out;
 }
-function cvRR(ctx,x,y,w,h,r){ctx.beginPath();ctx.moveTo(x+r,y);ctx.arcTo(x+w,y,x+w,y+h,r);ctx.arcTo(x+w,y+h,x,y+h,r);ctx.arcTo(x,y+h,x,y,r);ctx.arcTo(x,y,x+w,y,r);ctx.closePath()}
 function cvSet(ctx,font,ls){ctx.font=font;try{ctx.letterSpacing=ls||'0px'}catch(e){}}
 async function buildPdfCanvas(list){
-  try{await document.fonts.load('24px Bangers');await document.fonts.load('700 12px "Plus Jakarta Sans"');await document.fonts.load('800 12px "Plus Jakarta Sans"');await document.fonts.ready}catch(e){}
-  var IMG={};
-  var srcs={globe:icoSrc(IC.globe),phone:icoSrc(IC.phone),mail:icoSrc(IC.mail),pin:icoSrc(IC.pin),fb:icoSrc(SVG_FB),nd:icoSrc(SVG_ND)};
-  var keys=Object.keys(srcs),loaded=await Promise.all(keys.map(function(k){return loadImg(srcs[k])}));
-  keys.forEach(function(k,i){IMG[k]=loaded[i]});
-  var hero=document.querySelector('.hero-img');
-  var S=2,PW=612,PH=792,M=26,CW=PW-2*M,LIM=PH-M-8;
+  try{
+    await document.fonts.load('600 18px Oswald');await document.fonts.load('400 12px Oswald');
+    await document.fonts.load('400 10px "Open Sans"');await document.fonts.load('700 10px "Open Sans"');await document.fonts.load('italic 400 10px "Open Sans"');
+    await document.fonts.ready;
+  }catch(e){}
+  var S=2,PW=612,PH=792,M=44,CW=PW-2*M,COLW=236,COL2=M+CW-COLW,FOOT=752,LIM=FOOT-14;
   var mc=document.createElement('canvas').getContext('2d');
-  function link(o){return o}
-  /* ----- build items for one business ----- */
+  var today=new Date().toLocaleDateString('en-US',{year:'numeric',month:'long',day:'numeric'});
+
+  /* ----- one business -> list of drawable items ----- */
   function items(b){
-    var L=[],X=M+14,IW=CW-28;
+    var L=[];
     var cat=(b.category&&b.category!=='Local Business')?b.category:'';
-    /* header */
-    (function(){
-      cvSet(mc,'13px '+PF_B,'0.6px');
-      var pw=cat?mc.measureText(cat).width+22:0;
-      var maxW=IW-pw-(pw?12:0);
-      cvSet(mc,'25px '+PF_B,'1px');
-      var nl=cvWrap(mc,b.name,maxW);
-      cvSet(mc,'italic 700 12px '+PF_P,'0px');
-      var sl=b.slogan?cvWrap(mc,'\u201C'+b.slogan+'\u201D',maxW):[];
-      var h=14+nl.length*28+(sl.length?sl.length*15+2:0)+12;
-      if(h<56)h=56;
-      L.push({h:h,keep:true,head:true,draw:function(c,y){
-        c.fillStyle=PDFC.yellow;c.fillRect(M,y,CW,h);
-        cvSet(c,'25px '+PF_B,'1px');c.fillStyle=PDFC.ink;c.textBaseline='alphabetic';
-        nl.forEach(function(t,i){c.fillText(t,X,y+14+22+i*28)});
-        if(sl.length){cvSet(c,'italic 700 12px '+PF_P,'0px');c.fillStyle=PDFC.magenta;sl.forEach(function(t,i){c.fillText(t,X,y+14+nl.length*28+12+i*15)})}
-        if(cat){
-          cvSet(c,'13px '+PF_B,'0.6px');
-          var w=c.measureText(cat).width+22,px=M+CW-14-w,py=y+h/2-11;
-          c.fillStyle=PDFC.cream;cvRR(c,px,py,w,22,11);c.fill();c.lineWidth=2;c.strokeStyle=PDFC.ink;c.stroke();
-          c.fillStyle=PDFC.ink;c.fillText(cat,px+11,py+16);
-        }
+    /* name + category */
+    cvSet(mc,'600 8.5px '+BF_B,'1px');
+    var cw=cat?mc.measureText(cat.toUpperCase()).width:0;
+    cvSet(mc,'600 17px '+BF_H,'0.3px');
+    var nl=cvWrap(mc,b.name,CW-cw-14);
+    L.push({h:6,rule:true,draw:function(){}});
+    nl.forEach(function(t,i){
+      L.push({h:23,keep:i===0,draw:function(c,y){
+        cvSet(c,'600 17px '+BF_H,'0.3px');c.fillStyle=BC.ink;c.fillText(t,M,y+17);
+        if(i===0&&cat){cvSet(c,'600 8.5px '+BF_B,'1px');c.fillStyle=BC.orange;c.fillText(cat.toUpperCase(),M+CW-cw,y+16)}
       }});
-    })();
-    /* icon link rows */
-    function linkRow(icon,textLines,url,gap){
-      var h=Math.max(40,textLines.length*16+14);
-      L.push({h:h,draw:function(c,y,reg){
-        var ic=IMG[icon];
-        c.save();cvRR(c,X,y+6,28,28,7);c.fillStyle=PDFC.ink;c.fill();
-        cvRR(c,X-1.5,y+4.5,28,28,7);c.clip();
-        if(ic)c.drawImage(ic,X-1.5,y+4.5,28,28);else{c.fillStyle=PDFC.orange;c.fillRect(X-1.5,y+4.5,28,28)}
-        c.restore();
-        cvSet(c,'700 12.5px '+PF_P,'0px');
-        textLines.forEach(function(t,i){
-          var ty=y+(h-textLines.length*16)/2+i*16,w=c.measureText(t).width;
-          c.fillStyle=url?PDFC.blue:PDFC.ink;c.fillText(t,X+40,ty+12);
-          if(url){c.fillRect(X+40,ty+14,w,1);reg({x:X+40,y:ty,w:w,h:15,u:url})}
+    });
+    if(b.slogan){
+      cvSet(mc,'italic 400 10px '+BF_B,'0px');
+      cvWrap(mc,'\u201C'+b.slogan+'\u201D',CW).forEach(function(t){L.push({h:14,draw:function(c,y){cvSet(c,'italic 400 10px '+BF_B,'0px');c.fillStyle=BC.gray;c.fillText(t,M,y+11)}})});
+    }
+    L.push({h:6,draw:function(){}});
+
+    /* two-column facts */
+    cvSet(mc,'400 9.5px '+BF_B,'0px');
+    function field(label,entries){
+      var lines=[];
+      entries.forEach(function(en){cvWrap(mc,en.t,COLW).forEach(function(t){lines.push({t:t,u:en.u})})});
+      return {label:label,lines:lines,h:12+lines.length*13+7};
+    }
+    var left=[],right=[];
+    if(b.phones.length)left.push(field('PHONE',b.phones.map(function(x){return {t:x,u:'tel:+1'+x.replace(/\D/g,'').slice(-10)}})));
+    if(b.websites.length)left.push(field('WEBSITE',b.websites.map(function(x){return {t:linkText(x),u:fmtUrl(x)}})));
+    if(b.emails.length)left.push(field('EMAIL',b.emails.map(function(x){return {t:x,u:'mailto:'+x}})));
+    if(b.facebook)left.push(field('FACEBOOK',[{t:linkText(b.facebook),u:fmtUrl(b.facebook)}]));
+    if(b.nextdoor)left.push(field('NEXTDOOR',[{t:linkText(b.nextdoor),u:fmtUrl(b.nextdoor)}]));
+    if(b.contact)right.push(field('CONTACT',[{t:b.contact}]));
+    var addr=[b.addressLine,b.cityStateZip].filter(Boolean).join('\n');
+    if(addr)right.push(field('ADDRESS',[{t:addr,u:mapUrl(b)}]));
+    if(b.area&&!/online only/i.test(b.mode||''))right.push(field('AREA SERVED',[{t:b.area}]));
+    function colH(c){return c.reduce(function(s,f){return s+f.h},0)}
+    var gh=Math.max(colH(left),colH(right));
+    if(gh){
+      L.push({h:gh,draw:function(c,y,reg){
+        [[left,M],[right,COL2]].forEach(function(cp){
+          var yy=y;
+          cp[0].forEach(function(f){
+            cvSet(c,'600 7.5px '+BF_B,'0.9px');c.fillStyle=BC.gray;c.fillText(f.label,cp[1],yy+8);
+            f.lines.forEach(function(ln,i){
+              cvSet(c,'400 9.5px '+BF_B,'0px');
+              var ty=yy+12+i*13,w=c.measureText(ln.t).width;
+              c.fillStyle=ln.u?BC.link:BC.text;c.fillText(ln.t,cp[1],ty+9);
+              if(ln.u){c.fillRect(cp[1],ty+10.5,w,0.6);reg({x:cp[1],y:ty,w:w,h:12,u:ln.u})}
+            });
+            yy+=f.h;
+          });
         });
       }});
     }
-    cvSet(mc,'700 12.5px '+PF_P,'0px');
-    var tw=IW-44;
-    b.websites.forEach(function(x){linkRow('globe',cvWrap(mc,linkText(x),tw),fmtUrl(x))});
-    b.phones.forEach(function(x){linkRow('phone',[x],'tel:'+x.replace(/[^\d+]/g,''))});
-    b.emails.forEach(function(x){linkRow('mail',cvWrap(mc,x,tw),'mailto:'+x)});
-    if(b.facebook)linkRow('fb',cvWrap(mc,linkText(b.facebook),tw),fmtUrl(b.facebook));
-    if(b.nextdoor)linkRow('nd',cvWrap(mc,linkText(b.nextdoor),tw),fmtUrl(b.nextdoor));
-    /* headings + text */
-    function head(t){
-      L.push({h:30,keep:true,draw:function(c,y){
-        cvSet(c,'18px '+PF_B,'1px');var w=c.measureText(t).width;
-        c.fillStyle=PDFC.yellow;c.fillRect(X,y+22,w,3);
-        c.fillStyle=PDFC.purple;c.fillText(t,X,y+20);
-      }});
+
+    /* about + details */
+    function label(t){L.push({h:14,keep:true,draw:function(c,y){cvSet(c,'600 7.5px '+BF_B,'0.9px');c.fillStyle=BC.gray;c.fillText(t,M,y+10)}})}
+    function para(text,font,col,lh){
+      cvSet(mc,font,'0px');
+      cvWrap(mc,text,CW).forEach(function(t){L.push({h:lh,draw:function(c,y){cvSet(c,font,'0px');c.fillStyle=col;c.fillText(t,M,y+lh-4)}})});
     }
-    function para(text,font,col,lh,ls){
-      cvSet(mc,font,ls||'0px');
-      cvWrap(mc,text,IW).forEach(function(t){L.push({h:lh,draw:function(c,y){cvSet(c,font,ls||'0px');c.fillStyle=col;c.fillText(t,X,y+lh-5)}})});
-    }
-    if(b.contact){head(lbl('Contact'));para(b.contact,'700 12.5px '+PF_P,PDFC.ink,17)}
-    var addr=[b.addressLine,b.cityStateZip].filter(Boolean).join('\n');
-    if(addr){head(lbl('Location'));cvSet(mc,'700 12.5px '+PF_P,'0px');linkRow('pin',cvWrap(mc,addr,tw),mapUrl(b))}
-    if(b.area&&!/online only/i.test(b.mode||'')){head(lbl('Area Served'));para(b.area,'18px '+PF_B,PDFC.ink,22,'0.5px')}
     if(b.aboutTop[0]||b.about.length){
-      head(lbl('About'));
-      if(b.aboutTop[0])para(b.aboutTop[0],'800 12.5px '+PF_P,PDFC.ink,17);
+      label('ABOUT');
+      if(b.aboutTop[0])para(b.aboutTop[0],'700 9.5px '+BF_B,BC.ink,13.5);
       var rest=b.aboutTop.slice(1).concat(b.about).join('\n\n');
-      if(rest)para(rest,'600 12px '+PF_P,PDFC.body,16.5);
+      if(rest)para(rest,'400 9.5px '+BF_B,BC.text,13.5);
+      L.push({h:5,draw:function(){}});
     }
-    var ex=Object.keys(b.extra);
-    if(ex.length){
-      head(lbl('Details'));
-      ex.forEach(function(h2){
-        var v=b.extra[h2].toString().trim(),u='';
-        if(!/\s/.test(v)){if(isEmail(v))u='mailto:'+v;else if(isUrl(v))u=fmtUrl(v)}
-        var label=lbl(h2).replace(/:\s*$/,'');
-        L.push({h:20,keep:true,draw:function(c,y){cvSet(c,'15px '+PF_B,'0.8px');c.fillStyle=PDFC.purple;c.fillText(label,X,y+15)}});
-        cvSet(mc,'600 12px '+PF_P,'0px');
-        cvWrap(mc,v,IW).forEach(function(t){L.push({h:16.5,draw:function(c,y,reg){
-          cvSet(c,'600 12px '+PF_P,'0px');c.fillStyle=u?PDFC.blue:PDFC.body;c.fillText(t,X,y+12);
-          if(u){var w=c.measureText(t).width;c.fillRect(X,y+14,w,1);reg({x:X,y:y,w:w,h:15,u:u})}
-        }})});
-      });
-    }
-    L.push({h:12,draw:function(){}});
+    Object.keys(b.extra).forEach(function(h2){
+      var v=b.extra[h2].toString().trim(),u='';
+      if(!/\s/.test(v)){if(isEmail(v))u='mailto:'+v;else if(isUrl(v))u=fmtUrl(v)}
+      label(lbl(h2).replace(/:\s*$/,'').toUpperCase());
+      cvSet(mc,'400 9.5px '+BF_B,'0px');
+      cvWrap(mc,v,CW).forEach(function(t){L.push({h:13.5,draw:function(c,y,reg){
+        cvSet(c,'400 9.5px '+BF_B,'0px');c.fillStyle=u?BC.link:BC.text;c.fillText(t,M,y+9.5);
+        if(u){var w=c.measureText(t).width;c.fillRect(M,y+11,w,0.6);reg({x:M,y:y,w:w,h:12,u:u})}
+      }})});
+    });
+    L.push({h:10,draw:function(){}});
     return L;
   }
+
   /* ----- plan the pages ----- */
-  var topBanner=M+4,bannerH=Math.round(CW/3.4),useHero=hero&&hero.complete&&hero.naturalWidth;
-  var y0=useHero?topBanner+bannerH+36:M+46;
-  var plan=[{segs:[]}],py=y0;
-  list.forEach(function(b,bi){
-    var its=items(b),seg=null;
-    function open(first){seg={y:py,h:0,items:[],first:first,bi:bi};plan[plan.length-1].segs.push(seg)}
-    open(true);
+  var headH=126,runH=62;
+  var plan=[{y:headH,items:[]}],py=headH;
+  list.forEach(function(b){
+    var its=items(b);
     its.forEach(function(it,k){
       var need=it.h+(it.keep&&its[k+1]?its[k+1].h:0);
-      if(py+need>LIM&&seg.items.length){plan.push({segs:[]});py=M;open(false)}
-      seg.items.push({y:py,it:it});py+=it.h;seg.h+=it.h;
+      if(it.rule&&its[k+1]){need=it.h+its[k+1].h+its[k+2].h}
+      if(py+need>LIM&&plan[plan.length-1].items.length){plan.push({y:runH,items:[]});py=runH}
+      plan[plan.length-1].items.push({y:py,it:it});py+=it.h;
     });
   });
+
   /* ----- draw ----- */
   var out=[];
   for(var pi=0;pi<plan.length;pi++){
     var cv=document.createElement('canvas');cv.width=PW*S;cv.height=PH*S;
     var c=cv.getContext('2d');c.scale(S,S);c.textBaseline='alphabetic';
-    var g=c.createLinearGradient(0,0,0,PH);
-    g.addColorStop(0,'#5b2a86');g.addColorStop(.25,'#c2307a');g.addColorStop(.5,'#ff7a1a');g.addColorStop(.75,'#ffd23f');g.addColorStop(1,'#1fb5c9');
-    c.fillStyle=g;c.fillRect(0,0,PW,PH);
+    c.fillStyle='#fff';c.fillRect(0,0,PW,PH);
     var links=[],reg=function(o){links.push(o)};
     if(pi===0){
-      if(useHero){
-        var nw=hero.naturalWidth,nh=hero.naturalHeight,ch=nw/3.4,sy=Math.max(0,(nh-ch)*0.14);
-        c.fillStyle=PDFC.ink;cvRR(c,M+6,topBanner+7,CW,bannerH,14);c.fill();
-        c.save();cvRR(c,M,topBanner,CW,bannerH,14);c.clip();c.drawImage(hero,0,sy,nw,Math.min(ch,nh),M,topBanner,CW,bannerH);c.restore();
-        cvRR(c,M+2.5,topBanner+2.5,CW-5,bannerH-5,12);c.lineWidth=5;c.strokeStyle=PDFC.cream;c.stroke();
-        cvRR(c,M,topBanner,CW,bannerH,14);c.lineWidth=3;c.strokeStyle=PDFC.ink;c.stroke();
-      }
-      c.save();
-      var sx=M+24,sy2=useHero?topBanner+bannerH-6:M+4;
-      c.translate(sx,sy2);c.rotate(-0.035);
-      cvSet(c,'24px '+PF_B,'1.5px');var tt='SMALL BUSINESS DIRECTORY',tw2=c.measureText(tt).width+30;
-      c.fillStyle=PDFC.ink;cvRR(c,4,4,tw2,34,8);c.fill();
-      c.fillStyle=PDFC.yellow;cvRR(c,0,0,tw2,34,8);c.fill();c.lineWidth=2.5;c.strokeStyle=PDFC.ink;c.stroke();
-      c.fillStyle=PDFC.ink;c.fillText(tt,15,25);
-      c.restore();
+      cvSet(c,'400 10px '+BF_H,'3px');c.fillStyle=BC.orange;c.fillText('CHARLOTTE COUNTY',M,56);
+      cvSet(c,'600 32px '+BF_H,'0.5px');c.fillStyle=BC.purple;c.fillText('Small Business Directory',M,90);
+      c.fillStyle=BC.orange;c.fillRect(M,100,44,3);
+      cvSet(c,'400 9px '+BF_B,'0px');c.fillStyle=BC.gray;
+      c.fillText(list.length+' business'+(list.length===1?'':'es')+'   |   '+today,M,120);
+    }else{
+      cvSet(c,'500 9px '+BF_H,'2px');c.fillStyle=BC.gray;c.fillText('SMALL BUSINESS DIRECTORY',M,40);
+      c.fillStyle=BC.rule;c.fillRect(M,48,CW,0.8);
     }
-    var P=plan[pi];
-    if(P.segs.length){
-      var top=P.segs[0].y,last=P.segs[P.segs.length-1],bot=last.y+last.h;
-      c.fillStyle=PDFC.ink;c.fillRect(M+5,top+5,CW,bot-top);
-      P.segs.forEach(function(sg){
-        c.fillStyle=(sg.bi%2===0)?PDFC.cream:PDFC.alt;c.fillRect(M,sg.y,CW,sg.h);
-        sg.items.forEach(function(e){e.it.draw(c,e.y,reg)});
-        if(sg.first){c.fillStyle=PDFC.ink;c.fillRect(M,sg.y-2,CW,4)}
-      });
-      c.fillStyle=PDFC.ink;c.fillRect(M-1.5,top-2,3,bot-top+4);c.fillRect(M+CW-1.5,top-2,3,bot-top+4);
-      c.fillRect(M,bot-2,CW,4);
-    }
-    var data=cv.toDataURL('image/jpeg',0.88);
+    plan[pi].items.forEach(function(e){
+      if(e.it.rule&&!(pi===0&&e===plan[0].items[0])){c.fillStyle=BC.rule;c.fillRect(M,e.y+2,CW,0.8)}
+      e.it.draw(c,e.y,reg);
+    });
+    c.fillStyle=BC.rule;c.fillRect(M,FOOT,CW,0.8);
+    cvSet(c,'400 8px '+BF_B,'0px');c.fillStyle=BC.gray;
+    c.fillText('Charlotte County Small Business Directory',M,FOOT+14);
+    var pg='Page '+(pi+1)+' of '+plan.length,pw=c.measureText(pg).width;
+    c.fillText(pg,M+CW-pw,FOOT+14);
+    var data=cv.toDataURL('image/jpeg',0.9);
     out.push({bin:atob(data.split(',')[1]),w:cv.width,h:cv.height,links:links});
     cv.width=1;cv.height=1;
   }
@@ -1218,13 +1278,13 @@ var pendingAct='';
 function runAct(list){
   $('chooser').classList.remove('show');
   if(!list.length){toast('Nothing to '+(pendingAct==='print'?'print':'download'));return}
-  if(pendingAct==='print')doPrint(list);else if(pendingAct==='csv')doCsv(list);else doPdf(list);
+  if(pendingAct==='print')doPrint(list);else if(pendingAct==='csv')doXlsx(list);else doPdf(list);
 }
 function askAct(kind){
   pendingAct=kind;
   if(!all.length)return;
   if(view.length===all.length){runAct(view);return}
-  $('chT').textContent={print:'Print',csv:'Download CSV',pdf:'Download PDF'}[kind];
+  $('chT').textContent={print:'Print',csv:'Download Spreadsheet',pdf:'Download PDF'}[kind];
   $('chRes').textContent='Current results ('+view.length+')';
   $('chRes').disabled=!view.length;
   $('chAll').textContent='All businesses ('+all.length+')';
