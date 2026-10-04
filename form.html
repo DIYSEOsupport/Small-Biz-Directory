@@ -6,25 +6,28 @@
 <title>Small Business Owners of Charlotte County - Directory Intake Form</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
 <style>
+@font-face{font-family:'Whizbang Roman';src:url('Whizbang-Roman.ttf') format('truetype'),url('whizbang-roman.ttf') format('truetype'),url('WhizbangRoman.ttf') format('truetype'),url('Whizbang%20Roman.ttf') format('truetype'),url('Whizbang.ttf') format('truetype'),url('whizbang.ttf') format('truetype');font-display:swap}
+:root{--fh:'Bangers',cursive;--fb:'Whizbang Roman',Arial,sans-serif}
+
 :root{--ink:#1a1033;--purple:#5b2a86;--magenta:#c2307a;--orange:#ff7a1a;--yellow:#ffd23f;--teal:#1fb5c9;--cream:#fff6dc;--err:#d6285a}
 *{box-sizing:border-box}
 html{-webkit-text-size-adjust:100%}
-body{margin:0;min-height:100vh;font-family:'Open Sans',Arial,sans-serif;color:var(--ink);background:linear-gradient(180deg,#5b2a86 0%,#c2307a 25%,#ff7a1a 50%,#ffd23f 75%,#1fb5c9 100%) fixed;padding:calc(24px + env(safe-area-inset-top)) 12px calc(40px + env(safe-area-inset-bottom))}
+body{margin:0;min-height:100vh;font-family:var(--fb);color:var(--ink);background:linear-gradient(180deg,#5b2a86 0%,#c2307a 25%,#ff7a1a 50%,#ffd23f 75%,#1fb5c9 100%) fixed;padding:calc(24px + env(safe-area-inset-top)) 12px calc(40px + env(safe-area-inset-bottom))}
 .wrap{max-width:760px;margin:0 auto}
 .hero{position:relative;margin-bottom:34px}
 .hero img{display:block;width:100%;height:auto;border:5px solid var(--cream);border-radius:14px;box-shadow:0 0 0 4px var(--ink),7px 8px 0 4px var(--ink)}
-.sticker{position:absolute;left:5%;bottom:-20px;transform:rotate(-2deg);background:var(--yellow);border:3px solid var(--ink);border-radius:10px;box-shadow:4px 4px 0 var(--ink);padding:5px 14px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1.5px;font-size:clamp(17px,4.4vw,26px);text-transform:uppercase}
+.sticker{position:absolute;left:5%;bottom:-20px;transform:rotate(-2deg);background:var(--yellow);border:3px solid var(--ink);border-radius:10px;box-shadow:4px 4px 0 var(--ink);padding:5px 14px;font-family:var(--fh);letter-spacing:1.5px;font-size:clamp(17px,4.4vw,26px);text-transform:uppercase}
 .card{background:var(--cream);border:4px solid var(--ink);border-radius:16px;box-shadow:6px 6px 0 var(--ink);padding:18px 18px 20px;margin-bottom:18px;overflow:hidden}
 .card::before{content:"";display:block;height:8px;margin:-18px -18px 14px;background:linear-gradient(90deg,var(--purple) 25%,var(--magenta) 25% 50%,var(--orange) 50% 75%,var(--yellow) 75%)}
-h1{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-weight:400;letter-spacing:1px;font-size:clamp(24px,6vw,34px);line-height:1.1;margin:0 0 8px;color:var(--purple)}
-h2{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-weight:400;letter-spacing:1px;font-size:26px;margin:0 0 4px;color:var(--purple)}
-.boom{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:clamp(20px,5vw,28px);letter-spacing:1px;color:var(--magenta);margin:0 0 6px}
+h1{font-family:var(--fh);font-weight:400;letter-spacing:1px;font-size:clamp(24px,6vw,34px);line-height:1.1;margin:0 0 8px;color:var(--purple)}
+h2{font-family:var(--fh);font-weight:400;letter-spacing:1px;font-size:26px;margin:0 0 4px;color:var(--purple)}
+.boom{font-family:var(--fh);font-size:clamp(20px,5vw,28px);letter-spacing:1px;color:var(--magenta);margin:0 0 6px}
 p{margin:0 0 10px;line-height:1.55;font-size:15px;font-weight:500;color:#3b2d52}
 .note{font-size:13px;color:#6a5a85}
 .steps{display:flex;gap:6px;justify-content:center;margin:0 0 16px;flex-wrap:wrap}
-.dot{font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.8px;font-size:15px;padding:4px 12px;border:3px solid var(--ink);border-radius:50px;background:#fff;box-shadow:2px 2px 0 var(--ink)}
+.dot{font-family:var(--fh);letter-spacing:.8px;font-size:15px;padding:4px 12px;border:3px solid var(--ink);border-radius:50px;background:#fff;box-shadow:2px 2px 0 var(--ink)}
 button.dot{cursor:pointer;-webkit-appearance:none;appearance:none;color:var(--ink)}
 button.dot:hover{background:#fff3b0}
 .dot.on{background:var(--orange);color:var(--ink)}
@@ -32,10 +35,10 @@ button.dot:hover{background:#fff3b0}
 .step{display:none}
 .step.show{display:block}
 .fld{margin:0 0 16px}
-label.l,.l{display:block;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.8px;font-size:19px;color:var(--purple);margin:0 0 5px}
+label.l,.l{display:block;font-family:var(--fh);letter-spacing:.8px;font-size:19px;color:var(--purple);margin:0 0 5px}
 .l .req{color:var(--magenta)}
 .help{font-size:12.5px;color:#6a5a85;margin:-2px 0 6px;font-weight:500}
-input[type=text],input[type=email],input[type=tel],textarea{width:100%;font:700 16px 'Open Sans',Arial,sans-serif;color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:12px;padding:11px 13px;box-shadow:3px 3px 0 var(--ink);outline:none}
+input[type=text],input[type=email],input[type=tel],textarea{width:100%;font:700 16px var(--fb);color:var(--ink);background:#fff;border:3px solid var(--ink);border-radius:12px;padding:11px 13px;box-shadow:3px 3px 0 var(--ink);outline:none}
 textarea{min-height:104px;resize:vertical}
 input:focus,textarea:focus{border-color:var(--magenta);box-shadow:3px 3px 0 var(--magenta)}
 .bad input,.bad textarea{border-color:var(--err)}
@@ -43,7 +46,7 @@ input:focus,textarea:focus{border-color:var(--magenta);box-shadow:3px 3px 0 var(
 .err{display:none;color:var(--err);font-weight:800;font-size:13px;margin-top:6px}
 .bad .err{display:block}
 .tiles{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:10px}
-.tile,.opt{position:relative;display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 12px;background:#fff;border:3px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.7px;font-size:18px;line-height:1.1;user-select:none}
+.tile,.opt{position:relative;display:flex;align-items:center;gap:10px;min-height:52px;padding:8px 12px;background:#fff;border:3px solid var(--ink);border-radius:12px;box-shadow:3px 3px 0 var(--ink);cursor:pointer;font-family:var(--fh);letter-spacing:.7px;font-size:18px;line-height:1.1;user-select:none}
 .tile input,.opt input{position:absolute;opacity:0;pointer-events:none}
 .tile:hover,.opt:hover{background:#fff3b0}
 .tile .bx,.opt .bx{flex:none;width:24px;height:24px;border:3px solid var(--ink);border-radius:50%;background:#fff;display:grid;place-items:center}
@@ -59,13 +62,13 @@ input:focus,textarea:focus{border-color:var(--magenta);box-shadow:3px 3px 0 var(
 .row2b{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 @media(max-width:560px){.row2b{grid-template-columns:1fr;gap:0}}
 .nav{display:flex;gap:10px;justify-content:space-between;margin-top:18px}
-button.b{font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;font-size:21px;color:var(--ink);background:linear-gradient(135deg,#ffb43a,#f2500f);border:3px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink);padding:10px 24px;min-height:50px;cursor:pointer}
+button.b{font-family:var(--fh);letter-spacing:1px;font-size:21px;color:var(--ink);background:linear-gradient(135deg,#ffb43a,#f2500f);border:3px solid var(--ink);border-radius:14px;box-shadow:4px 4px 0 var(--ink);padding:10px 24px;min-height:50px;cursor:pointer}
 button.b:active{transform:translate(2px,2px);box-shadow:2px 2px 0 var(--ink)}
 button.b.alt{background:#fff;color:var(--ink);text-shadow:none}
 button.b:disabled{opacity:.6;cursor:wait}
 .logo-row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
 .logo-row img{width:64px;height:64px;object-fit:contain;background:#fff;border:3px solid var(--ink);border-radius:12px;display:none}
-input[type=file]{font:700 14px 'Open Sans',Arial,sans-serif;max-width:100%}
+input[type=file]{font:700 14px var(--fb);max-width:100%}
 .hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
 .done-card{text-align:center;display:none}
 .done-card h1{font-size:clamp(34px,9vw,52px);color:var(--magenta);transform:rotate(-2deg)}
