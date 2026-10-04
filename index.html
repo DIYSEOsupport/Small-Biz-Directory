@@ -7,9 +7,11 @@
 <title>Charlotte County Business Directory</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;500;600;700&family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Walter+Turncoat&family=Bangers&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
 <style>
+:root{--fh:'Bangers',cursive;--fb:'Walter Turncoat',Arial,sans-serif}
+
 :root{
   --ink:#1a1033;--purple:#5b2a86;--magenta:#c2307a;--orange:#ff7a1a;--yellow:#ffd23f;
   --teal:#1fb5c9;--blue:#12407a;--green:#1f8a4c;--red:#e5322d;--cream:#fff6dc;
@@ -19,7 +21,7 @@
 }
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 html{scroll-behavior:smooth}
-body{font-family:'Open Sans',Arial,sans-serif;color:var(--ink);min-height:100vh;line-height:1.5;padding-bottom:env(safe-area-inset-bottom);
+body{font-family:var(--fb);color:var(--ink);min-height:100vh;line-height:1.5;padding-bottom:env(safe-area-inset-bottom);
   background:linear-gradient(180deg,#3b1d6e 0%,#7b2d8e 18%,#c2307a 38%,#ff7a1a 62%,#ffd23f 78%,#1fb5c9 100%) fixed}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;opacity:.18;background:radial-gradient(var(--ink) 1.2px,transparent 1.6px) 0 0/9px 9px}
 button,input,select{font-family:inherit}
@@ -31,7 +33,7 @@ a{color:inherit}
 /* hero */
 .hero{padding:calc(16px + env(safe-area-inset-top)) 14px 10px}
 .hero-img{display:block;width:100%;height:auto;border:4px solid var(--ink);border-radius:14px;box-shadow:6px 6px 0 var(--ink);background:var(--purple)}
-.tagline{display:block;width:fit-content;max-width:100%;margin:-14px auto 0;position:relative;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1.5px;font-size:clamp(18px,4.6vw,26px);background:var(--yellow);color:var(--ink);border:3px solid var(--ink);border-radius:10px;padding:4px 18px;box-shadow:3px 3px 0 var(--ink);transform:rotate(-1.5deg);text-align:center}
+.tagline{display:block;width:fit-content;max-width:100%;margin:-14px auto 0;position:relative;font-family:var(--fh);letter-spacing:1.5px;font-size:clamp(18px,4.6vw,26px);background:var(--yellow);color:var(--ink);border:3px solid var(--ink);border-radius:10px;padding:4px 18px;box-shadow:3px 3px 0 var(--ink);transform:rotate(-1.5deg);text-align:center}
 
 /* sticky controls */
 .controls{position:sticky;top:0;z-index:20;background:var(--cream);border-bottom:4px solid var(--ink);padding:10px 0 8px;padding-top:calc(10px + env(safe-area-inset-top));margin-top:18px}
@@ -76,8 +78,8 @@ a{color:inherit}
 .card:active{transform:translate(3px,3px);box-shadow:3px 3px 0 var(--ink)}
 @keyframes in{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
 .head{display:flex;gap:12px;align-items:center}
-.av{width:46px;height:46px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:25px;color:#fff;background:var(--magenta);border:3px solid var(--ink);text-shadow:2px 2px 0 var(--ink);box-shadow:2px 2px 0 var(--ink)}
-.title{flex:1;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.8px;font-size:23px;font-weight:400;line-height:1.1;word-break:break-word;color:var(--ink)}
+.av{width:46px;height:46px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-family:var(--fh);font-size:25px;color:#fff;background:var(--magenta);border:3px solid var(--ink);text-shadow:2px 2px 0 var(--ink);box-shadow:2px 2px 0 var(--ink)}
+.title{flex:1;font-family:var(--fh);letter-spacing:.8px;font-size:23px;font-weight:400;line-height:1.1;word-break:break-word;color:var(--ink)}
 .heart{flex:none;width:40px;height:40px;border-radius:50%;border:0;background:transparent;color:#9b8bb0;font-size:19px;cursor:pointer;transition:.15s}
 .heart.on{color:var(--red)}
 .heart:active{transform:scale(1.35)}
@@ -98,7 +100,7 @@ a{color:inherit}
 mark{background:var(--yellow);color:inherit;border-radius:3px;padding:0 2px;box-shadow:0 0 0 1px var(--ink)}
 
 .empty,.err{grid-column:1/-1;text-align:center;padding:44px 20px;border:4px solid var(--ink);border-radius:18px;background:var(--cream);color:#3b2d52;box-shadow:6px 6px 0 var(--ink)}
-.empty h3,.err h3{color:var(--ink);margin:8px 0 4px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;font-size:28px;font-weight:400}
+.empty h3,.err h3{color:var(--ink);margin:8px 0 4px;font-family:var(--fh);letter-spacing:1px;font-size:28px;font-weight:400}
 .empty .btn,.err .btn{display:inline-flex;margin-top:14px;flex:none;padding:0 20px}
 .err i{color:var(--red)}
 .skel{height:190px;border-radius:18px;border:4px solid var(--ink);background:linear-gradient(100deg,#fff6dc 30%,#ffe3a0 50%,#fff6dc 70%);background-size:300% 100%;animation:sh 1.3s linear infinite;box-shadow:6px 6px 0 var(--ink)}
@@ -139,7 +141,7 @@ mark{background:var(--yellow);color:inherit;border-radius:3px;padding:0 2px;box-
 .icon-btn .badge.show{display:block}
 .panel{max-height:52vh;overflow-y:auto;-webkit-overflow-scrolling:touch}
 .grp{width:100%}
-.gl{font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.8px;font-size:18px;margin:6px 0 6px;color:var(--purple)}
+.gl{font-family:var(--fh);letter-spacing:.8px;font-size:18px;margin:6px 0 6px;color:var(--purple)}
 .chip .n{opacity:.65;font-weight:700;margin-left:4px}
 .more-info{margin:14px 0 0;border-top:3px dotted var(--ink);padding-top:10px}
 .more-info dt{font-weight:800;font-size:12px;color:var(--purple);margin-top:8px}
@@ -161,7 +163,7 @@ mark{background:var(--yellow);color:inherit;border-radius:3px;padding:0 2px;box-
 .pad{padding:4px 18px 18px;border-top:3px dotted var(--ink);margin:0 0 0;display:flex;flex-direction:column;gap:14px}
 .card .slogan{margin-top:12px}
 .about{font-size:15px;color:#3b2d52;white-space:pre-line;word-break:break-word}
-.sect{font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.8px;font-size:19px;color:var(--purple);margin-bottom:4px}
+.sect{font-family:var(--fh);letter-spacing:.8px;font-size:19px;color:var(--purple);margin-bottom:4px}
 .facts{display:grid;grid-template-columns:minmax(96px,34%) 1fr;gap:6px 12px;font-size:14px}
 .facts dt{font-weight:800;color:var(--purple);font-size:13px}
 .facts dd{color:#3b2d52;word-break:break-word;white-space:pre-line}
@@ -220,17 +222,17 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .hero-img{object-position:50% 14%}
 /* ---- filter panel, comic style ---- */
 .panel.open{background:#fff0cc;border:4px solid var(--ink);border-radius:18px;box-shadow:5px 5px 0 var(--ink);padding:12px 12px 0;margin:12px 2px 6px}
-.ptitle{font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1.2px;font-size:26px;line-height:1;color:var(--purple);text-shadow:2px 2px 0 var(--yellow);margin:0 0 10px}
-.gl{font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.8px;font-size:18px;color:var(--ink)}
+.ptitle{font-family:var(--fh);letter-spacing:1.2px;font-size:26px;line-height:1;color:var(--purple);text-shadow:2px 2px 0 var(--yellow);margin:0 0 10px}
+.gl{font-family:var(--fh);letter-spacing:.8px;font-size:18px;color:var(--ink)}
 .panel .sel{border-width:3px;border-radius:12px;height:46px;font-weight:800;box-shadow:3px 3px 0 var(--ink);background:#fff}
 .acc{border:3px solid var(--ink);border-radius:14px;margin-bottom:10px;box-shadow:3px 3px 0 var(--ink);background:#fff}
-.acch{font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;font-size:20px;font-weight:400;min-height:50px;padding:0 14px;color:var(--ink)}
+.acch{font-family:var(--fh);letter-spacing:1px;font-size:20px;font-weight:400;min-height:50px;padding:0 14px;color:var(--ink)}
 .acc.c0 .acch{background:var(--yellow)}
 .acc.c1 .acch{background:var(--teal)}
 .acc.c2 .acch{background:var(--orange);color:#fff;text-shadow:1px 1px 0 var(--ink)}
 .acc.c3 .acch{background:var(--magenta);color:#fff;text-shadow:1px 1px 0 var(--ink)}
 .acch svg{width:30px;height:30px;padding:6px;border:3px solid var(--ink);border-radius:50%;background:#fff;color:var(--ink);box-shadow:2px 2px 0 var(--ink)}
-.acch .selcnt{font-family:'Open Sans',Arial,sans-serif;font-weight:800;background:var(--red);border:2px solid var(--ink);text-shadow:none}
+.acch .selcnt{font-family:var(--fb);font-weight:800;background:var(--red);border:2px solid var(--ink);text-shadow:none}
 .accb{background:#fffaf0;padding:6px 14px 8px}
 .opt{border-bottom:2px dotted rgba(26,16,51,.25)}
 .opt:last-child{border-bottom:0}
@@ -248,7 +250,7 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .hero-img{border:5px solid #fff6dc;box-shadow:0 0 0 4px var(--ink),7px 8px 0 4px var(--ink)}
 .hero{padding-left:18px;padding-right:18px}
 /* filter extras */
-.acch .cursort{font-family:'Open Sans',Arial,sans-serif;font-size:12px;font-weight:800;letter-spacing:0;background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:50px;padding:2px 10px;text-shadow:none;white-space:nowrap}
+.acch .cursort{font-family:var(--fb);font-size:12px;font-weight:800;letter-spacing:0;background:#fff;color:var(--ink);border:2px solid var(--ink);border-radius:50px;padding:2px 10px;text-shadow:none;white-space:nowrap}
 .opt{padding:0 4px;border-radius:8px;transition:background .15s}
 .opt:hover{background:#fff3b0}
 .opt:has(input:checked){background:#fff3b0}
@@ -256,14 +258,14 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .opt input[type=radio]:checked::after{width:10px;height:10px;border:0;border-radius:50%;background:var(--ink);transform:none}
 .favopt{display:flex;align-items:center;gap:10px;min-height:52px;padding:0 14px;border:3px solid var(--ink);border-radius:14px;background:#fff;box-shadow:3px 3px 0 var(--ink);margin-bottom:12px}
 .favopt:hover,.favopt:has(input:checked){background:#fff3b0}
-.favopt .ft{flex:1;font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:20px;letter-spacing:1px;font-weight:400;color:var(--ink)}
+.favopt .ft{flex:1;font-family:var(--fh);font-size:20px;letter-spacing:1px;font-weight:400;color:var(--ink)}
 .favopt svg{flex:none;filter:drop-shadow(1px 1px 0 var(--ink))}
 
 /* edits: saved star, dropdown text, search button */
 .star{right:60px;top:16px}
 .card.saved .bt{padding-right:34px}
 .accb .opt>span:not(.oc){font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:.7px;color:var(--purple)}
-#searchBtn .lbl{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-weight:400;letter-spacing:1px;font-size:18px}
+#searchBtn .lbl{font-family:var(--fh);font-weight:400;letter-spacing:1px;font-size:18px}
 
 /* directory list layout */
 .grid{display:flex;flex-direction:column;gap:0;padding:0;margin:4px 0 100px;border:4px solid var(--ink);border-radius:16px;background:var(--cream);box-shadow:6px 6px 0 var(--ink);overflow:hidden}
@@ -290,13 +292,13 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .mbox{background:var(--cream);border:4px solid var(--ink);border-radius:18px;box-shadow:6px 6px 0 var(--ink);padding:18px;width:100%;max-width:340px;display:flex;flex-direction:column;gap:10px}
 .mbox .btn{flex:none;min-height:48px;font-size:15px}
 .mbox .btn:disabled{opacity:.45;cursor:not-allowed}
-.mt{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-size:26px;letter-spacing:1px;color:var(--purple)}
+.mt{font-family:var(--fh);font-size:26px;letter-spacing:1px;color:var(--purple)}
 #printArea{display:none}
 @media print{
   body>*:not(#printArea){display:none!important}
   body::before{display:none!important}
   html,body{background:#fff!important}
-  #printArea{display:block!important;color:#222;font-family:'Open Sans',Arial,sans-serif;font-size:11px;line-height:1.4}
+  #printArea{display:block!important;color:#222;font-family:'Oswald',Arial,sans-serif;font-size:11px;line-height:1.4}
   #printArea h1{font-family:'Oswald',Arial,sans-serif;font-weight:600;font-size:26px;color:#5b2a86;margin:0 0 10px;padding-bottom:6px;border-bottom:3px solid #e8650a}
   #printArea .pn{margin:0 0 10px;color:#444}
   #printArea .pb{break-inside:avoid;border-top:1px solid #888;padding:8px 0}
@@ -305,8 +307,8 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
   #printArea .pr{margin:0 0 2px;white-space:pre-line}
 }
 .abouttop{font-weight:800;color:var(--ink);margin-bottom:6px}
-.facts dt{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-weight:400;letter-spacing:.8px;font-size:17px;color:var(--purple)}
-.facts dd{font-family:'Open Sans',Arial,sans-serif;font-weight:700;font-size:15px;color:var(--ink)}
+.facts dt{font-family:var(--fh);font-weight:400;letter-spacing:.8px;font-size:17px;color:var(--purple)}
+.facts dd{font-family:var(--fb);font-weight:700;font-size:15px;color:var(--ink)}
 [data-l="__saved"] .acch{cursor:pointer}
 [data-l="__saved"] .acch[aria-pressed="true"]{box-shadow:inset 0 0 0 3px var(--yellow)}
 .catpill{display:inline-block;border:2px solid var(--ink);border-radius:999px;background:var(--yellow);color:var(--ink);font-size:11px;font-weight:800;line-height:1;padding:3px 10px;letter-spacing:.3px}
@@ -356,7 +358,7 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 .acch .cursort:empty{display:none}
 .savedrow{display:flex;align-items:center;gap:12px;min-height:50px;padding:0 14px;border:3px solid var(--ink);border-radius:14px;margin-bottom:10px;box-shadow:3px 3px 0 var(--ink);background:var(--yellow);cursor:pointer}
 .savedrow input{width:26px;height:26px;flex:none;accent-color:var(--magenta);cursor:pointer}
-.savedrow .svl{flex:1;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:1px;font-size:20px;color:var(--ink)}
+.savedrow .svl{flex:1;font-family:var(--fh);letter-spacing:1px;font-size:20px;color:var(--ink)}
 .savedrow .svc{font-weight:800;font-size:12px;background:#fff;border:2px solid var(--ink);border-radius:50px;min-width:24px;text-align:center;padding:1px 7px}
 
 /* clearer card separation + icons + spacing */
@@ -373,26 +375,28 @@ div.ln.addr>span:last-child{text-decoration:none;color:var(--ink)}
 
 /* brand fonts everywhere + icons on white buttons + blue stars + logo */
 .status button{background:#fff!important}
-.status,.status #count{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-weight:400;font-size:17px;letter-spacing:.8px}
-.status button{font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;font-size:16px!important;letter-spacing:.8px}
-.chip,.chip .n{font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;font-size:17px!important;letter-spacing:.8px}
-.grid .bar .catpill,.catpill{font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;font-size:13px!important;letter-spacing:.6px}
-.grid .acts .btn{font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;font-size:15px!important;letter-spacing:.6px}
-.accb .opt>span:not(.oc){font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;font-size:17px!important;text-transform:none!important;letter-spacing:.6px!important}
-.oc,.selcnt,.savedrow .svc,.btn,.mbox .btn,.toast{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-weight:400;letter-spacing:.6px}
+.status,.status #count{font-family:var(--fh);font-weight:400;font-size:17px;letter-spacing:.8px}
+.status button{font-family:var(--fh)!important;font-weight:400!important;font-size:16px!important;letter-spacing:.8px}
+.chip,.chip .n{font-family:var(--fh)!important;font-weight:400!important;font-size:17px!important;letter-spacing:.8px}
+.grid .bar .catpill,.catpill{font-family:var(--fh)!important;font-weight:400!important;font-size:13px!important;letter-spacing:.6px}
+.grid .acts .btn{font-family:var(--fh)!important;font-weight:400!important;font-size:15px!important;letter-spacing:.6px}
+.accb .opt>span:not(.oc){font-family:var(--fh)!important;font-weight:400!important;font-size:17px!important;text-transform:none!important;letter-spacing:.6px!important}
+.oc,.selcnt,.savedrow .svc,.btn,.mbox .btn,.toast{font-family:var(--fh);font-weight:400;letter-spacing:.6px}
 .btn{font-size:17px}
-.about.area{font-family:'Oswald','Arial Narrow',Arial,sans-serif;font-weight:400;font-size:19px;letter-spacing:.6px;color:var(--ink)}
+.about.area{font-family:var(--fh);font-weight:400;font-size:19px;letter-spacing:.6px;color:var(--ink)}
 .card.saved .star svg path{fill:#2a6fdb!important;stroke:#1a1033!important}
 .blogo{width:44px;height:44px;flex:none;object-fit:contain;background:#fff;border:2px solid var(--ink);border-radius:10px}
-.icon-btn .lbl,.chip .n,.chip .lbl{font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;letter-spacing:.8px}
+.icon-btn .lbl,.chip .n,.chip .lbl{font-family:var(--fh)!important;font-weight:400!important;letter-spacing:.8px}
 .icon-btn .lbl{font-size:18px!important}
-.grid .bt .slogan{font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;font-style:normal!important;font-size:15px!important;letter-spacing:.6px}
-span.n{font-family:'Oswald','Arial Narrow',Arial,sans-serif!important;font-weight:400!important;letter-spacing:.8px}
-.addbiz{text-shadow:none;font-weight:400;display:inline-flex;align-items:center;gap:6px;font-family:'Oswald','Arial Narrow',Arial,sans-serif;letter-spacing:.8px;font-size:16px;color:var(--ink);text-decoration:none;background:#fff;border:3px solid var(--ink);border-radius:50px;padding:5px 14px;box-shadow:2px 2px 0 var(--ink)}
-/* Oswald headings + Open Sans text */
+.grid .bt .slogan{font-family:var(--fh)!important;font-weight:400!important;font-style:normal!important;font-size:15px!important;letter-spacing:.6px}
+span.n{font-family:var(--fh)!important;font-weight:400!important;letter-spacing:.8px}
+.addbiz{text-shadow:none;font-weight:400;display:inline-flex;align-items:center;gap:6px;font-family:var(--fh);letter-spacing:.8px;font-size:16px;color:var(--ink);text-decoration:none;background:#fff;border:3px solid var(--ink);border-radius:50px;padding:5px 14px;box-shadow:2px 2px 0 var(--ink)}
+/* Bangers headings + Walter Turncoat text */
 .title,.sect,.mt,.ptitle,.savedrow .svl,.addbiz,.status button,.chip,.catpill,.grid .acts .btn,.btn,.icon-btn .lbl{font-weight:500!important}
 .title{letter-spacing:.3px}
 @media(max-width:430px){#searchBtn .lbl{display:none}}
+body{text-transform:uppercase}
+input,textarea,select,option,#printArea{text-transform:none}
 </style>
 </head>
 <body>
@@ -975,7 +979,7 @@ function saveBlob(blob,name){
   document.body.appendChild(a);a.click();
   setTimeout(function(){URL.revokeObjectURL(a.href);a.remove()},1000);
 }
-/* ---------- spreadsheet (.xlsx) with Oswald + Open Sans ---------- */
+/* ---------- spreadsheet (.xlsx) in Oswald ---------- */
 var CRC_T=null;
 function crc32(u8){
   if(!CRC_T){CRC_T=[];for(var n=0;n<256;n++){var c=n;for(var k=0;k<8;k++)c=(c&1)?(0xEDB88320^(c>>>1)):(c>>>1);CRC_T[n]=c>>>0}}
@@ -1029,11 +1033,11 @@ function doXlsx(list){
   /* styles: 0 default, 1 header, 2 body, 3 body alt, 4 name, 5 name alt, 6 link, 7 link alt */
   var styles='<?xml version="1.0" encoding="UTF-8" standalone="yes"?><styleSheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main">'
    +'<fonts count="5">'
-   +'<font><sz val="10"/><name val="Open Sans"/></font>'
+   +'<font><sz val="10"/><name val="Oswald"/></font>'
    +'<font><b/><sz val="11"/><color rgb="FFFFFFFF"/><name val="Oswald"/></font>'
-   +'<font><sz val="10"/><color rgb="FF2B2B36"/><name val="Open Sans"/></font>'
+   +'<font><sz val="10"/><color rgb="FF2B2B36"/><name val="Oswald"/></font>'
    +'<font><b/><sz val="11"/><color rgb="FF1A1033"/><name val="Oswald"/></font>'
-   +'<font><u/><sz val="10"/><color rgb="FF124080"/><name val="Open Sans"/></font>'
+   +'<font><u/><sz val="10"/><color rgb="FF124080"/><name val="Oswald"/></font>'
    +'</fonts>'
    +'<fills count="4"><fill><patternFill patternType="none"/></fill><fill><patternFill patternType="gray125"/></fill>'
    +'<fill><patternFill patternType="solid"><fgColor rgb="FF5B2A86"/></patternFill></fill>'
@@ -1090,9 +1094,9 @@ function pdfWrap(t,max){
   });
   return out;
 }
-/* ---------- business PDF: Oswald + Open Sans, minimal color ---------- */
+/* ---------- business PDF: Oswald, minimal color ---------- */
 var BC={ink:'#1a1033',text:'#2b2b36',gray:'#6b6b7a',rule:'#dcd9e3',purple:'#5b2a86',orange:'#e8650a',link:'#124080',band:'#f6f3fb'};
-var BF_H='Oswald, "Arial Narrow", Arial, sans-serif',BF_B='"Open Sans", Arial, sans-serif';
+var BF_H='Oswald, "Arial Narrow", Arial, sans-serif',BF_B=BF_H;
 function cvWrap(ctx,text,maxW){
   var out=[];
   String(text==null?'':text).split(/\r?\n/).forEach(function(par){
@@ -1111,7 +1115,7 @@ function cvSet(ctx,font,ls){ctx.font=font;try{ctx.letterSpacing=ls||'0px'}catch(
 async function buildPdfCanvas(list){
   try{
     await document.fonts.load('600 18px Oswald');await document.fonts.load('400 12px Oswald');
-    await document.fonts.load('400 10px "Open Sans"');await document.fonts.load('700 10px "Open Sans"');await document.fonts.load('italic 400 10px "Open Sans"');
+    await document.fonts.load('700 10px Oswald');
     await document.fonts.ready;
   }catch(e){}
   var S=2,PW=612,PH=792,M=44,CW=PW-2*M,COLW=236,COL2=M+CW-COLW,FOOT=752,LIM=FOOT-14;
