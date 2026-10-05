@@ -11,6 +11,9 @@
  *    the email, in a column called "Owner Key (private)". The directory app
  *    never shows that column.
  *  - Logos are saved in your Google Drive and made viewable by link.
+ *  - The Google Sheet stays PRIVATE. The directory reads a public-only copy
+ *    from this script's web address (see doGet). Names, titles, personal
+ *    contact info and owner keys are never sent to the public.
  *
  * HOW TO USE
  *   1. Go to script.google.com and click "New project".
@@ -62,8 +65,13 @@ function authorizeOnce() {
 // ---------------------------------------------------------------
 // Web app entry points
 // ---------------------------------------------------------------
-function doGet() {
-  return ContentService.createTextOutput('Directory form receiver is running.');
+function doGet(e) {
+  if (e && e.parameter && e.parameter.ping) {
+    return ContentService.createTextOutput('Directory form receiver is running.');
+  }
+  return ContentService
+      .createTextOutput(publicCsv_())
+      .setMimeType(ContentService.MimeType.CSV);
 }
 
 function doPost(e) {
@@ -95,6 +103,7 @@ function doPost(e) {
 
     var logoUrl = saveLogo_(data);
     addRow_(sheet, data, logoUrl, ownerKey);
+    CacheService.getScriptCache().remove('directory_csv');
     return json_({ ok: true });
   } catch (err) {
     return json_({ ok: false, error: String(err) });
@@ -238,6 +247,45 @@ function ownerAllowed_(sheet, ownerCol, businessName, ownerKey) {
   if (!found) return true;
   if (!anyOwner) return ALLOW_CLAIM_OLD_ROWS;
   return false;
+}
+
+// ---------------------------------------------------------------
+// Public copy of the sheet (only the columns that may be shown)
+// ---------------------------------------------------------------
+function isPublicHeader_(header) {
+  var k = String(header).toLowerCase().replace(/\s+/g, ' ').trim();
+  if (!k) return false;
+  if (k === 'timestamp' || k === 'name' || k === 'title') return false;
+  if (/how to contact|owner key|private|email address/.test(k)) return false;
+  if (/nextdoor/.test(k) && /personal|contact/.test(k)) return false;
+  return /business name|public|category|about your business|other details|describe|address|city|state|zip|postal|served|area|phone|website|customers|facebook|nextdoor|slogan|additional info|logo/.test(k);
+}
+
+function publicCsv_() {
+  var cache = CacheService.getScriptCache();
+  var cached = cache.get('directory_csv');
+  if (cached) return cached;
+
+  var sheet = findSheet_();
+  var values = sheet.getDataRange().getValues();
+  var keep = [];
+  for (var c = 0; c < values[0].length; c++) {
+    if (isPublicHeader_(values[0][c])) keep.push(c);
+  }
+  var lines = values.map(function (row) {
+    return keep.map(function (c) {
+      var v = row[c];
+      return '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+    }).join(',');
+  });
+  var csv = lines.join('\n');
+
+  try {
+    cache.put('directory_csv', csv, 60);
+  } catch (tooBig) {
+    // the file is too big to cache; that is fine
+  }
+  return csv;
 }
 
 // ---------------------------------------------------------------
