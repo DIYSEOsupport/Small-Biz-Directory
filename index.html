@@ -437,7 +437,7 @@ input,textarea,select,option,#printArea{text-transform:none}
 <button class="totop" id="top" aria-label="Back to top"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 19V5M5 12l7-7 7 7"/></svg></button>
 
 <script>
-const CSV_URL='https://docs.google.com/spreadsheets/d/17vDXZS_tXVWAerdp0azT896Sg8cQYxCBN8zNl2d6Rec/gviz/tq?tqx=out:csv&gid=1342044865&headers=1';
+const CSV_URL='https://script.google.com/macros/s/AKfycbz8jFkUL2-8_UXKp09gq4iVsnbPI4-BJPmAa5_qJWODk5ZJwNn4aQlLccJdxkRe1n-h/exec';
 
 /* Column headings to hide (exact match, any capitalization). Add more inside the brackets. */
 const HIDE_COLUMNS=['email address'];
@@ -665,7 +665,7 @@ function parseGrid(grid){
 }
 
 function load(){
-  Papa.parse(CSV_URL+'&t='+Date.now(),{
+  Papa.parse(CSV_URL+(CSV_URL.indexOf('?')>-1?'&':'?')+'t='+Date.now(),{
     download:true,header:false,skipEmptyLines:true,
     complete:function(res){
       var out=parseGrid(res.data||[]);
@@ -679,7 +679,7 @@ function load(){
       apply();
     },
     error:function(){
-      if(!all.length)$('grid').innerHTML='<div class="err"><h3>Could not load the directory</h3><p>Check your connection. Make sure the Google Sheet is shared as "Anyone with the link".</p><button class="btn" onclick="load()">Try again</button></div>';
+      if(!all.length)$('grid').innerHTML='<div class="err"><h3>Could not load the directory</h3><p>Check your connection and try again in a minute.</p><button class="btn" onclick="load()">Try again</button></div>';
     }
   });
 }
