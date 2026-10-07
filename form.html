@@ -174,6 +174,7 @@ input,textarea,select,option,#printArea{text-transform:none}
   </div>
 </div>
 
+<iframe name="subframe" id="subframe" title="send" style="display:none"></iframe>
 <script src="https://accounts.google.com/gsi/client" async defer></script>
 <script>
 var GOOGLE_CLIENT_ID='429873674496-c3ld7ru88i8b0acssaeh26adtvfok12e.apps.googleusercontent.com';
@@ -330,10 +331,20 @@ $('f').addEventListener('submit',function(e){
     }[code]||'Something went wrong. Please try again.';
     $('fail').textContent=msg;$('fail').style.display='block';
   }
-  fetch(ENDPOINT,{method:'POST',headers:{'Content-Type':'text/plain;charset=utf-8'},body:JSON.stringify(d)})
-    .then(function(r){return r.json()})
-    .then(function(j){if(j&&j.ok)showDone();else fail(j&&j.error)})
-    .catch(function(){showDone('unconfirmed')});
+  var timer=null;
+  function onMsg(ev){
+    var host=String(ev.origin||'').replace(/^https?:\/\//,'');
+    if(!/(googleusercontent|google)\.com$/.test(host))return;
+    var m=ev.data;if(!m||!m.dirForm)return;
+    window.removeEventListener('message',onMsg);clearTimeout(timer);
+    if(m.ok)showDone();else fail(m.error);
+  }
+  window.addEventListener('message',onMsg);
+  timer=setTimeout(function(){window.removeEventListener('message',onMsg);showDone('unconfirmed')},30000);
+  var fm=document.createElement('form');
+  fm.method='POST';fm.action=ENDPOINT;fm.target='subframe';fm.style.display='none';
+  var ta=document.createElement('textarea');ta.name='payload';ta.value=JSON.stringify(d);
+  fm.appendChild(ta);document.body.appendChild(fm);fm.submit();
 });
 function showDone(flag){
   if(flag==='unconfirmed')$('doneExtra').textContent='We sent your entry but could not confirm it. If this business name was already listed, make sure you signed in with the same Google account as before.';

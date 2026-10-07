@@ -666,9 +666,17 @@ function parseGrid(grid){
   return {list:out,heads:heads,roles:roles,log:log,rows:Math.max(0,grid.length-hi-1)};
 }
 
+function fetchCsv(ok,fail){
+  var name='__dirCb'+Date.now(),done=false,sc=document.createElement('script');
+  function stop(){window[name]=function(){};if(sc.parentNode)sc.parentNode.removeChild(sc)}
+  window[name]=function(csv){done=true;stop();ok(csv)};
+  sc.src=CSV_URL+(CSV_URL.indexOf('?')>-1?'&':'?')+'callback='+name+'&t='+Date.now();
+  sc.onerror=function(){if(!done){stop();fail()}};
+  setTimeout(function(){if(!done){stop();fail()}},25000);
+  document.head.appendChild(sc);
+}
 function load(){
-  Papa.parse(CSV_URL+(CSV_URL.indexOf('?')>-1?'&':'?')+'t='+Date.now(),{
-    download:true,header:false,skipEmptyLines:true,
+  fetchCsv(function(csv){Papa.parse(csv,{header:false,skipEmptyLines:true,
     complete:function(res){
       var out=parseGrid(res.data||[]);
       all=out.list;
@@ -679,10 +687,9 @@ function load(){
       computeFacets();
       buildFilters();
       apply();
-    },
-    error:function(){
+    }});
+  },function(){
       if(!all.length)$('grid').innerHTML='<div class="err"><h3>Could not load the directory</h3><p>Check your connection and try again in a minute.</p><button class="btn" onclick="load()">Try again</button></div>';
-    }
   });
 }
 
