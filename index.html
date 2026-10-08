@@ -1335,7 +1335,7 @@ function contactText(b){
   var addr=[b.addressLine,b.cityStateZip].filter(Boolean).join(', ').replace(/\n/g,', ');
   if(addr)L.push('Address: '+addr);
   if(b.area&&!/online only/i.test(b.mode||''))L.push('Area Served: '+b.area);
-  L.push('');L.push('Directory: https://diyseosupport.github.io/scaling-fiesta/');L.push('Need help? DIYSEO.support@gmail.com');
+  L.push('');L.push('Directory: https://github.com/DIYSEOsupport/Small-Biz-Directory.git');L.push('Need help? DIYSEO.support@gmail.com');
   return L.join('\n');
 }
 function vEsc(x){return (x||'').toString().replace(/\\/g,'\\\\').replace(/\n/g,'\\n').replace(/,/g,'\\,').replace(/;/g,'\\;')}
